@@ -46,6 +46,6 @@ class MapViewController: UIViewController {
 
 extension MapViewController: LocationPermissionsDelegate, LocationConsumer {
     func locationUpdate(newLocation: Location) {
-        mapView.camera.fly(to: CameraOptions(center: newLocation.coordinate, zoom: 14.0), duration: 5.0)
+        mapView.camera.fly(to: CameraOptions(center: newLocation.coordinate, zoom: 10.0), duration: 5.0)
     }
 }

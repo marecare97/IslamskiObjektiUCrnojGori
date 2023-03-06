@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F631C20229B6771D00C4619B /* ObjectsSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F631C20129B6771D00C4619B /* ObjectsSideMenuView.swift */; };
 		F660473929B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660473829B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift */; };
 		F660473B29B36D710053D136 /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660473A29B36D710053D136 /* HomePageView.swift */; };
 		F660473D29B36D720053D136 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F660473C29B36D720053D136 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F631C20129B6771D00C4619B /* ObjectsSideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectsSideMenuView.swift; sourceTree = "<group>"; };
 		F660473529B36D710053D136 /* IslamskiObjektiUCrnojGori.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IslamskiObjektiUCrnojGori.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F660473829B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslamskiObjektiUCrnojGoriApp.swift; sourceTree = "<group>"; };
 		F660473A29B36D710053D136 /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				F660476629B371B20053D136 /* MapView.swift */,
+				F631C20129B6771D00C4619B /* ObjectsSideMenuView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				F660473B29B36D710053D136 /* HomePageView.swift in Sources */,
 				F660476729B371B20053D136 /* MapView.swift in Sources */,
 				F660473929B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift in Sources */,
+				F631C20229B6771D00C4619B /* ObjectsSideMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
