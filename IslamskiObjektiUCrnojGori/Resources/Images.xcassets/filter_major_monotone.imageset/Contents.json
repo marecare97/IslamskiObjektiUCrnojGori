@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "filter_major_monotone.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

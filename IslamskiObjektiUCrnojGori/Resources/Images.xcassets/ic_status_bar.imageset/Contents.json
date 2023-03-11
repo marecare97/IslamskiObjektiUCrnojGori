@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_status_bar.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

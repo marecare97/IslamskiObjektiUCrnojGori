@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "baseline_notification_important_white_20.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "baseline_satellite_white_48.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

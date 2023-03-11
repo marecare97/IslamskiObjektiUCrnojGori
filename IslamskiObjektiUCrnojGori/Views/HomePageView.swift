@@ -11,6 +11,7 @@ import Combine
 
 struct HomePageView: View {
     typealias Str = TK.HomePageView
+    typealias Img = Asset.Images
     @State var showLeftSideMenu = false
     @State var showRightSideMenu = false
     @State var selectedObjectDetails: ObjectDetails?
@@ -26,22 +27,28 @@ struct HomePageView: View {
             customNavBar
             contentView
         }
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden()
         .onAppear(perform: viewModel.fetchAllObjects)
-        .navigationBarTitleDisplayMode(.inline)
     }
     
     var customNavBar: some View {
-        ZStack {
-            Color(.green)
-                .ignoresSafeArea()
-            
-            searchNavBar
-                .isHidden(isSearchNavBarHidden)
-            
-            defaultNavBar
-                .isHidden(!isSearchNavBarHidden)
+        HStack {
+            ZStack {
+                Img.toolbar.swiftUIImage
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                searchNavBar
+                    .isHidden(isSearchNavBarHidden)
+                
+                defaultNavBar
+                    .isHidden(!isSearchNavBarHidden)
+            }
         }
-        .frame(height: 50)
+        .background(Color.clear)
+        .frame(maxHeight: 50)
     }
     
     
@@ -74,6 +81,7 @@ struct HomePageView: View {
                     .imageScale(.large)
             })
         }
+        .padding(.horizontal)
     }
     
     var searchNavBar: some View {
