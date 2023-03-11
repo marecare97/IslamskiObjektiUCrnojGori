@@ -1,0 +1,38 @@
+/* 
+  sr.strings
+  IslamskiObjektiUCrnojGori
+
+  Created by Nikola Matijevic on 7.3.23..
+  
+*/
+
+"leftSideMenu.objects" = "Objekti";
+"leftSideMenu.closestObject" = "Najbliža džamija za namaz";
+"leftSideMenu.vaktija" = "Vaktija";
+"leftSideMenu.kibla" = "Kibla";
+"leftSideMenu.calendar" = "Hidžeretski kalendar";
+"leftSideMenu.notifications" = "Notifikacije";
+"leftSideMenu.about" = "O projektu";
+"leftSideMenu.usefulLinks" = "Korisni linkovi";
+"leftSideMenu.sectionTitle" = "Moj namaz";
+
+"reportProblem.yourEmail" = "Vaša e-mail adresa";
+"reportProblem.comment" = "Vaš komentar";
+"reportProblem.send" = "Pošalji";
+
+"objectDetails.basicInfo" = "Osnovni podaci";
+"objectDetails.geoInfo" = "Geografski podaci";
+"objectDetails.dimensions" = "Dimenzije";
+"objectDetails.city" = "Grad:";
+"objectDetails.medzlis" = "Medžlis:";
+"objectDetails.objectType" = "Tip objekta:";
+"objectDetails.built" = "Godina izgradnje:";
+
+"objectDetails.latitude" = "G. širina:";
+"objectDetails.longitude" = "G. dužina:";
+"objectDetails.altitude" = "N. visina:";
+
+"objectDetails.basis" = "Dimenzije u osnovi:";
+
+"homePageView.objects" = "Objekti";
+"homePageView.objectName" = "Naziv objekta...";

@@ -1,0 +1,24 @@
+
+strings:
+  inputs: IslamskiObjektiUCrnojGori/Resources/sr.strings
+  outputs:
+    - templateName: structured-swift5
+      output: IslamskiObjektiUCrnojGori/Generated/Strings.swift
+      params:
+          enumName: TK
+xcassets:
+  inputs:
+    - IslamskiObjektiUCrnojGori/Resources/Images.xcassets
+    - IslamskiObjektiUCrnojGori/Resources/Colors.xcassets
+  outputs:
+    - templateName: swift5
+      output: IslamskiObjektiUCrnojGori/Generated/Assets.swift
+#fonts:
+#  inputs:
+#    - IslamskiObjektiUCrnojGori/Resources/Fonts/Metropolis
+#  outputs:
+#      templateName: swift5
+#      output: IslamskiObjektiUCrnojGori/Generated/Fonts.swift
+#      params:
+#          fontAliasName: FontType
+

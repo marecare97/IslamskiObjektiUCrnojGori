@@ -44,6 +44,7 @@
 		F660475629B36D720053D136 /* IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660475529B36D720053D136 /* IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift */; };
 		F660476529B371920053D136 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F660476429B371920053D136 /* MapboxMaps */; };
 		F660476729B371B20053D136 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660476629B371B20053D136 /* MapView.swift */; };
+		F6AB691A29BD04D500DFFA97 /* View+DynamicHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		F660475529B36D720053D136 /* IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F660476229B36F400053D136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F660476629B371B20053D136 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+DynamicHide.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,9 +265,18 @@
 			path = IslamskiObjektiUCrnojGoriUITests;
 			sourceTree = "<group>";
 		};
+		F6AB691829BD04C100DFFA97 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		F6E1057729B380EE00A55004 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F6AB691829BD04C100DFFA97 /* Helpers */,
 				F6E1057829B3810C00A55004 /* Components */,
 				F660473A29B36D710053D136 /* HomePageView.swift */,
 				65D38CB829B7BE9900072C9C /* AboutView.swift */,
@@ -457,6 +468,7 @@
 				65A43FA729B7AF3800D34E8B /* AboutProvider.swift in Sources */,
 				65A43F9A29B7AB8200D34E8B /* Links.swift in Sources */,
 				65D38CBB29B7C4B300072C9C /* WebView.swift in Sources */,
+				F6AB691A29BD04D500DFFA97 /* View+DynamicHide.swift in Sources */,
 				65D38CC129B7CFFC00072C9C /* ReportProblemProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

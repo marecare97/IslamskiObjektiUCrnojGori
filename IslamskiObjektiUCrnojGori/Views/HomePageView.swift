@@ -13,32 +13,96 @@ struct HomePageView: View {
     typealias Str = TK.HomePageView
     @State var showLeftSideMenu = false
     @State var showRightSideMenu = false
-    @ObservedObject var viewModel = ViewModel()
     @State var selectedObjectDetails: ObjectDetails?
     @State var isObjectDetailsViewPresented = false
+    @State private var isEditing = false
+    @State private var isSearchNavBarHidden = true
+    @State var searchTerm: String = ""
+    
+    @StateObject var viewModel = ViewModel()
+    
     var body: some View {
-        contentView
-            .onAppear(perform: viewModel.fetchAllObjects)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(Str.objects + " (\(viewModel.allObjects.count))")
-            .navigationBarItems(leading: (
+        VStack {
+            customNavBar
+            contentView
+        }
+        .onAppear(perform: viewModel.fetchAllObjects)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    var customNavBar: some View {
+        ZStack {
+            Color(.green)
+                .ignoresSafeArea()
+            
+            searchNavBar
+                .isHidden(isSearchNavBarHidden)
+            
+            defaultNavBar
+                .isHidden(!isSearchNavBarHidden)
+        }
+        .frame(height: 50)
+    }
+    
+    
+    var defaultNavBar: some View {
+        HStack {
+            Button(action: {
+                withAnimation {
+                    self.showLeftSideMenu.toggle()
+                }
+            }, label: {
+                Image(systemSymbol: .line3Horizontal)
+                    .foregroundColor(.white)
+                    .imageScale(.large)
+            })
+            
+            Spacer()
+            
+            Text((Str.objects + " (\(viewModel.allObjects.count))"))
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            Button(action: {
+                withAnimation {
+                    isSearchNavBarHidden.toggle()
+                }
+            }, label: {
+                Image(systemSymbol: .magnifyingglass)
+                    .foregroundColor(.white)
+                    .imageScale(.large)
+            })
+        }
+    }
+    
+    var searchNavBar: some View {
+        HStack {
+            if isEditing {
                 Button(action: {
-                    withAnimation {
-                        self.showLeftSideMenu.toggle()
-                    }
-                }, label: {
-                    Image(systemSymbol: .line3Horizontal)
-                        .imageScale(.large)
-                })
-            ),
-                                trailing: (
-                                    Button(action: {
-                                        
-                                    }, label: {
-                                        Image(systemSymbol: .magnifyingglass)
-                                            .imageScale(.large)
-                                    })
-                                ))
+                    self.isEditing = false
+                    self.isSearchNavBarHidden = true
+                    self.searchTerm = ""
+                    
+                }) {
+                    Image(systemSymbol: .arrowBackward)
+                        .foregroundColor(.black)
+                }
+                .padding(.trailing, 10)
+                .transition(.move(edge: .trailing))
+                .animation(.default)
+            }
+            
+            TextField(Str.objectName, text: $searchTerm)
+                .padding(7)
+                .padding(.horizontal, 25)
+                .background(Color(.clear))
+                .cornerRadius(8)
+                .padding(.horizontal, 10)
+                .onTapGesture {
+                    self.isEditing = true
+                }
+        }
     }
     
     var contentView: some View {
