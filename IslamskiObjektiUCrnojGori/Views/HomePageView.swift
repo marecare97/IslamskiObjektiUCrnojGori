@@ -11,7 +11,6 @@ import Combine
 
 struct HomePageView: View {
     typealias Str = TK.HomePageView
-    typealias Img = Asset.Images
     @State var showLeftSideMenu = false
     @State var showRightSideMenu = false
     @State var selectedObjectDetails: ObjectDetails?
@@ -23,10 +22,12 @@ struct HomePageView: View {
     @StateObject var viewModel = ViewModel()
     
     var body: some View {
-        VStack {
+        ZStack(alignment: .top, content: {
             customNavBar
+                .zIndex(1)
             contentView
-        }
+                .ignoresSafeArea()
+        })
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
         .onAppear(perform: viewModel.fetchAllObjects)
@@ -64,8 +65,6 @@ struct HomePageView: View {
                     .imageScale(.large)
             })
             
-            Spacer()
-            
             Text((Str.objects + " (\(viewModel.allObjects.count))"))
                 .foregroundColor(.white)
             
@@ -81,6 +80,7 @@ struct HomePageView: View {
                     .imageScale(.large)
             })
         }
+        .padding(.bottom)
         .padding(.horizontal)
     }
     

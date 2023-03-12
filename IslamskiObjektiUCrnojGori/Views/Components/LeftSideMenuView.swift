@@ -14,6 +14,9 @@ struct LeftSideMenuView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
+            
+            Spacer()
+            
             MenuRow(image:  Image(systemSymbol: .buildingColumns), text: S.objects)
             
             Divider()

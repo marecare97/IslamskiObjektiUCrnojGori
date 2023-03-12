@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+typealias Img = Asset.Images
+
 @main
 struct IslamskiObjektiUCrnojGoriApp: App {
     var body: some Scene {
