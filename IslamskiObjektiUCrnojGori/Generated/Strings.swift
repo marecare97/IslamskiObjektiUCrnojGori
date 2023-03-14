@@ -10,6 +10,12 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum TK {
+  internal enum AccessLocation {
+    /// GRANT ACCESS TO LOCATION
+    internal static let buttonTitle = TK.tr("sr", "accessLocation.buttonTitle", fallback: "GRANT ACCESS TO LOCATION")
+    /// We need access to your location to start the app.
+    internal static let message = TK.tr("sr", "accessLocation.message", fallback: "We need access to your location to start the app.")
+  }
   internal enum HomePageView {
     /// Naziv objekta...
     internal static let objectName = TK.tr("sr", "homePageView.objectName", fallback: "Naziv objekta...")

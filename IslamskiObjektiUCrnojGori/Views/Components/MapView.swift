@@ -12,7 +12,7 @@ import CoreLocation
 struct MapBoxMapView: UIViewControllerRepresentable {
     @Binding var allObjects: [ObjectDetails]
     let didTapOnObject: (ObjectDetails) -> Void
-
+    
     init(
         allObjects: Binding<[ObjectDetails]>,
         didTapOnObject: @escaping (ObjectDetails) -> Void
@@ -24,7 +24,7 @@ struct MapBoxMapView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> MapViewController {
         return MapViewController(didTapOnObject: didTapOnObject)
     }
-
+    
     func updateUIViewController(_ uiViewController: MapViewController, context: Context) {
         uiViewController.setPins(for: allObjects)
     }
@@ -60,30 +60,59 @@ class MapViewController: UIViewController  {
         pointAnnotationManager = mapView.annotations.makePointAnnotationManager()
         
         mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapClick)))
-
+        
         mapView.mapboxMap.onNext(.mapLoaded) { [weak self] _ in
             guard let self = self, let latestLocation = self.mapView.location.latestLocation else { return }
             self.locationUpdate(newLocation: latestLocation)
         }
     }
-
+    
+    //    func setPins(for objects: [ObjectDetails]) {
+    //        if !objects.isEmpty {
+    //            self.allObjects = objects
+    //            let annotations = objects.map {
+    //                var point = PointAnnotation(
+    //                    coordinate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
+    //                )
+    //                point.image = .init(image: UIImage(systemSymbol: .pinFill), name: "pin")
+    //                point.iconAnchor = .bottom
+    //                return point
+    //            }
+    //
+    //            pointAnnotationManager.annotations = annotations
+    //            mapView.layoutSubviews()
+    //        }
+    //    }
+    
     func setPins(for objects: [ObjectDetails]) {
         if !objects.isEmpty {
             self.allObjects = objects
-            let annotations = objects.map {
+            let annotations = objects.map { object in
                 var point = PointAnnotation(
-                    coordinate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
+                    coordinate: CLLocationCoordinate2D(latitude: object.latitude, longitude: object.longitude)
                 )
-                point.image = .init(image: UIImage(systemSymbol: .pinFill), name: "pin")
+                switch String(object.objType.icon) { // We get Substring from backend, converting to String here
+                case "mosque":
+                    point.image = .init(image: Img.mosque.image, name: "mosque")
+                case "locality":
+                    point.image = .init(image: Img.locality.image, name: "locality")
+                case "institution":
+                    point.image = .init(image: Img.institution.image, name: "institution")
+                case "turbe":
+                    point.image = .init(image: Img.turbe.image, name: "turbe")
+                case "masjid":
+                    point.image = .init(image: Img.masjid.image, name: "masjid")
+                default:
+                    point.image = .init(image: UIImage(systemSymbol: .pinFill), name: "pin")
+                }
+                point.iconSize = 0.3 // Set pin size
                 point.iconAnchor = .bottom
                 return point
             }
-
             pointAnnotationManager.annotations = annotations
             mapView.layoutSubviews()
         }
     }
-    
     
     @objc private func onMapClick(_ sender: UITapGestureRecognizer) {
         let point = sender.location(in: mapView)

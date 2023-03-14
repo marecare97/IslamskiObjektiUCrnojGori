@@ -13,12 +13,13 @@ xcassets:
   outputs:
     - templateName: swift5
       output: IslamskiObjektiUCrnojGori/Generated/Assets.swift
-#fonts:
-#  inputs:
-#    - IslamskiObjektiUCrnojGori/Resources/Fonts/Metropolis
-#  outputs:
-#      templateName: swift5
-#      output: IslamskiObjektiUCrnojGori/Generated/Fonts.swift
-#      params:
-#          fontAliasName: FontType
+fonts:
+  inputs:
+    - IslamskiObjektiUCrnojGori/Resources/Fonts/Roboto
+    - IslamskiObjektiUCrnojGori/Resources/Fonts/Poppins
+  outputs:
+      templateName: swift5
+      output: IslamskiObjektiUCrnojGori/Generated/Fonts.swift
+      params:
+          fontAliasName: FontType
 

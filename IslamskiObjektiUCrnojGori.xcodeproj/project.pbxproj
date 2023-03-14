@@ -44,6 +44,8 @@
 		F660475629B36D720053D136 /* IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660475529B36D720053D136 /* IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift */; };
 		F660476529B371920053D136 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F660476429B371920053D136 /* MapboxMaps */; };
 		F660476729B371B20053D136 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660476629B371B20053D136 /* MapView.swift */; };
+		F6865ECF29C0D6CF00BFAEA7 /* LocationPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */; };
+		F6865ED229C0DBBB00BFAEA7 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6865ED129C0DBBB00BFAEA7 /* LocationService.swift */; };
 		F6AB691A29BD04D500DFFA97 /* View+DynamicHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +105,11 @@
 		F660475529B36D720053D136 /* IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F660476229B36F400053D136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F660476629B371B20053D136 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionView.swift; sourceTree = "<group>"; };
+		F6865ED129C0DBBB00BFAEA7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		F6865ED429C0E32E00BFAEA7 /* roboto_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = roboto_bold.ttf; sourceTree = "<group>"; };
+		F6865ED529C0E32E00BFAEA7 /* poppins_semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = poppins_semibold.ttf; sourceTree = "<group>"; };
+		F6865ED629C0E32E00BFAEA7 /* roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = roboto.ttf; sourceTree = "<group>"; };
 		F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+DynamicHide.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -144,6 +151,7 @@
 		65A43F9529B7A94900D34E8B /* Data Layer */ = {
 			isa = PBXGroup;
 			children = (
+				F6865ED029C0DBA600BFAEA7 /* Location */,
 				65A43FA329B7ADD900D34E8B /* Networking */,
 				65A43FA829B7AFCD00D34E8B /* Providers */,
 			);
@@ -196,6 +204,7 @@
 		65A43FB729B7B88100D34E8B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F6865ED329C0E2D900BFAEA7 /* Fonts */,
 				F660473C29B36D720053D136 /* Images.xcassets */,
 				65A43FB829B7B8E400D34E8B /* Colors.xcassets */,
 				65A43FB229B7B74500D34E8B /* sr.strings */,
@@ -265,6 +274,40 @@
 			path = IslamskiObjektiUCrnojGoriUITests;
 			sourceTree = "<group>";
 		};
+		F6865ED029C0DBA600BFAEA7 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				F6865ED129C0DBBB00BFAEA7 /* LocationService.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		F6865ED329C0E2D900BFAEA7 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F6865ED829C0E3E300BFAEA7 /* Roboto */,
+				F6865ED729C0E3C100BFAEA7 /* Poppins */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		F6865ED729C0E3C100BFAEA7 /* Poppins */ = {
+			isa = PBXGroup;
+			children = (
+				F6865ED529C0E32E00BFAEA7 /* poppins_semibold.ttf */,
+			);
+			path = Poppins;
+			sourceTree = "<group>";
+		};
+		F6865ED829C0E3E300BFAEA7 /* Roboto */ = {
+			isa = PBXGroup;
+			children = (
+				F6865ED429C0E32E00BFAEA7 /* roboto_bold.ttf */,
+				F6865ED629C0E32E00BFAEA7 /* roboto.ttf */,
+			);
+			path = Roboto;
+			sourceTree = "<group>";
+		};
 		F6AB691829BD04C100DFFA97 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,6 +338,7 @@
 				F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */,
 				65D38CBA29B7C4B300072C9C /* WebView.swift */,
 				65D38CC629B7E39F00072C9C /* PagingView.swift */,
+				F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -445,6 +489,7 @@
 				65A43F9E29B7ABFF00D34E8B /* Notifications.swift in Sources */,
 				65D38CB929B7BE9900072C9C /* AboutView.swift in Sources */,
 				F660473B29B36D710053D136 /* HomePageView.swift in Sources */,
+				F6865ECF29C0D6CF00BFAEA7 /* LocationPermissionView.swift in Sources */,
 				65D38CB429B7BA7700072C9C /* Strings.swift in Sources */,
 				65D38CB329B7BA7700072C9C /* Assets.swift in Sources */,
 				65A43FAA29B7AFE400D34E8B /* NotificationsProvider.swift in Sources */,
@@ -463,6 +508,7 @@
 				65A43FA029B7AC5700D34E8B /* ObjectDetails.swift in Sources */,
 				65A43FAF29B7B17F00D34E8B /* CompositionRoot.swift in Sources */,
 				65A43FA229B7AD6600D34E8B /* AllObjects.swift in Sources */,
+				F6865ED229C0DBBB00BFAEA7 /* LocationService.swift in Sources */,
 				65D38CC729B7E39F00072C9C /* PagingView.swift in Sources */,
 				65A43FB129B7B70E00D34E8B /* LeftSideMenuView.swift in Sources */,
 				65A43FA729B7AF3800D34E8B /* AboutProvider.swift in Sources */,
@@ -634,6 +680,7 @@
 				INFOPLIST_FILE = IslamskiObjektiUCrnojGori/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your current location will be displayed on the map and used for directions.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your current location will be displayed on the map and used for directions.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -671,6 +718,7 @@
 				INFOPLIST_FILE = IslamskiObjektiUCrnojGori/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your current location will be displayed on the map and used for directions.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your current location will be displayed on the map and used for directions.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
