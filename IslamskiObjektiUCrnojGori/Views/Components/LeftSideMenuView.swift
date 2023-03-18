@@ -22,6 +22,7 @@ struct LeftSideMenuView: View {
                 MenuRow(image: Img.icon4.swiftUIImage, text: S.objects)
 
                 Divider()
+                    .offset(x: -12)
 
                 VStack(alignment: .leading, spacing: 20) {
                     Text(S.sectionTitle)
@@ -37,6 +38,7 @@ struct LeftSideMenuView: View {
                 }
 
                 Divider()
+                    .offset(x: -12)
 
                 MenuRow(image: Image(systemSymbol: .bellCircleFill), text: S.notifications)
 

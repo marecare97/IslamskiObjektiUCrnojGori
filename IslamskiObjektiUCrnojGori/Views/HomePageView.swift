@@ -25,8 +25,21 @@ struct HomePageView: View {
         ZStack(alignment: .top, content: {
             customNavBar
                 .zIndex(1)
-            contentView
-                .ignoresSafeArea()
+            ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
+                contentView
+                    .ignoresSafeArea()
+                if !showLeftSideMenu {
+                    Img.list.swiftUIImage
+                        .resizable()
+                        .frame(width: 50, height: 80)
+                        .onTapGesture {
+                            withAnimation {
+                                showLeftSideMenu = true
+                            }
+                        }
+                }
+            }
+            
         })
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
