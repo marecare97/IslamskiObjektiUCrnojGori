@@ -24,7 +24,7 @@ struct LocationPermissionView: View {
         case .denied:
             grantLocationView
         case .authorizedAlways, .authorizedWhenInUse:
-            HomePageView()
+            QiblaView()
         @unknown default:
             grantLocationView
         }

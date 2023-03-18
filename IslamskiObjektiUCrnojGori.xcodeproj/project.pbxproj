@@ -36,6 +36,7 @@
 		65D38CCA29B7E41F00072C9C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 65D38CC929B7E41F00072C9C /* SDWebImageSwiftUI */; };
 		65DC376B29C65F37003DD32A /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC376A29C65F37003DD32A /* SplashScreen.swift */; };
 		65DC376D29C66412003DD32A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65DC376C29C66412003DD32A /* Colors.xcassets */; };
+		65DC376F29C66828003DD32A /* QiblaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC376E29C66828003DD32A /* QiblaView.swift */; };
 		F631C20229B6771D00C4619B /* UsefulLinksSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */; };
 		F660473929B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660473829B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift */; };
 		F660473B29B36D710053D136 /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660473A29B36D710053D136 /* HomePageView.swift */; };
@@ -95,6 +96,7 @@
 		65D38CC629B7E39F00072C9C /* PagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingView.swift; sourceTree = "<group>"; };
 		65DC376A29C65F37003DD32A /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		65DC376C29C66412003DD32A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		65DC376E29C66828003DD32A /* QiblaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiblaView.swift; sourceTree = "<group>"; };
 		F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefulLinksSideMenuView.swift; sourceTree = "<group>"; };
 		F660473529B36D710053D136 /* IslamskiObjektiUCrnojGori.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IslamskiObjektiUCrnojGori.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F660473829B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslamskiObjektiUCrnojGoriApp.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 			children = (
 				F660476629B371B20053D136 /* MapView.swift */,
 				65A43FB029B7B70E00D34E8B /* LeftSideMenuView.swift */,
+				65DC376E29C66828003DD32A /* QiblaView.swift */,
 				F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */,
 				65D38CBA29B7C4B300072C9C /* WebView.swift */,
 				65D38CC629B7E39F00072C9C /* PagingView.swift */,
@@ -503,6 +506,7 @@
 				65D38CC529B7E21200072C9C /* ObjectDetailsView.swift in Sources */,
 				65D38CBF29B7CDAB00072C9C /* ReportProblemView.swift in Sources */,
 				65A43F9029B7A92800D34E8B /* APIRequest.swift in Sources */,
+				65DC376F29C66828003DD32A /* QiblaView.swift in Sources */,
 				65A43F9229B7A93300D34E8B /* NetworkService.swift in Sources */,
 				F631C20229B6771D00C4619B /* UsefulLinksSideMenuView.swift in Sources */,
 				65DC376B29C65F37003DD32A /* SplashScreen.swift in Sources */,
@@ -678,7 +682,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
-				DEVELOPMENT_TEAM = LWLYM5BX6D;
+				DEVELOPMENT_TEAM = H8V65WQSV5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IslamskiObjektiUCrnojGori/Info.plist;
@@ -716,7 +720,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
-				DEVELOPMENT_TEAM = LWLYM5BX6D;
+				DEVELOPMENT_TEAM = H8V65WQSV5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IslamskiObjektiUCrnojGori/Info.plist;
