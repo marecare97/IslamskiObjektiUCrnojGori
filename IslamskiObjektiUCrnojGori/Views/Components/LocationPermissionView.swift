@@ -17,7 +17,7 @@ struct LocationPermissionView: View {
     var body: some View {
         switch locationViewModel.authorizationStatus {
         case .notDetermined:
-            grantLocationView
+            SplashScreen()
                 .onAppear(perform: locationViewModel.requestPermission)
         case .restricted:
             grantLocationView
@@ -25,6 +25,8 @@ struct LocationPermissionView: View {
             grantLocationView
         case .authorizedAlways, .authorizedWhenInUse:
             HomePageView()
+        @unknown default:
+            grantLocationView
         }
     }
     

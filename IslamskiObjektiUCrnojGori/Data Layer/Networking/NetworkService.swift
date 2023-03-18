@@ -64,6 +64,6 @@ extension URLRequest {
 public extension URLRequest {
     mutating func setAuthorization(contentType: String) {
         self.setValue("*/*", forHTTPHeaderField: URLRequest.Headers.accept.rawValue)
-        self.setValue(contentType ?? "application/json", forHTTPHeaderField: URLRequest.Headers.contentType.rawValue)
+        self.setValue(contentType, forHTTPHeaderField: URLRequest.Headers.contentType.rawValue)
     }
 }
