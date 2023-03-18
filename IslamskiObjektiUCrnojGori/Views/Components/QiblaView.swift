@@ -26,7 +26,9 @@ struct QiblaView: View {
                         let kaabaLocation = CLLocation(latitude: 21.4225, longitude: 39.8262) // Coordinates of Kaaba
                         let qiblaDirection = location.coordinate.direction(to: kaabaLocation.coordinate)
                         print("QIBLA DIRECTION ==> \(qiblaDirection)")
-                        self.qiblaDirection = qiblaDirection
+                        withAnimation {
+                            self.qiblaDirection = qiblaDirection
+                        }
                     }
                     .store(in: &locationService.cancellables)
             }

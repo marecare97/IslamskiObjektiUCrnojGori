@@ -38,6 +38,43 @@ struct HomePageView: View {
                             }
                         }
                 }
+                if !showLeftSideMenu {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Img.bgDetails.swiftUIImage
+                                .resizable()
+                                .frame(width: 250, height: 80)
+                            
+                            
+                            VStack {
+                                Button(action: {}) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color.green)
+                                            .frame(width: 50, height: 50)
+                                        Img.iconFilter.swiftUIImage
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                    }
+                                }
+                                Button(action: {}) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color.green)
+                                            .frame(width: 50, height: 50)
+                                        Img.iconGallery.swiftUIImage
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                    }
+                                }
+                            }
+                            .padding(.bottom, 50)
+                        }
+                    }
+                    .ignoresSafeArea()
+                }
             }
             
         })
