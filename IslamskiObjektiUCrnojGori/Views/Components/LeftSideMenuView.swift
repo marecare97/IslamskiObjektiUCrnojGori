@@ -13,45 +13,58 @@ struct LeftSideMenuView: View {
     typealias S = TK.LeftSideMenu
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            
-            Spacer()
-            
-            MenuRow(image:  Image(systemSymbol: .buildingColumns), text: S.objects)
-            
-            Divider()
-            
+        ZStack {
+            Img.drawerMenu.swiftUIImage
+                .resizable()
+                .ignoresSafeArea(edges: .bottom)
             VStack(alignment: .leading, spacing: 20) {
-                Text(S.sectionTitle)
+
+                MenuRow(image: Img.icon4.swiftUIImage, text: S.objects)
+
+                Divider()
+
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(S.sectionTitle)
+
+                    MenuRow(image: Img.icon4.swiftUIImage, text: S.closestObject)
+
+                    MenuRow(image: Img.icon2.swiftUIImage, text: S.vaktija)
+
+                    MenuRow(image: Img.icon1.swiftUIImage, text: S.kibla)
+
+                    MenuRow(image: Img.icon3.swiftUIImage, text: S.calendar)
+
+                }
+
+                Divider()
+
+                MenuRow(image: Image(systemSymbol: .bellCircleFill), text: S.notifications)
+
+                MenuRow(image: Image(systemSymbol: .infoCircleFill), text: S.about)
+
+                MenuRow(
+                    image: Image(systemSymbol: .link),
+                    foreGroundColor: .green,
+                    text: S.usefulLinks,
+                    textColor: .green
+                )
+
+                Spacer()
                 
-                MenuRow(image: Image(systemSymbol: .buildingColumns), text: S.closestObject)
-                
-                MenuRow(image: Image(systemSymbol: .noteText), text: S.vaktija)
-                
-                MenuRow(image: Image(systemSymbol: .buildingColumns), text: S.kibla)
-                
-                MenuRow(image: Image(systemSymbol: .calendar), text: S.calendar)
-                
+                HStack {
+                 Spacer()
+                    Img.fond.swiftUIImage
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .offset(x: -15) //needed due to image being 200 x 215 px
+                    
+                    Spacer()
+                }
+                .padding()
             }
-            
-            Divider()
-            
-            MenuRow(image: Image(systemSymbol: .bellCircleFill), text: S.notifications)
-            
-            MenuRow(image: Image(systemSymbol: .infoCircleFill), text: S.about)
-            
-            MenuRow(
-                image: Image(systemSymbol: .link),
-                foreGroundColor: .green,
-                text: S.usefulLinks
-            )
-            
-            Spacer()
+            .padding()
+            .padding(.top, 120)
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.white)
-        .edgesIgnoringSafeArea(.horizontal)
     }
     
     
@@ -59,27 +72,34 @@ struct LeftSideMenuView: View {
         let foreGroundColor: Color
         let text: String
         let image: Image
+        var textColor: Color
         
         init(
             image: Image,
-            foreGroundColor: Color = .black,
-            text: String
+            foreGroundColor: Color = .gray,
+            text: String,
+            textColor: Color = .black
         ) {
             self.image = image
             self.foreGroundColor = foreGroundColor
             self.text = text
+            self.textColor = textColor
         }
         
         var body: some View {
             HStack(spacing: 12) {
                 image
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(foreGroundColor)
                 
                 Text(text)
                     .bold()
+                    .foregroundColor(textColor)
                 
                 Spacer()
             }
-            .foregroundColor(foreGroundColor)
+            
         }
     }
 }
