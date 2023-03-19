@@ -9,20 +9,62 @@ import SwiftUI
 import Combine
 
 struct NotificationsView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var viewModel = ViewModel()
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            LazyVStack {
-                ForEach(viewModel.notifications, id: \.id) { notification in
-                    NotificationsListRow(notification: notification)
-                    
-                    if notification != viewModel.notifications.last {
-                        Divider()
+        ZStack(alignment: .top) {
+            customNavBar
+            ScrollView(showsIndicators: false) {
+                LazyVStack {
+                    ForEach(viewModel.notifications, id: \.id) { notification in
+                        NotificationsListRow(notification: notification)
+                        
+                        if notification != viewModel.notifications.last {
+                            Divider()
+                        }
                     }
                 }
+                .padding(.top, 70)
             }
         }
+    }
+    
+    var customNavBar: some View {
+        HStack {
+            ZStack {
+                Img.toolbar.swiftUIImage
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                defaultNavBar
+            }
+        }
+        .background(Color.clear)
+        .frame(maxHeight: 50)
+    }
+    
+    var defaultNavBar: some View {
+        HStack {
+            Button(action: {
+                withAnimation {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }, label: {
+                Img.back.swiftUIImage
+                    .resizable()
+                    .frame(width: 20, height: 20)
+            })
+            
+            Text(TK.Notifications.title)
+                .foregroundColor(.white)
+                .padding(.leading)
+            
+            Spacer()
+        }
+        .padding(.bottom)
+        .padding(.horizontal)
     }
     
     struct NotificationsListRow: View {

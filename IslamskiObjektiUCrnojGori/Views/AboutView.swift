@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 
 struct AboutView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var viewModel = ViewModel()
     
     var body: some View {
@@ -22,12 +23,57 @@ struct AboutView: View {
                     Spacer()
                 }
             case .finished:
-                ScrollView(showsIndicators: false) {
-                    Text(viewModel.about ?? "")
-                        .padding()
+                ZStack(alignment: .top) {
+                    customNavBar
+                    VStack {
+                        Spacer()
+                        
+                        ScrollView(showsIndicators: false) {
+                            Text(viewModel.about ?? "")
+                                .padding()
+                                .padding(.top, 70)
+                        }
+                    }
                 }
             }
         }
+    }
+    
+    var customNavBar: some View {
+        HStack {
+            ZStack {
+                Img.toolbar.swiftUIImage
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                defaultNavBar
+            }
+        }
+        .background(Color.clear)
+        .frame(maxHeight: 50)
+    }
+    
+    var defaultNavBar: some View {
+        HStack {
+            Button(action: {
+                withAnimation {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }, label: {
+                Img.back.swiftUIImage
+                    .resizable()
+                    .frame(width: 20, height: 20)
+            })
+            
+            Text(TK.About.title)
+                .foregroundColor(.white)
+                .padding(.leading)
+            
+            Spacer()
+        }
+        .padding(.bottom)
+        .padding(.horizontal)
     }
 }
 

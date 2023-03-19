@@ -11,6 +11,9 @@ import SFSafeSymbols
 
 struct LeftSideMenuView: View {
     typealias S = TK.LeftSideMenu
+    @State var isQiblaViewPresented = false
+    @State var isNotificationsViewPresented = false
+    @State var isAboutProjectViewPresented = false
     
     var body: some View {
         ZStack {
@@ -31,7 +34,9 @@ struct LeftSideMenuView: View {
 
                     MenuRow(image: Img.icon2.swiftUIImage, text: S.vaktija)
 
-                    MenuRow(image: Img.icon1.swiftUIImage, text: S.kibla)
+                    MenuRow(image: Img.icon1.swiftUIImage, text: S.kibla) {
+                        isQiblaViewPresented = true
+                    }
 
                     MenuRow(image: Img.icon3.swiftUIImage, text: S.calendar)
 
@@ -40,9 +45,13 @@ struct LeftSideMenuView: View {
                 Divider()
                     .offset(x: -12)
 
-                MenuRow(image: Image(systemSymbol: .bellCircleFill), text: S.notifications)
+                MenuRow(image: Image(systemSymbol: .bellCircleFill), text: S.notifications) {
+                    isNotificationsViewPresented = true
+                }
 
-                MenuRow(image: Image(systemSymbol: .infoCircleFill), text: S.about)
+                MenuRow(image: Image(systemSymbol: .infoCircleFill), text: S.about) {
+                    isAboutProjectViewPresented = true
+                }
 
                 MenuRow(
                     image: Image(systemSymbol: .link),
@@ -67,6 +76,15 @@ struct LeftSideMenuView: View {
             .padding()
             .padding(.top, 120)
         }
+        .fullScreenCover(isPresented: $isQiblaViewPresented) {
+            QiblaView()
+        }
+        .fullScreenCover(isPresented: $isAboutProjectViewPresented) {
+            AboutView()
+        }
+        .fullScreenCover(isPresented: $isNotificationsViewPresented) {
+            NotificationsView()
+        }
     }
     
     
@@ -75,17 +93,20 @@ struct LeftSideMenuView: View {
         let text: String
         let image: Image
         var textColor: Color
+        let onTapGestureAction: () -> Void
         
         init(
             image: Image,
             foreGroundColor: Color = .gray,
             text: String,
-            textColor: Color = .black
+            textColor: Color = .black,
+            onTapGestureAction: @escaping () -> Void = { }
         ) {
             self.image = image
             self.foreGroundColor = foreGroundColor
             self.text = text
             self.textColor = textColor
+            self.onTapGestureAction = onTapGestureAction
         }
         
         var body: some View {
@@ -101,7 +122,7 @@ struct LeftSideMenuView: View {
                 
                 Spacer()
             }
-            
+            .onTapGesture(perform: onTapGestureAction)
         }
     }
 }

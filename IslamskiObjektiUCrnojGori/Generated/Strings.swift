@@ -10,6 +10,10 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum TK {
+  internal enum About {
+    /// O projektu
+    internal static let title = TK.tr("sr", "about.title", fallback: "O projektu")
+  }
   internal enum AccessLocation {
     /// GRANT ACCESS TO LOCATION
     internal static let buttonTitle = TK.tr("sr", "accessLocation.buttonTitle", fallback: "GRANT ACCESS TO LOCATION")
@@ -21,6 +25,10 @@ internal enum TK {
     internal static let objectName = TK.tr("sr", "homePageView.objectName", fallback: "Naziv objekta...")
     /// Objekti
     internal static let objects = TK.tr("sr", "homePageView.objects", fallback: "Objekti")
+  }
+  internal enum Kibla {
+    /// Kibla
+    internal static let title = TK.tr("sr", "kibla.title", fallback: "Kibla")
   }
   internal enum LeftSideMenu {
     /// O projektu
@@ -44,6 +52,10 @@ internal enum TK {
     internal static let usefulLinks = TK.tr("sr", "leftSideMenu.usefulLinks", fallback: "Korisni linkovi")
     /// Vaktija
     internal static let vaktija = TK.tr("sr", "leftSideMenu.vaktija", fallback: "Vaktija")
+  }
+  internal enum Notifications {
+    /// Obavještenja
+    internal static let title = TK.tr("sr", "notifications.title", fallback: "Obavještenja")
   }
   internal enum ObjectDetails {
     /// N. visina:

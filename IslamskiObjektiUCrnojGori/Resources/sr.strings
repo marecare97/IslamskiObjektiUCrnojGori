@@ -39,3 +39,7 @@
 
 "accessLocation.message" = "We need access to your location to start the app.";
 "accessLocation.buttonTitle" = "GRANT ACCESS TO LOCATION";
+
+"kibla.title" = "Kibla";
+"notifications.title" = "Obavještenja";
+"about.title" = "O projektu";
