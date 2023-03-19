@@ -50,7 +50,7 @@ struct HomePageView: View {
                             
                             VStack {
                                 Button(action: {
-                                    showRightSideMenu = true
+                                    self.showRightSideMenu.toggle()
                                 }) {
                                     ZStack {
                                         Circle()
@@ -69,6 +69,9 @@ struct HomePageView: View {
                                         Img.iconGallery.swiftUIImage
                                             .resizable()
                                             .frame(width: 30, height: 30)
+                                            .onTapGesture {
+                                                viewModel.changeMapStyle()
+                                            }
                                     }
                                 }
                             }
@@ -179,6 +182,8 @@ struct HomePageView: View {
                 }
                 MapBoxMapView(
                     allObjects: $viewModel.allObjects,
+                    filteredObjects: $viewModel.filteredObjects,
+                    styleURI: $viewModel.mapStyle,
                     didTapOnObject: { details in
                         selectedObjectDetails = details
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -188,8 +193,12 @@ struct HomePageView: View {
                 )
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .disabled(self.showLeftSideMenu ? true : false)
+                .disabled(self.showRightSideMenu ? true : false)
                 .blur(
                     radius: showLeftSideMenu ? 1.0 : 0.0
+                )
+                .blur(
+                    radius: showRightSideMenu ? 1.0 : 0.0
                 )
                 
                 if self.showLeftSideMenu {
@@ -211,7 +220,6 @@ struct HomePageView: View {
                 DragGesture().onEnded {
                     if $0.translation.width < -100 || $0.translation.width < 100{
                         withAnimation {
-                            self.showLeftSideMenu = false
                             self.showRightSideMenu = false
                         }
                     }
@@ -230,6 +238,8 @@ extension HomePageView {
     final class ViewModel: ObservableObject {
         private var cancellable: AnyCancellable?
         @Published var allObjects = [ObjectDetails]()
+        @Published var filteredObjects: [ObjectDetails] = []
+        @Published var mapStyle: StyleURI = .light
         
         func fetchAllObjects() {
             cancellable = CompositionRoot.shared.objectsProvider.fetchAllObjects()
@@ -238,6 +248,24 @@ extension HomePageView {
                 } receiveValue: { allObjects in
                     self.allObjects = allObjects.message
                 }
+        }
+        
+        func filterObjects(with searchTerm: String) {
+            if searchTerm.isEmpty {
+                filteredObjects = allObjects
+            } else {
+                filteredObjects = allObjects.filter { object in
+                    object.name.lowercased().contains(searchTerm.lowercased())
+                }
+            }
+        }
+        
+        func changeMapStyle() {
+            if mapStyle == .light {
+                mapStyle = .satellite
+            } else {
+                mapStyle = .light
+            }
         }
     }
 }

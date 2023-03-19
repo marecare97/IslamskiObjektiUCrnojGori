@@ -8,8 +8,8 @@
 import SwiftUI
 
 typealias Img = Asset.Images
-//typealias RFT = FontFamily. // font family Roboto
-//typealias PFT = FontFamily.Canela // font family Canela
+typealias RFT = FontFamily.Roboto // font family Roboto
+typealias PFT = FontFamily.Poppins // font family Poppins
 
 @main
 struct IslamskiObjektiUCrnojGoriApp: App {

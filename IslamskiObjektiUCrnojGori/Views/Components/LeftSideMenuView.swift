@@ -15,55 +15,64 @@ struct LeftSideMenuView: View {
     @State var isNotificationsViewPresented = false
     @State var isAboutProjectViewPresented = false
     
+    @State private var navigationDestination: NavigationDestination? = nil
+    
+    enum NavigationDestination {
+        case notificationsView
+        case quiblaView
+        case aboutView
+    }
+    
     var body: some View {
         ZStack {
+            navigationLinks
             Img.drawerMenu.swiftUIImage
                 .resizable()
                 .ignoresSafeArea(edges: .bottom)
             VStack(alignment: .leading, spacing: 20) {
-
+                
                 MenuRow(image: Img.icon4.swiftUIImage, text: S.objects)
-
+                
                 Divider()
                     .offset(x: -12)
-
+                
                 VStack(alignment: .leading, spacing: 20) {
                     Text(S.sectionTitle)
-
+                    
                     MenuRow(image: Img.icon4.swiftUIImage, text: S.closestObject)
-
+                    
                     MenuRow(image: Img.icon2.swiftUIImage, text: S.vaktija)
-
+                    
                     MenuRow(image: Img.icon1.swiftUIImage, text: S.kibla) {
-                        isQiblaViewPresented = true
+                        navigationDestination = .quiblaView
                     }
-
+                    
                     MenuRow(image: Img.icon3.swiftUIImage, text: S.calendar)
-
+                    
                 }
-
+                
                 Divider()
                     .offset(x: -12)
-
+                
                 MenuRow(image: Image(systemSymbol: .bellCircleFill), text: S.notifications) {
-                    isNotificationsViewPresented = true
+                    navigationDestination = .notificationsView
                 }
-
+                
                 MenuRow(image: Image(systemSymbol: .infoCircleFill), text: S.about) {
-                    isAboutProjectViewPresented = true
+                    navigationDestination = .aboutView
                 }
-
+                
                 MenuRow(
                     image: Image(systemSymbol: .link),
                     foreGroundColor: .green,
                     text: S.usefulLinks,
                     textColor: .green
                 )
-
+                
                 Spacer()
                 
                 HStack {
-                 Spacer()
+                    Spacer()
                     Img.fond.swiftUIImage
                         .resizable()
                         .frame(width: 100, height: 100)
@@ -76,17 +85,35 @@ struct LeftSideMenuView: View {
             .padding()
             .padding(.top, 120)
         }
-        .fullScreenCover(isPresented: $isQiblaViewPresented) {
-            QiblaView()
-        }
-        .fullScreenCover(isPresented: $isAboutProjectViewPresented) {
-            AboutView()
-        }
-        .fullScreenCover(isPresented: $isNotificationsViewPresented) {
-            NotificationsView()
-        }
     }
     
+    // MARK: -- Navigation
+    var navigationLinks: some View {
+        VStack {
+            NavigationLink(
+                destination: NotificationsView(),
+                tag: NavigationDestination.notificationsView,
+                selection: $navigationDestination,
+                label: { }
+            )
+            
+            NavigationLink(
+                destination: QiblaView(),
+                tag: NavigationDestination.quiblaView,
+                selection: $navigationDestination,
+                label: { }
+            )
+            
+            NavigationLink(
+                destination: AboutView(),
+                tag: NavigationDestination.aboutView,
+                selection: $navigationDestination,
+                label: { }
+            )
+        }
+        .hidden()
+        .frame(width: 0, height: 0)
+    }
     
     struct MenuRow: View {
         let foreGroundColor: Color

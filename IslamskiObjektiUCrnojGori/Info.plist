@@ -9,5 +9,11 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>roboto-bold</string>
+		<string>roboto</string>
+		<string>poppins_semibold</string>
+	</array>
 </dict>
 </plist>

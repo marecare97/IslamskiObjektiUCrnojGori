@@ -11,13 +11,19 @@ import CoreLocation
 
 struct MapBoxMapView: UIViewControllerRepresentable {
     @Binding var allObjects: [ObjectDetails]
+    @Binding var filteredObjects: [ObjectDetails]
+    @Binding var styleURI: StyleURI
     let didTapOnObject: (ObjectDetails) -> Void
     
     init(
         allObjects: Binding<[ObjectDetails]>,
+        filteredObjects: Binding<[ObjectDetails]>,
+        styleURI: Binding<StyleURI>,
         didTapOnObject: @escaping (ObjectDetails) -> Void
     ) {
         self._allObjects = allObjects
+        self._filteredObjects = filteredObjects
+        self._styleURI = styleURI
         self.didTapOnObject = didTapOnObject
     }
     
@@ -27,6 +33,7 @@ struct MapBoxMapView: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: MapViewController, context: Context) {
         uiViewController.setPins(for: allObjects)
+        uiViewController.setPins(for: filteredObjects)
     }
 }
 
@@ -34,7 +41,11 @@ class MapViewController: UIViewController  {
     internal var mapView: MapView!
     private var pointAnnotationManager: PointAnnotationManager!
     private var allObjects = [ObjectDetails]()
+    private var filteredObjects = [ObjectDetails]()
     let didTapOnObject: (ObjectDetails) -> Void
+    
+    // FIXME:
+    @State private var styleURI: StyleURI = .light
     
     init(didTapOnObject: @escaping (ObjectDetails) -> Void) {
         self.didTapOnObject = didTapOnObject
@@ -47,7 +58,7 @@ class MapViewController: UIViewController  {
         super.viewDidLoad()
         let myResourceOptions = ResourceOptions(accessToken: "pk.eyJ1IjoiYm96aWRhcnMyNyIsImEiOiJjazh6eGM0MTUwODNrM25uNDEzeTN0bGNxIn0.ruHpEdNSJu5NnmxEXmvYFg")
         let cameraOptions = CameraOptions(center: CLLocationCoordinate2D(latitude: 40.83647410051574, longitude: 14.30582273457794), zoom: 4.5)
-        let myMapInitOptions = MapInitOptions(resourceOptions: myResourceOptions, cameraOptions: cameraOptions, styleURI: StyleURI.light)
+        let myMapInitOptions = MapInitOptions(resourceOptions: myResourceOptions, cameraOptions: cameraOptions, styleURI: styleURI)
         mapView = MapView(frame: view.bounds, mapInitOptions: myMapInitOptions)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(mapView)

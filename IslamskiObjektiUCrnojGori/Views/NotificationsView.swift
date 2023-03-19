@@ -28,6 +28,7 @@ struct NotificationsView: View {
                 .padding(.top, 70)
             }
         }
+        .navigationBarBackButtonHidden()
     }
     
     var customNavBar: some View {

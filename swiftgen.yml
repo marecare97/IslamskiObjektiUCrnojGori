@@ -22,4 +22,5 @@ fonts:
       output: IslamskiObjektiUCrnojGori/Generated/Fonts.swift
       params:
           fontAliasName: FontType
+          fontFormat: ttf
 

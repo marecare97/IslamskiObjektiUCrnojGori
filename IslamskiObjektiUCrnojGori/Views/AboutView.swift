@@ -37,6 +37,7 @@ struct AboutView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
     }
     
     var customNavBar: some View {
