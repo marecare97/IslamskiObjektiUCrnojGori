@@ -193,7 +193,6 @@ struct HomePageView: View {
                 )
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .disabled(self.showLeftSideMenu ? true : false)
-                .disabled(self.showRightSideMenu ? true : false)
                 .blur(
                     radius: showLeftSideMenu ? 1.0 : 0.0
                 )
@@ -220,7 +219,7 @@ struct HomePageView: View {
                 DragGesture().onEnded {
                     if $0.translation.width < -100 || $0.translation.width < 100{
                         withAnimation {
-                            self.showRightSideMenu = false
+                            self.showLeftSideMenu = false
                         }
                     }
                 })

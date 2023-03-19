@@ -24,7 +24,6 @@ struct AboutView: View {
                 }
             case .finished:
                 ZStack(alignment: .top) {
-                    customNavBar
                     VStack {
                         Spacer()
                         
@@ -34,6 +33,7 @@ struct AboutView: View {
                                 .padding(.top, 70)
                         }
                     }
+                    customNavBar
                 }
             }
         }

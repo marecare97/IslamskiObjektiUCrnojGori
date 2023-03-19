@@ -13,19 +13,31 @@ struct NotificationsView: View {
     @ObservedObject var viewModel = ViewModel()
     
     var body: some View {
-        ZStack(alignment: .top) {
-            customNavBar
-            ScrollView(showsIndicators: false) {
-                LazyVStack {
-                    ForEach(viewModel.notifications, id: \.id) { notification in
-                        NotificationsListRow(notification: notification)
-                        
-                        if notification != viewModel.notifications.last {
-                            Divider()
-                        }
-                    }
+        Group {
+            switch viewModel.state {
+            case .loading:
+                VStack {
+                    Spacer()
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                    Spacer()
                 }
-                .padding(.top, 70)
+            case .finished:
+                ZStack(alignment: .top) {
+                    ScrollView(showsIndicators: false) {
+                        LazyVStack {
+                            ForEach(viewModel.notifications, id: \.id) { notification in
+                                NotificationsListRow(notification: notification)
+                                
+                                if notification != viewModel.notifications.last {
+                                    Divider()
+                                }
+                            }
+                        }
+                        .padding(.top, 70)
+                    }
+                    customNavBar
+                }
             }
         }
         .navigationBarBackButtonHidden()
@@ -100,19 +112,26 @@ struct NotificationsView_Previews: PreviewProvider {
 extension NotificationsView {
     final class ViewModel: ObservableObject {
         private var cancellable: AnyCancellable? = nil
-        @Published var isLoading = true
+        @Published var state: State = .loading
         @Published var notifications = [Notifications.Notification]()
+        
+        enum State {
+            case loading
+            case finished
+        }
         
         init() {
             fetchNotifications()
         }
         
         func fetchNotifications() {
+            state = .loading
             cancellable = CompositionRoot.shared.notificationsProvider.fetchNotifications()
                 .sink(receiveCompletion: { _ in
                     
                 }, receiveValue: { notifications in
                     self.notifications = notifications.message
+                    self.state = .finished
                 })
         }
     }

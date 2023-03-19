@@ -51,6 +51,7 @@
 		F6865ED229C0DBBB00BFAEA7 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6865ED129C0DBBB00BFAEA7 /* LocationService.swift */; };
 		F6AB691A29BD04D500DFFA97 /* View+DynamicHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */; };
 		F6B60EDC29C7948B00EC54C0 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B60EDB29C7948B00EC54C0 /* Fonts.swift */; };
+		F6B60EDF29C7BE0800EC54C0 /* ExpandableText in Frameworks */ = {isa = PBXBuildFile; productRef = F6B60EDE29C7BE0800EC54C0 /* ExpandableText */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +130,7 @@
 				65D38CCA29B7E41F00072C9C /* SDWebImageSwiftUI in Frameworks */,
 				65D38CB729B7BB0800072C9C /* SFSafeSymbols in Frameworks */,
 				F660476529B371920053D136 /* MapboxMaps in Frameworks */,
+				F6B60EDF29C7BE0800EC54C0 /* ExpandableText in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +377,7 @@
 				F660476429B371920053D136 /* MapboxMaps */,
 				65D38CB629B7BB0800072C9C /* SFSafeSymbols */,
 				65D38CC929B7E41F00072C9C /* SDWebImageSwiftUI */,
+				F6B60EDE29C7BE0800EC54C0 /* ExpandableText */,
 			);
 			productName = IslamskiObjektiUCrnojGori;
 			productReference = F660473529B36D710053D136 /* IslamskiObjektiUCrnojGori.app */;
@@ -453,6 +456,7 @@
 				65A43FB429B7B83900D34E8B /* XCRemoteSwiftPackageReference "SwiftGenPlugin" */,
 				65D38CB529B7BB0800072C9C /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 				65D38CC829B7E41F00072C9C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				F6B60EDD29C7BE0800EC54C0 /* XCRemoteSwiftPackageReference "ExpandableText" */,
 			);
 			productRefGroup = F660473629B36D710053D136 /* Products */;
 			projectDirPath = "";
@@ -704,6 +708,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -744,6 +749,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -912,6 +918,14 @@
 				version = 10.0.0;
 			};
 		};
+		F6B60EDD29C7BE0800EC54C0 /* XCRemoteSwiftPackageReference "ExpandableText" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/NuPlay/ExpandableText.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -929,6 +943,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F660476329B371920053D136 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */;
 			productName = MapboxMaps;
+		};
+		F6B60EDE29C7BE0800EC54C0 /* ExpandableText */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F6B60EDD29C7BE0800EC54C0 /* XCRemoteSwiftPackageReference "ExpandableText" */;
+			productName = ExpandableText;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
