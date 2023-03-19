@@ -43,3 +43,8 @@
 "kibla.title" = "Kibla";
 "notifications.title" = "Obavještenja";
 "about.title" = "O projektu";
+
+"rightSideMenu.objectType" = "TIP OBJEKTA";
+"rightSideMenu.majlis" = "MEDŽLIS";
+"rightSideMenu.town" = "GRAD";
+"rightSideMenu.yearBuilt" = "GODINA IZGRADNJE";

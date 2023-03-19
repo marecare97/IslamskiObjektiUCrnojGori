@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65121BB529C77F71009010EA /* RightSideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65121BB429C77F71009010EA /* RightSideMenu.swift */; };
 		65A43F9029B7A92800D34E8B /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A43F8F29B7A92800D34E8B /* APIRequest.swift */; };
 		65A43F9229B7A93300D34E8B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A43F9129B7A93300D34E8B /* NetworkService.swift */; };
 		65A43F9429B7A93D00D34E8B /* NetworSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A43F9329B7A93C00D34E8B /* NetworSession.swift */; };
@@ -69,6 +70,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		65121BB429C77F71009010EA /* RightSideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightSideMenu.swift; sourceTree = "<group>"; };
 		65A43F8F29B7A92800D34E8B /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		65A43F9129B7A93300D34E8B /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		65A43F9329B7A93C00D34E8B /* NetworSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworSession.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			children = (
 				F660476629B371B20053D136 /* MapView.swift */,
 				65A43FB029B7B70E00D34E8B /* LeftSideMenuView.swift */,
+				65121BB429C77F71009010EA /* RightSideMenu.swift */,
 				65DC376E29C66828003DD32A /* QiblaView.swift */,
 				F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */,
 				65D38CBA29B7C4B300072C9C /* WebView.swift */,
@@ -509,6 +512,7 @@
 				65DC376F29C66828003DD32A /* QiblaView.swift in Sources */,
 				65A43F9229B7A93300D34E8B /* NetworkService.swift in Sources */,
 				F631C20229B6771D00C4619B /* UsefulLinksSideMenuView.swift in Sources */,
+				65121BB529C77F71009010EA /* RightSideMenu.swift in Sources */,
 				65DC376B29C65F37003DD32A /* SplashScreen.swift in Sources */,
 				65A43FA529B7AEB300D34E8B /* LinksProvider.swift in Sources */,
 				65A43F9C29B7ABCA00D34E8B /* About.swift in Sources */,

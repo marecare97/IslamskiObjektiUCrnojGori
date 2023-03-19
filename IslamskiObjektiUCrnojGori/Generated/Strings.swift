@@ -89,6 +89,16 @@ internal enum TK {
     /// Vaša e-mail adresa
     internal static let yourEmail = TK.tr("sr", "reportProblem.yourEmail", fallback: "Vaša e-mail adresa")
   }
+  internal enum RightSideMenu {
+    /// MEDŽLIS
+    internal static let majlis = TK.tr("sr", "rightSideMenu.majlis", fallback: "MEDŽLIS")
+    /// TIP OBJEKTA
+    internal static let objectType = TK.tr("sr", "rightSideMenu.objectType", fallback: "TIP OBJEKTA")
+    /// GRAD
+    internal static let town = TK.tr("sr", "rightSideMenu.town", fallback: "GRAD")
+    /// GODINA IZGRADNJE
+    internal static let yearBuilt = TK.tr("sr", "rightSideMenu.yearBuilt", fallback: "GODINA IZGRADNJE")
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

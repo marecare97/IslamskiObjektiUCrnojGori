@@ -38,7 +38,7 @@ struct HomePageView: View {
                             }
                         }
                 }
-                if !showLeftSideMenu {
+                if !showLeftSideMenu && !showRightSideMenu {
                     VStack {
                         Spacer()
                         HStack {
@@ -49,7 +49,9 @@ struct HomePageView: View {
                             
                             
                             VStack {
-                                Button(action: {}) {
+                                Button(action: {
+                                    showRightSideMenu = true
+                                }) {
                                     ZStack {
                                         Circle()
                                             .fill(Color.green)
@@ -195,12 +197,22 @@ struct HomePageView: View {
                         .frame(width: geometry.size.width / 1.5)
                         .transition(.move(edge: .leading ))
                 }
+                
+                if self.showRightSideMenu {
+                    HStack {
+                        Spacer()
+                        RightSideMenu(objectsDetails: $viewModel.allObjects)
+                            .frame(width: geometry.size.width / 1.3)
+                            .transition(.move(edge: .trailing))
+                    }
+                }
             }
             .gesture(
                 DragGesture().onEnded {
-                    if $0.translation.width < -100 {
+                    if $0.translation.width < -100 || $0.translation.width < 100{
                         withAnimation {
                             self.showLeftSideMenu = false
+                            self.showRightSideMenu = false
                         }
                     }
                 })

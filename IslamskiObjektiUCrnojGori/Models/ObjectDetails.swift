@@ -62,13 +62,13 @@ struct ImagePath: Codable {
 }
 
 // MARK: - Location
-struct Location: Codable {
+struct Location: Codable, Hashable, Equatable {
     let id: Int
     let key, name: String
 }
 
 // MARK: - ObjType
-struct ObjType: Codable  {
+struct ObjType: Codable, Hashable, Identifiable, Equatable  {
     let id: Int
     let key, tableKey, name, icon: String
     
@@ -76,5 +76,54 @@ struct ObjType: Codable  {
         case id, key
         case tableKey = "table_key"
         case name, icon
+    }
+}
+
+// MARK: - Extension for Array to get unique values
+extension Array where Element == ObjectDetails {
+    func uniqueValues() -> (towns: [Location], majlises: [Location], yearsBuilt: [Int], objTypes: [ObjType]) {
+        var towns = [Location]()
+        var majlises = [Location]()
+        var yearsBuilt = [Int]()
+        var objTypes = [ObjType]()
+        
+        for object in self {
+            towns.append(object.town)
+            majlises.append(object.majlis)
+            if let yearBuilt = object.yearBuilt {
+                yearsBuilt.append(yearBuilt)
+            }
+            objTypes.append(object.objType)
+        }
+        
+        towns = towns.unique
+        majlises  = majlises.unique
+        yearsBuilt = yearsBuilt.unique
+        objTypes = objTypes.unique
+        
+        return (towns: towns, majlises: majlises, yearsBuilt: yearsBuilt, objTypes: objTypes)
+    }
+    
+    func filterObjects(towns: [Location]?, majlises: [Location]?, yearBuiltFrom: Int?, yearBuiltTo: Int?, objTypes: [ObjType]?) -> [ObjectDetails] {
+           return self.filter { object in
+               let matchesTown = towns == nil || towns!.contains(object.town)
+               let matchesMajlis = majlises == nil || majlises!.contains(object.majlis)
+               let matchesYearBuiltFrom = yearBuiltFrom == nil || (object.yearBuilt ?? Int.min) >= yearBuiltFrom!
+               let matchesYearBuiltTo = yearBuiltTo == nil || (object.yearBuilt ?? Int.max) <= yearBuiltTo!
+               let matchesObjType = objTypes == nil || objTypes!.contains(object.objType)
+               
+               return matchesTown || matchesMajlis || matchesYearBuiltFrom || matchesYearBuiltTo || matchesObjType
+           }
+       }
+}
+
+extension Array where Element: Equatable {
+    var unique: [Element] {
+        var uniqueValues: [Element] = []
+        forEach { item in
+            guard !uniqueValues.contains(item) else { return }
+            uniqueValues.append(item)
+        }
+        return uniqueValues
     }
 }
