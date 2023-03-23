@@ -21,6 +21,8 @@ internal enum TK {
     internal static let message = TK.tr("sr", "accessLocation.message", fallback: "We need access to your location to start the app.")
   }
   internal enum HomePageView {
+    /// SLJEDEĆI NAMAZ ZA
+    internal static let nextNamaz = TK.tr("sr", "homePageView.nextNamaz", fallback: "SLJEDEĆI NAMAZ ZA")
     /// Naziv objekta...
     internal static let objectName = TK.tr("sr", "homePageView.objectName", fallback: "Naziv objekta...")
     /// Objekti

@@ -12,28 +12,29 @@ import CoreLocation
 struct MapBoxMapView: UIViewControllerRepresentable {
     @Binding var allObjects: [ObjectDetails]
     @Binding var filteredObjects: [ObjectDetails]
-    @Binding var styleURI: StyleURI
+    @Binding var isChangeMapStyleButtonTapped: Bool
     let didTapOnObject: (ObjectDetails) -> Void
     
     init(
         allObjects: Binding<[ObjectDetails]>,
         filteredObjects: Binding<[ObjectDetails]>,
-        styleURI: Binding<StyleURI>,
+        isChangeMapStyleButtonTapped: Binding<Bool>,
         didTapOnObject: @escaping (ObjectDetails) -> Void
     ) {
         self._allObjects = allObjects
         self._filteredObjects = filteredObjects
-        self._styleURI = styleURI
+        self._isChangeMapStyleButtonTapped = isChangeMapStyleButtonTapped
         self.didTapOnObject = didTapOnObject
     }
     
     func makeUIViewController(context: Context) -> MapViewController {
-        return MapViewController(didTapOnObject: didTapOnObject)
+        return MapViewController(didTapOnObject: didTapOnObject, isChangeMapStyleButtonTapped: $isChangeMapStyleButtonTapped)
     }
     
     func updateUIViewController(_ uiViewController: MapViewController, context: Context) {
         uiViewController.setPins(for: allObjects)
         uiViewController.setPins(for: filteredObjects)
+        uiViewController.updateMapStyle(isSatellite: isChangeMapStyleButtonTapped)
     }
 }
 
@@ -43,12 +44,14 @@ class MapViewController: UIViewController  {
     private var allObjects = [ObjectDetails]()
     private var filteredObjects = [ObjectDetails]()
     let didTapOnObject: (ObjectDetails) -> Void
+    @Binding var isChangeMapStyleButtonTapped: Bool
     
-    // FIXME:
-    @State private var styleURI: StyleURI = .light
-    
-    init(didTapOnObject: @escaping (ObjectDetails) -> Void) {
+    init(
+        didTapOnObject: @escaping (ObjectDetails) -> Void,
+        isChangeMapStyleButtonTapped: Binding<Bool>
+    ) {
         self.didTapOnObject = didTapOnObject
+        self._isChangeMapStyleButtonTapped = isChangeMapStyleButtonTapped
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -58,7 +61,7 @@ class MapViewController: UIViewController  {
         super.viewDidLoad()
         let myResourceOptions = ResourceOptions(accessToken: "pk.eyJ1IjoiYm96aWRhcnMyNyIsImEiOiJjazh6eGM0MTUwODNrM25uNDEzeTN0bGNxIn0.ruHpEdNSJu5NnmxEXmvYFg")
         let cameraOptions = CameraOptions(center: CLLocationCoordinate2D(latitude: 40.83647410051574, longitude: 14.30582273457794), zoom: 4.5)
-        let myMapInitOptions = MapInitOptions(resourceOptions: myResourceOptions, cameraOptions: cameraOptions, styleURI: styleURI)
+        let myMapInitOptions = MapInitOptions(resourceOptions: myResourceOptions, cameraOptions: cameraOptions, styleURI: isChangeMapStyleButtonTapped ? .satellite : .light)
         mapView = MapView(frame: view.bounds, mapInitOptions: myMapInitOptions)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(mapView)
@@ -123,6 +126,10 @@ class MapViewController: UIViewController  {
             pointAnnotationManager.annotations = annotations
             mapView.layoutSubviews()
         }
+    }
+    
+    func updateMapStyle(isSatellite: Bool) {
+        mapView.mapboxMap.style.uri = isSatellite ? .satelliteStreets : .streets
     }
     
     @objc private func onMapClick(_ sender: UITapGestureRecognizer) {

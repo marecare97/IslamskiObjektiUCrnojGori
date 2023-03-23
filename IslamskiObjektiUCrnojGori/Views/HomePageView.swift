@@ -18,6 +18,7 @@ struct HomePageView: View {
     @State private var isEditing = false
     @State private var isSearchNavBarHidden = true
     @State var searchTerm: String = ""
+    @State var isChangeMapStyleButtonTapped = false
     
     @StateObject var viewModel = ViewModel()
     
@@ -28,6 +29,8 @@ struct HomePageView: View {
             ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
                 contentView
                     .ignoresSafeArea()
+                
+                // MARK: Left side button
                 if !showLeftSideMenu {
                     Img.list.swiftUIImage
                         .resizable()
@@ -38,50 +41,71 @@ struct HomePageView: View {
                             }
                         }
                 }
+                
+                // MARK: Bottom right buttons
+                if !showLeftSideMenu && !showRightSideMenu {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                self.showRightSideMenu.toggle()
+                            }) {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.green)
+                                        .frame(width: 50, height: 50)
+                                    Img.iconFilter.swiftUIImage
+                                        .resizable()
+                                        .frame(width: 30, height: 30)
+                                }
+                            }
+                            Button(action: {
+                                isChangeMapStyleButtonTapped.toggle()
+                            }) {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.green)
+                                        .frame(width: 50, height: 50)
+                                    Img.iconGallery.swiftUIImage
+                                        .resizable()
+                                        .frame(width: 30, height: 30)
+                                }
+                            }
+                        }
+                        .padding(.bottom, 50)
+                    }
+                }
+                
+                // MARK: Namaz view
                 if !showLeftSideMenu && !showRightSideMenu {
                     VStack {
                         Spacer()
                         HStack {
                             Spacer()
-                            Img.bgDetails.swiftUIImage
-                                .resizable()
-                                .frame(width: 250, height: 80)
                             
-                            
-                            VStack {
-                                Button(action: {
-                                    self.showRightSideMenu.toggle()
-                                }) {
-                                    ZStack {
-                                        Circle()
-                                            .fill(Color.green)
-                                            .frame(width: 50, height: 50)
-                                        Img.iconFilter.swiftUIImage
-                                            .resizable()
-                                            .frame(width: 30, height: 30)
-                                    }
-                                }
-                                Button(action: {}) {
-                                    ZStack {
-                                        Circle()
-                                            .fill(Color.green)
-                                            .frame(width: 50, height: 50)
-                                        Img.iconGallery.swiftUIImage
-                                            .resizable()
-                                            .frame(width: 30, height: 30)
-                                            .onTapGesture {
-                                                viewModel.changeMapStyle()
-                                            }
-                                    }
-                                }
+                            ZStack {
+                                Img.bgDetails.swiftUIImage
+                                    .resizable()
+                                    .frame(width: 250, height: 80)
+                                
+                                Text(Str.nextNamaz)
+                                    .font(RFT.medium.swiftUIFont(size: 15))
+                                    .foregroundColor(.gray)
+                                    .padding(.bottom)
                             }
-                            .padding(.bottom, 50)
+                            
+                            Spacer()
+                            
                         }
                     }
                     .ignoresSafeArea()
                 }
             }
-            
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .edgesIgnoringSafeArea(.bottom)
         })
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
@@ -141,6 +165,9 @@ struct HomePageView: View {
     
     var searchNavBar: some View {
         HStack {
+            
+            Spacer()
+            
             if isEditing {
                 Button(action: {
                     self.isEditing = false
@@ -151,14 +178,13 @@ struct HomePageView: View {
                     Image(systemSymbol: .arrowBackward)
                         .foregroundColor(.black)
                 }
-                .padding(.trailing, 10)
                 .transition(.move(edge: .trailing))
                 .animation(.default)
             }
             
             TextField(Str.objectName, text: $searchTerm)
                 .padding(7)
-                .padding(.horizontal, 25)
+                .padding(.horizontal, 10)
                 .background(Color(.clear))
                 .cornerRadius(8)
                 .padding(.horizontal, 10)
@@ -183,7 +209,7 @@ struct HomePageView: View {
                 MapBoxMapView(
                     allObjects: $viewModel.allObjects,
                     filteredObjects: $viewModel.filteredObjects,
-                    styleURI: $viewModel.mapStyle,
+                    isChangeMapStyleButtonTapped: $isChangeMapStyleButtonTapped,
                     didTapOnObject: { details in
                         selectedObjectDetails = details
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -238,7 +264,6 @@ extension HomePageView {
         private var cancellable: AnyCancellable?
         @Published var allObjects = [ObjectDetails]()
         @Published var filteredObjects: [ObjectDetails] = []
-        @Published var mapStyle: StyleURI = .light
         
         func fetchAllObjects() {
             cancellable = CompositionRoot.shared.objectsProvider.fetchAllObjects()
@@ -256,14 +281,6 @@ extension HomePageView {
                 filteredObjects = allObjects.filter { object in
                     object.name.lowercased().contains(searchTerm.lowercased())
                 }
-            }
-        }
-        
-        func changeMapStyle() {
-            if mapStyle == .light {
-                mapStyle = .satellite
-            } else {
-                mapStyle = .light
             }
         }
     }

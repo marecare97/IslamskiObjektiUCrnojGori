@@ -36,6 +36,7 @@
 
 "homePageView.objects" = "Objekti";
 "homePageView.objectName" = "Naziv objekta...";
+"homePageView.nextNamaz" = "SLJEDEĆI NAMAZ ZA";
 
 "accessLocation.message" = "We need access to your location to start the app.";
 "accessLocation.buttonTitle" = "GRANT ACCESS TO LOCATION";
