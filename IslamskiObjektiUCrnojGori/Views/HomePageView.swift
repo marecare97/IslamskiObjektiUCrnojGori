@@ -173,7 +173,7 @@ struct HomePageView: View {
                     self.isEditing = false
                     self.isSearchNavBarHidden = true
                     self.searchTerm = ""
-                    
+                    viewModel.filterObjects(with: "")
                 }) {
                     Image(systemSymbol: .arrowBackward)
                         .foregroundColor(.black)
@@ -190,6 +190,9 @@ struct HomePageView: View {
                 .padding(.horizontal, 10)
                 .onTapGesture {
                     self.isEditing = true
+                }
+                .onChange(of: searchTerm) { value in
+                    viewModel.filterObjects(with: value)
                 }
         }
     }
