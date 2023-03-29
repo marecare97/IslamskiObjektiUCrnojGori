@@ -8,12 +8,16 @@
 import SwiftUI
 import MapboxMaps
 import Combine
+import SDWebImageSwiftUI
 
 struct HomePageView: View {
     typealias Str = TK.HomePageView
+    typealias S = TK.ObjectDetailsPreview
+    
     @State var showLeftSideMenu = false
     @State var showRightSideMenu = false
     @State var selectedObjectDetails: ObjectDetails?
+    @State var isObjectDetailsPreviewViewPresented = false
     @State var isObjectDetailsViewPresented = false
     @State private var isEditing = false
     @State private var isSearchNavBarHidden = true
@@ -26,20 +30,29 @@ struct HomePageView: View {
         ZStack(alignment: .top, content: {
             customNavBar
                 .zIndex(1)
-            ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
+            ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
                 contentView
                     .ignoresSafeArea()
                 
+                objectDetailsPreview
+                    .cornerRadius(30, corners: [.bottomLeft, .bottomRight])
+                
                 // MARK: Left side button
                 if !showLeftSideMenu {
-                    Img.list.swiftUIImage
-                        .resizable()
-                        .frame(width: 50, height: 80)
-                        .onTapGesture {
-                            withAnimation {
-                                showLeftSideMenu = true
+                    VStack {
+                        Spacer()
+                        
+                        Img.list.swiftUIImage
+                            .resizable()
+                            .frame(width: 50, height: 80)
+                            .onTapGesture {
+                                withAnimation {
+                                    showLeftSideMenu = true
+                                }
                             }
-                        }
+                        
+                        Spacer()
+                    }
                 }
                 
                 // MARK: Bottom right buttons
@@ -131,7 +144,6 @@ struct HomePageView: View {
         .frame(maxHeight: 50)
     }
     
-    
     var defaultNavBar: some View {
         HStack {
             Button(action: {
@@ -200,15 +212,6 @@ struct HomePageView: View {
     var contentView: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                if let selectedObjectDetails {
-                    NavigationLink(
-                        destination: ObjectDetailsView(details: selectedObjectDetails),
-                        isActive: $isObjectDetailsViewPresented) {
-                            
-                        }
-                        .frame(width: 0, height: 0)
-                        .hidden()
-                }
                 MapBoxMapView(
                     allObjects: $viewModel.allObjects,
                     filteredObjects: $viewModel.filteredObjects,
@@ -216,7 +219,7 @@ struct HomePageView: View {
                     didTapOnObject: { details in
                         selectedObjectDetails = details
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            isObjectDetailsViewPresented = true
+                            isObjectDetailsPreviewViewPresented = true
                         }
                     }
                 )
@@ -253,6 +256,83 @@ struct HomePageView: View {
                     }
                 })
         }
+    }
+    
+    var objectDetailsPreview: some View {
+        VStack {
+            Spacer()
+            HStack {
+                if let objDetails = selectedObjectDetails {
+                    NavigationLink(
+                        destination: ObjectDetailsView(details: objDetails),
+                        isActive: $isObjectDetailsViewPresented,
+                        label: {}
+                    )
+                    .frame(width: 0, height: 0)
+                    .hidden()
+                    
+                    WebImage(url: URL(string: objDetails.image))
+                        .resizable()
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(.green, lineWidth: 2)
+                        )
+                        .frame(width: 90, height: 90)
+                        .padding(.trailing)
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(objDetails.name)
+                            .font(RFT.bold.swiftUIFont(size: 15))
+                            .lineLimit(2)
+                            .foregroundColor(.white)
+                        
+                        Text(objDetails.objType.name)
+                            .font(RFT.bold.swiftUIFont(size: 13))
+                            .lineLimit(1)
+                            .foregroundColor(.gray)
+                        
+                        HStack {
+                            getObjectIcon(objName: objDetails.objType.icon)
+                                .resizable()
+                                .frame(width: 20, height: 30)
+                            
+                            Text(objDetails.town.name)
+                                .font(RFT.bold.swiftUIFont(size: 13))
+                                .lineLimit(1)
+                                .foregroundColor(.gray)
+                            
+                            Spacer()
+                            
+                            Button {
+                                isObjectDetailsViewPresented = true
+                            } label: {
+                                Text(S.detailed + " >")
+                                    .font(PFT.semiBold.swiftUIFont(size: 13))
+                                    .foregroundColor(.green)
+                            }
+                        }
+                        .padding(.trailing)
+                    }
+                }  else {
+                    Text("No object details available")
+                }
+            }
+            .padding(.bottom)
+        }
+        .frame(height: 180)
+        .background(.black)
+    }
+    
+    private func getObjectIcon(objName: String) -> SwiftUI.Image {
+        let iconMap: [String: SwiftUI.Image] = [
+            "mosque": Img.mosque.swiftUIImage,
+            "locality": Img.locality.swiftUIImage,
+            "institution": Img.institution.swiftUIImage,
+            "turbe": Img.turbe.swiftUIImage,
+            "masjid": Img.masjid.swiftUIImage
+        ]
+        return iconMap[objName] ?? Img.mosque.swiftUIImage
     }
 }
 

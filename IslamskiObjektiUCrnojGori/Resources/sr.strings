@@ -49,3 +49,5 @@
 "rightSideMenu.majlis" = "MEDŽLIS";
 "rightSideMenu.town" = "GRAD";
 "rightSideMenu.yearBuilt" = "GODINA IZGRADNJE";
+
+"objectDetailsPreview.detailed" = "Detaljnije";
