@@ -9,6 +9,7 @@ import SwiftUI
 import MapboxMaps
 import Combine
 import SDWebImageSwiftUI
+import SFSafeSymbols
 
 struct HomePageView: View {
     typealias Str = TK.HomePageView
@@ -37,6 +38,7 @@ struct HomePageView: View {
                 
                 objectDetailsPreview
                     .isHidden(didTapOnObject ? false : true)
+                    .animation(.easeOut)
                     .cornerRadius(30, corners: [.bottomLeft, .bottomRight])
                 
                 // MARK: Left side button
@@ -290,7 +292,7 @@ struct HomePageView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(objDetails.name)
                             .font(RFT.bold.swiftUIFont(size: 18))
-                            .lineLimit(2)
+                            .lineLimit(1) // FIXME: -- sometimes text is too big
                             .foregroundColor(.white)
                         
                         Text(objDetails.objType.name)
@@ -313,9 +315,13 @@ struct HomePageView: View {
                             Button {
                                 isObjectDetailsViewPresented = true
                             } label: {
-                                Text(S.detailed + " >")
-                                    .font(PFT.semiBold.swiftUIFont(size: 15))
-                                    .foregroundColor(.green)
+                                HStack(spacing: 5) {
+                                    Text(S.detailed)
+                                        .font(PFT.semiBold.swiftUIFont(size: 15))
+                                    Image(systemSymbol: .chevronRight)
+                                        .imageScale(.small)
+                                }
+                                .foregroundColor(.green)
                             }
                         }
                         .padding(.trailing)
@@ -325,7 +331,7 @@ struct HomePageView: View {
                 }
             }
             .padding(.leading)
-            .padding(.bottom)
+            .padding(.vertical)
         }
         .frame(height: 180)
         .background(.black)
