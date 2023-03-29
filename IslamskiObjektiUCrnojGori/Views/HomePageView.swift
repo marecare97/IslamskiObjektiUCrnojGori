@@ -17,6 +17,7 @@ struct HomePageView: View {
     @State var showLeftSideMenu = false
     @State var showRightSideMenu = false
     @State var selectedObjectDetails: ObjectDetails?
+    @State private var didTapOnObject = false
     @State var isObjectDetailsPreviewViewPresented = false
     @State var isObjectDetailsViewPresented = false
     @State private var isEditing = false
@@ -35,6 +36,7 @@ struct HomePageView: View {
                     .ignoresSafeArea()
                 
                 objectDetailsPreview
+                    .isHidden(didTapOnObject ? false : true)
                     .cornerRadius(30, corners: [.bottomLeft, .bottomRight])
                 
                 // MARK: Left side button
@@ -218,11 +220,15 @@ struct HomePageView: View {
                     isChangeMapStyleButtonTapped: $isChangeMapStyleButtonTapped,
                     didTapOnObject: { details in
                         selectedObjectDetails = details
+                        didTapOnObject = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             isObjectDetailsPreviewViewPresented = true
                         }
                     }
                 )
+                .onTapGesture {
+                    didTapOnObject = false
+                }
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .disabled(self.showLeftSideMenu ? true : false)
                 .blur(
@@ -278,17 +284,17 @@ struct HomePageView: View {
                             Circle()
                                 .stroke(.green, lineWidth: 2)
                         )
-                        .frame(width: 90, height: 90)
+                        .frame(width: 70, height: 70)
                         .padding(.trailing)
                     
                     VStack(alignment: .leading, spacing: 8) {
                         Text(objDetails.name)
-                            .font(RFT.bold.swiftUIFont(size: 15))
+                            .font(RFT.bold.swiftUIFont(size: 18))
                             .lineLimit(2)
                             .foregroundColor(.white)
                         
                         Text(objDetails.objType.name)
-                            .font(RFT.bold.swiftUIFont(size: 13))
+                            .font(RFT.bold.swiftUIFont(size: 15))
                             .lineLimit(1)
                             .foregroundColor(.gray)
                         
@@ -298,7 +304,7 @@ struct HomePageView: View {
                                 .frame(width: 20, height: 30)
                             
                             Text(objDetails.town.name)
-                                .font(RFT.bold.swiftUIFont(size: 13))
+                                .font(RFT.bold.swiftUIFont(size: 15))
                                 .lineLimit(1)
                                 .foregroundColor(.gray)
                             
@@ -308,7 +314,7 @@ struct HomePageView: View {
                                 isObjectDetailsViewPresented = true
                             } label: {
                                 Text(S.detailed + " >")
-                                    .font(PFT.semiBold.swiftUIFont(size: 13))
+                                    .font(PFT.semiBold.swiftUIFont(size: 15))
                                     .foregroundColor(.green)
                             }
                         }
@@ -318,6 +324,7 @@ struct HomePageView: View {
                     Text("No object details available")
                 }
             }
+            .padding(.leading)
             .padding(.bottom)
         }
         .frame(height: 180)
