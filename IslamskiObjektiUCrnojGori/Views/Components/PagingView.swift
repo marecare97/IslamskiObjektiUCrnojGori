@@ -24,20 +24,21 @@ struct PagingView<Content: View>: View {
                             .scaledToFit()
                     }
                 }
-                .tabViewStyle(PageTabViewStyle())
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never)) // Hide the default TabView indicators
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always)) // Display only the PageIndexView
                 
                 HStack(spacing: 8) {
                     ForEach(urls.indices) { index in
                         Circle()
                             .frame(width: 8, height: 8)
-                            .foregroundColor(currentPage == index ? .white : .gray)
+                            .foregroundColor(currentPage == index ? .black : .gray)
                     }
                 }
                 .padding()
             }
         }
         .onAppear {
-            UIPageControl.appearance().currentPageIndicatorTintColor = .white
+            UIPageControl.appearance().currentPageIndicatorTintColor = .black
             UIPageControl.appearance().pageIndicatorTintColor = .gray
         }
     }

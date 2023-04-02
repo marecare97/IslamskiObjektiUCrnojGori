@@ -82,6 +82,10 @@ internal enum TK {
     internal static let medzlis = TK.tr("sr", "objectDetails.medzlis", fallback: "Medžlis:")
     /// Tip objekta:
     internal static let objectType = TK.tr("sr", "objectDetails.objectType", fallback: "Tip objekta:")
+    /// Drugi nazivi
+    internal static let otherNames = TK.tr("sr", "objectDetails.otherNames", fallback: "Drugi nazivi")
+    /// Obnovljena
+    internal static let renewed = TK.tr("sr", "objectDetails.renewed", fallback: "Obnovljena")
   }
   internal enum ObjectDetailsPreview {
     /// Detaljnije

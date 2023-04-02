@@ -27,6 +27,8 @@
 "objectDetails.medzlis" = "Medžlis:";
 "objectDetails.objectType" = "Tip objekta:";
 "objectDetails.built" = "Godina izgradnje:";
+"objectDetails.renewed" = "Obnovljena";
+"objectDetails.otherNames" = "Drugi nazivi";
 
 "objectDetails.latitude" = "G. širina:";
 "objectDetails.longitude" = "G. dužina:";

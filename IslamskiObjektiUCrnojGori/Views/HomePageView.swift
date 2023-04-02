@@ -233,6 +233,7 @@ struct HomePageView: View {
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .disabled(self.showLeftSideMenu ? true : false)
+                .disabled(self.showRightSideMenu ? true : false)
                 .blur(
                     radius: showLeftSideMenu ? 1.0 : 0.0
                 )
@@ -243,14 +244,14 @@ struct HomePageView: View {
                 if self.showLeftSideMenu {
                     LeftSideMenuView()
                         .frame(width: geometry.size.width / 1.5)
-                        .transition(.move(edge: .leading ))
+                        .transition(.move(edge: .leading))
                 }
                 
                 if self.showRightSideMenu {
                     HStack {
                         Spacer()
                         RightSideMenu(objectsDetails: $viewModel.allObjects)
-                            .frame(width: geometry.size.width / 1.3)
+                            .frame(width: geometry.size.width / 1.5)
                             .transition(.move(edge: .trailing))
                     }
                 }

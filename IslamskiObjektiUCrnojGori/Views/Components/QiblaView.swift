@@ -41,6 +41,7 @@ struct QiblaView: View {
                 Spacer()
             }
         }
+        .navigationBarBackButtonHidden()
     }
     
     var customNavBar: some View {

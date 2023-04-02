@@ -34,7 +34,7 @@ struct ObjectDetailsView: View {
                     .font(PFT.semiBold.swiftUIFont(size: 30))
                     .lineLimit(2)
                     .padding(.bottom)
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                 
                 ExpandableText(text: details.about)
                     .font(RFT.bold.swiftUIFont(size: 15))
@@ -46,33 +46,53 @@ struct ObjectDetailsView: View {
                 
                 Text(S.basicInfo)
                     .font(RFT.bold.swiftUIFont(size: 20))
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .textCase(.uppercase)
                     .padding(.vertical)
                 
                 basicInformationView
                 
+                if let alternativeNames = details.alternativeNames {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(S.otherNames + ":")
+                            .font(RFT.bold.swiftUIFont(size: 15))
+                            .foregroundColor(.gray)
+                        
+                        Text(alternativeNames)
+                            .font(RFT.medium.swiftUIFont(size: 15))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.vertical)
+                }
+                
                 Text(S.geoInfo)
                     .font(RFT.bold.swiftUIFont(size: 20))
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .textCase(.uppercase)
                     .padding(.vertical)
                 
                 geoInformationView
                 
+                //                MapBoxMapView(
+                //                    allObjects: <#T##Binding<[ObjectDetails]>#>,
+                //                    filteredObjects: <#T##Binding<[ObjectDetails]>#>,
+                //                    isChangeMapStyleButtonTapped: <#T##Binding<Bool>#>,
+                //                    didTapOnObject: <#T##(ObjectDetails) -> Void#>
+                //                )
+                //
                 Text(S.dimensions)
                     .font(RFT.bold.swiftUIFont(size: 20))
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .textCase(.uppercase)
                     .padding(.vertical)
                 
                 Text(details.baseDimensions ?? "")
                     .font(RFT.bold.swiftUIFont(size: 15))
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
             }
             .padding()
         }
-        .background(.white)
+        .background(.black)
     }
     
     var customNavBar: some View {
@@ -119,6 +139,7 @@ struct ObjectDetailsView: View {
                 Text(S.medzlis)
                 Text(S.objectType)
                 Text(S.built)
+                Text(S.renewed)
             }
             .font(RFT.medium.swiftUIFont(size: 15))
             .foregroundColor(.gray)
@@ -134,9 +155,14 @@ struct ObjectDetailsView: View {
                 } else {
                     Text(details.yearBuiltText ?? "")
                 }
+                if let yearRenewed = details.yearRebuilt {
+                    Text("\(yearRenewed)")
+                } else {
+                    Text("N/A")
+                }
             }
             .font(RFT.bold.swiftUIFont(size: 15))
-            .foregroundColor(.black)
+            .foregroundColor(.white)
             
         }
     }
@@ -156,10 +182,10 @@ struct ObjectDetailsView: View {
             VStack(alignment: .trailing, spacing: 10) {
                 Text("\(details.latitude)")
                 Text("\(details.longitude)")
-                Text("\(details.elevation)")
+                Text("\(String(format: "%.2f", details.elevation)) m")
             }
             .font(RFT.bold.swiftUIFont(size: 15))
-            .foregroundColor(.black)
+            .foregroundColor(.white)
         }
     }
 }
