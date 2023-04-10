@@ -12,17 +12,20 @@ import CoreLocation
 struct MapBoxMapView: UIViewControllerRepresentable {
     @Binding var allObjects: [ObjectDetails]
     @Binding var filteredObjects: [ObjectDetails]
+    let selectedObject: ObjectDetails? // FIXME: - crash
     @Binding var isChangeMapStyleButtonTapped: Bool
     let didTapOnObject: (ObjectDetails) -> Void
     
     init(
         allObjects: Binding<[ObjectDetails]>,
         filteredObjects: Binding<[ObjectDetails]>,
+        selectedObject: ObjectDetails?,
         isChangeMapStyleButtonTapped: Binding<Bool>,
         didTapOnObject: @escaping (ObjectDetails) -> Void
     ) {
         self._allObjects = allObjects
         self._filteredObjects = filteredObjects
+        self.selectedObject = selectedObject
         self._isChangeMapStyleButtonTapped = isChangeMapStyleButtonTapped
         self.didTapOnObject = didTapOnObject
     }
@@ -34,6 +37,9 @@ struct MapBoxMapView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: MapViewController, context: Context) {
         uiViewController.setPins(for: allObjects)
         uiViewController.setPins(for: filteredObjects)
+        if let selectedObject {
+            uiViewController.setPin(for: selectedObject)
+        }
         uiViewController.updateMapStyle(isSatellite: isChangeMapStyleButtonTapped)
     }
 }
@@ -126,6 +132,30 @@ class MapViewController: UIViewController  {
             pointAnnotationManager.annotations = annotations
             mapView.layoutSubviews()
         }
+    }
+    
+    func setPin(for object: ObjectDetails) {
+        var point = PointAnnotation(
+            coordinate: CLLocationCoordinate2D(latitude: object.latitude, longitude: object.longitude)
+        )
+        switch String(object.objType.icon) { // We get Substring from backend, converting to String here
+        case "mosque":
+            point.image = .init(image: Img.mosque.image, name: "mosque")
+        case "locality":
+            point.image = .init(image: Img.locality.image, name: "locality")
+        case "institution":
+            point.image = .init(image: Img.institution.image, name: "institution")
+        case "turbe":
+            point.image = .init(image: Img.turbe.image, name: "turbe")
+        case "masjid":
+            point.image = .init(image: Img.masjid.image, name: "masjid")
+        default:
+            point.image = .init(image: UIImage(systemSymbol: .pinFill), name: "pin")
+        }
+        point.iconSize = 0.3 // Set pin size
+        point.iconAnchor = .bottom
+        pointAnnotationManager.annotations = [point]
+        mapView.layoutSubviews()
     }
     
     func updateMapStyle(isSatellite: Bool) {

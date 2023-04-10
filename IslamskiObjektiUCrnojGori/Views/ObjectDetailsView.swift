@@ -73,13 +73,14 @@ struct ObjectDetailsView: View {
                 
                 geoInformationView
                 
-                //                MapBoxMapView(
-                //                    allObjects: <#T##Binding<[ObjectDetails]>#>,
-                //                    filteredObjects: <#T##Binding<[ObjectDetails]>#>,
-                //                    isChangeMapStyleButtonTapped: <#T##Binding<Bool>#>,
-                //                    didTapOnObject: <#T##(ObjectDetails) -> Void#>
-                //                )
-                //
+//                MapBoxMapView(
+//                    allObjects: .constant([]),
+//                    filteredObjects: .constant([]),
+//                    selectedObject: details,
+//                    isChangeMapStyleButtonTapped: .constant(false),
+//                    didTapOnObject: { _ in }
+//                )
+                
                 Text(S.dimensions)
                     .font(RFT.bold.swiftUIFont(size: 20))
                     .foregroundColor(.white)

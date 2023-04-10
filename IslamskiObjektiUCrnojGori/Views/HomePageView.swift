@@ -37,13 +37,16 @@ struct HomePageView: View {
                     .ignoresSafeArea()
                 
                 objectDetailsPreview
+                    .isHidden(!showLeftSideMenu ? false : true)
+                    .isHidden(!showRightSideMenu ? false : true)
                     .isHidden(didTapOnObject ? false : true)
                     .animation(.easeOut)
                     .cornerRadius(30, corners: [.bottomLeft, .bottomRight])
                 
-                // MARK: Left side button
-                if !showLeftSideMenu {
+                // MARK: Left side menu button
+                if !showLeftSideMenu && !showRightSideMenu {
                     VStack {
+                        
                         Spacer()
                         
                         Img.list.swiftUIImage
@@ -62,13 +65,17 @@ struct HomePageView: View {
                 // MARK: Bottom right buttons
                 if !showLeftSideMenu && !showRightSideMenu {
                     HStack {
+                        
                         Spacer()
+                        
                         VStack {
                             
                             Spacer()
                             
                             Button(action: {
-                                self.showRightSideMenu.toggle()
+                                withAnimation {
+                                    self.showRightSideMenu.toggle()
+                                }
                             }) {
                                 ZStack {
                                     Circle()
@@ -96,7 +103,7 @@ struct HomePageView: View {
                     }
                 }
                 
-                // MARK: Namaz view
+                // MARK: Bottom center namaz view
                 if !showLeftSideMenu && !showRightSideMenu {
                     VStack {
                         Spacer()
@@ -219,6 +226,7 @@ struct HomePageView: View {
                 MapBoxMapView(
                     allObjects: $viewModel.allObjects,
                     filteredObjects: $viewModel.filteredObjects,
+                    selectedObject: nil,
                     isChangeMapStyleButtonTapped: $isChangeMapStyleButtonTapped,
                     didTapOnObject: { details in
                         selectedObjectDetails = details
@@ -249,7 +257,9 @@ struct HomePageView: View {
                 
                 if self.showRightSideMenu {
                     HStack {
+                        
                         Spacer()
+                        
                         RightSideMenu(objectsDetails: $viewModel.allObjects)
                             .frame(width: geometry.size.width / 1.5)
                             .transition(.move(edge: .trailing))
@@ -257,19 +267,29 @@ struct HomePageView: View {
                 }
             }
             .gesture(
-                DragGesture().onEnded {
-                    if $0.translation.width < -100 || $0.translation.width < 100{
-                        withAnimation {
-                            self.showLeftSideMenu = false
+                DragGesture()
+                    .onEnded { gesture in
+                        // scroll to the right and hide right side menu
+                        if gesture.translation.width > 100 {
+                            withAnimation {
+                                self.showRightSideMenu = false
+                            }
+                            // scroll to the left and hide left side menu
+                        } else if gesture.translation.width < -100 {
+                            withAnimation {
+                                self.showLeftSideMenu = false
+                            }
                         }
                     }
-                })
+            )
         }
     }
     
     var objectDetailsPreview: some View {
         VStack {
+            
             Spacer()
+            
             HStack {
                 if let objDetails = selectedObjectDetails {
                     NavigationLink(
