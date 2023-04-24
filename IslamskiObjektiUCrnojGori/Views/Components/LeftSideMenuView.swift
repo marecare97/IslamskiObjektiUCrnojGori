@@ -18,9 +18,13 @@ struct LeftSideMenuView: View {
     
     @State private var navigationDestination: NavigationDestination? = nil
     
+    @State var longitude: Double?
+    @State var latitude: Double?
+    
     enum NavigationDestination {
         case objectsView
         case notificationsView
+        case calendarView
         case quiblaView
         case aboutView
     }
@@ -51,7 +55,9 @@ struct LeftSideMenuView: View {
                         navigationDestination = .quiblaView
                     }
                     
-                    MenuRow(image: Img.icon3.swiftUIImage, text: S.calendar)
+                    MenuRow(image: Img.icon3.swiftUIImage, text: S.calendar) {
+                        navigationDestination = .calendarView
+                    }
                     
                 }
                 
@@ -117,6 +123,13 @@ struct LeftSideMenuView: View {
             NavigationLink(
                 destination: AboutView(),
                 tag: NavigationDestination.aboutView,
+                selection: $navigationDestination,
+                label: { }
+            )
+            
+            NavigationLink(
+                destination: CalendarView(latitude: latitude, longitude: longitude),
+                tag: NavigationDestination.calendarView,
                 selection: $navigationDestination,
                 label: { }
             )

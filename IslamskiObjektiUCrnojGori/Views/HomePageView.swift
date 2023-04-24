@@ -27,6 +27,10 @@ struct HomePageView: View {
     @State var isChangeMapStyleButtonTapped = false
     
     @StateObject var viewModel = ViewModel()
+    @StateObject var locationService = CompositionRoot.shared.locationService
+    
+    @Binding var latitude: Double?
+    @Binding var longitude: Double?
     
     var body: some View {
         ZStack(alignment: .top, content: {
@@ -250,7 +254,7 @@ struct HomePageView: View {
                 )
                 
                 if self.showLeftSideMenu {
-                    LeftSideMenuView()
+                    LeftSideMenuView(longitude: longitude, latitude: latitude)
                         .frame(width: geometry.size.width / 1.5)
                         .transition(.move(edge: .leading))
                 }
@@ -372,7 +376,7 @@ struct HomePageView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        HomePageView()
+        HomePageView(latitude: .constant(0.0), longitude: .constant(0.0))
     }
 }
 

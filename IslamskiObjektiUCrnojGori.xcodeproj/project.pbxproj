@@ -39,6 +39,8 @@
 		65DC376D29C66412003DD32A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65DC376C29C66412003DD32A /* Colors.xcassets */; };
 		65DC376F29C66828003DD32A /* QiblaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC376E29C66828003DD32A /* QiblaView.swift */; };
 		F6149B3329E7FC6C007D6B1F /* ObjectListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */; };
+		F6225B8A29F42A8C0071B42B /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6225B8929F42A8C0071B42B /* CalendarView.swift */; };
+		F6225B8C29F43AC60071B42B /* PrayerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6225B8B29F43AC60071B42B /* PrayerTime.swift */; };
 		F631C20229B6771D00C4619B /* UsefulLinksSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */; };
 		F660473929B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660473829B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift */; };
 		F660473B29B36D710053D136 /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660473A29B36D710053D136 /* HomePageView.swift */; };
@@ -106,6 +108,8 @@
 		65DC376C29C66412003DD32A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		65DC376E29C66828003DD32A /* QiblaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiblaView.swift; sourceTree = "<group>"; };
 		F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectListView.swift; sourceTree = "<group>"; };
+		F6225B8929F42A8C0071B42B /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		F6225B8B29F43AC60071B42B /* PrayerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTime.swift; sourceTree = "<group>"; };
 		F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefulLinksSideMenuView.swift; sourceTree = "<group>"; };
 		F660473529B36D710053D136 /* IslamskiObjektiUCrnojGori.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IslamskiObjektiUCrnojGori.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F660473829B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslamskiObjektiUCrnojGoriApp.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 				65A43F9D29B7ABFF00D34E8B /* Notifications.swift */,
 				65A43F9F29B7AC5700D34E8B /* ObjectDetails.swift */,
 				65A43FA129B7AD6600D34E8B /* AllObjects.swift */,
+				F6225B8B29F43AC60071B42B /* PrayerTime.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -365,6 +370,7 @@
 				65DC376A29C65F37003DD32A /* SplashScreen.swift */,
 				F6B60F9C29CF59050036EB60 /* ObjectDetailsPreview.swift */,
 				F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */,
+				F6225B8929F42A8C0071B42B /* CalendarView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -527,6 +533,7 @@
 				65A43FAC29B7B01C00D34E8B /* ObjectsProvider.swift in Sources */,
 				F660473929B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift in Sources */,
 				F6B60F9F29CF7D630036EB60 /* RoundedCorner.swift in Sources */,
+				F6225B8C29F43AC60071B42B /* PrayerTime.swift in Sources */,
 				65D38CC529B7E21200072C9C /* ObjectDetailsView.swift in Sources */,
 				65D38CBF29B7CDAB00072C9C /* ReportProblemView.swift in Sources */,
 				65A43F9029B7A92800D34E8B /* APIRequest.swift in Sources */,
@@ -546,6 +553,7 @@
 				F6865ED229C0DBBB00BFAEA7 /* LocationService.swift in Sources */,
 				65D38CC729B7E39F00072C9C /* PagingView.swift in Sources */,
 				65A43FB129B7B70E00D34E8B /* LeftSideMenuView.swift in Sources */,
+				F6225B8A29F42A8C0071B42B /* CalendarView.swift in Sources */,
 				65A43FA729B7AF3800D34E8B /* AboutProvider.swift in Sources */,
 				65A43F9A29B7AB8200D34E8B /* Links.swift in Sources */,
 				65D38CBB29B7C4B300072C9C /* WebView.swift in Sources */,

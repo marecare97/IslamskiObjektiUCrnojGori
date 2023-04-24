@@ -24,7 +24,7 @@ struct LocationPermissionView: View {
         case .denied:
             grantLocationView
         case .authorizedAlways, .authorizedWhenInUse:
-            HomePageView()
+            HomePageView(latitude: $locationViewModel.latitude, longitude: $locationViewModel.longitude)
         @unknown default:
             grantLocationView
         }
@@ -54,6 +54,8 @@ struct LocationPermissionView: View {
 extension LocationPermissionView {
     final class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         @Published var authorizationStatus: CLAuthorizationStatus
+        @Published var latitude: Double?
+        @Published var longitude: Double?
         
         private let locationManager: CLLocationManager
         
@@ -70,6 +72,12 @@ extension LocationPermissionView {
         
         func requestPermission() {
             locationManager.requestWhenInUseAuthorization()
+        }
+        
+        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            guard let location = locations.last else { return }
+            latitude = location.coordinate.latitude
+            longitude = location.coordinate.longitude
         }
         
         func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
