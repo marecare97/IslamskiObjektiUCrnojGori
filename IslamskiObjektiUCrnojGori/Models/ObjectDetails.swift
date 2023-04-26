@@ -13,7 +13,7 @@ struct ObjectDetailsResponse: Decodable {
     let message: ObjectDetails
 }
 
-struct ObjectDetails: Codable {
+struct ObjectDetails: Codable, Identifiable {
     let id, ind: Int
     let name, about: String
     let town, majlis: Location

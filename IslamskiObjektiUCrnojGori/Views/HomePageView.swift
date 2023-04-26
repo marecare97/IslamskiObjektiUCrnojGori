@@ -33,6 +33,22 @@ struct HomePageView: View {
     @Binding var longitude: Double?
     
     var body: some View {
+        Group {
+            switch viewModel.state {
+            case .initial:
+                ProgressView()
+            case .loading:
+                ProgressView()
+            case .finished:
+                groupedView
+            }
+        }
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden()
+        .onAppear(perform: viewModel.fetchAllObjects)
+    }
+    
+    var groupedView: some View {
         ZStack(alignment: .top, content: {
             customNavBar
                 .zIndex(1)
@@ -135,11 +151,9 @@ struct HomePageView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .edgesIgnoringSafeArea(.bottom)
         })
-        .navigationBarHidden(true)
-        .navigationBarBackButtonHidden()
-        .onAppear(perform: viewModel.fetchAllObjects)
     }
     
+    // MARK: Custom NavBar
     var customNavBar: some View {
         HStack {
             ZStack {
@@ -159,6 +173,7 @@ struct HomePageView: View {
         .frame(maxHeight: 50)
     }
     
+    // MARK: Default NavBar
     var defaultNavBar: some View {
         HStack {
             Button(action: {
@@ -190,6 +205,7 @@ struct HomePageView: View {
         .padding(.horizontal)
     }
     
+    // MARK: Search NavBar
     var searchNavBar: some View {
         HStack {
             
@@ -224,6 +240,7 @@ struct HomePageView: View {
         }
     }
     
+    // MARK: Content View
     var contentView: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
@@ -254,7 +271,7 @@ struct HomePageView: View {
                 )
                 
                 if self.showLeftSideMenu {
-                    LeftSideMenuView(longitude: longitude, latitude: latitude)
+                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects)
                         .frame(width: geometry.size.width / 1.5)
                         .transition(.move(edge: .leading))
                 }
@@ -289,6 +306,7 @@ struct HomePageView: View {
         }
     }
     
+    // MARK: Obejct Details Preview
     var objectDetailsPreview: some View {
         VStack {
             
@@ -385,6 +403,13 @@ extension HomePageView {
         private var cancellable: AnyCancellable?
         @Published var allObjects = [ObjectDetails]()
         @Published var filteredObjects: [ObjectDetails] = []
+        @Published var state: ViewState = .initial
+        
+        enum ViewState {
+            case initial
+            case loading
+            case finished
+        }
         
         func fetchAllObjects() {
             cancellable = CompositionRoot.shared.objectsProvider.fetchAllObjects()
@@ -392,6 +417,7 @@ extension HomePageView {
                     print(completion)
                 } receiveValue: { allObjects in
                     self.allObjects = allObjects.message
+                    self.state = .finished
                 }
         }
         
