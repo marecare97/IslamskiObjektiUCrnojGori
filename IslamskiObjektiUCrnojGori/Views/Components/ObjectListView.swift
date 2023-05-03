@@ -9,16 +9,23 @@ import SwiftUI
 import CoreLocation
 
 struct ObjectListView: View {
-    @State var allObjects: [ObjectDetails]
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var locationService = CompositionRoot.shared.locationService
+    @State var allObjects: [ObjectDetails]
     
     var body: some View {
-        List {
-            ForEach(sortedObjectsByDistance()) { object in
-                ObjectItem(details: object)
-                    .padding()
+        Group {
+            ZStack(alignment: .top) {
+                List {
+                    ForEach(sortedObjectsByDistance()) { object in
+                        ObjectItem(details: object)
+                            .padding()
+                    }
+                }
+                customNavBar
             }
         }
+        .navigationBarBackButtonHidden()
         .onAppear {
             locationService.startUpdatingLocation()
             locationService.publisher
@@ -27,11 +34,50 @@ struct ObjectListView: View {
                 }
                 .store(in: &locationService.cancellables)
         }
+        .onDisappear {
+            locationService.stopUpdatingLocation()
+        }
+    }
+    
+    var customNavBar: some View {
+        HStack {
+            ZStack {
+                Img.toolbar.swiftUIImage
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                defaultNavBar
+            }
+        }
+        .background(Color.clear)
+        .frame(maxHeight: 50)
+    }
+    
+    var defaultNavBar: some View {
+        HStack {
+            Button(action: {
+                withAnimation {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }, label: {
+                Img.back.swiftUIImage
+                    .resizable()
+                    .frame(width: 20, height: 20)
+            })
+            
+            Text(TK.HomePageView.objects)
+                .foregroundColor(.white)
+                .padding(.leading)
+            
+            Spacer()
+        }
+        .padding(.bottom)
+        .padding(.horizontal)
     }
     
     func sortedObjectsByDistance() -> [ObjectDetails] {
-        guard let currentLocation = CompositionRoot.shared.locationService.lastKnownLocation else { return allObjects }
-        print("user location", currentLocation)
+        guard let currentLocation = locationService.lastKnownLocation else { return allObjects }
         let currentCLLocation = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
         
         let sortedObjects = allObjects.sorted { (object1, object2) -> Bool in
