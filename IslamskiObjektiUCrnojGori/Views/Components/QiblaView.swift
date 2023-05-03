@@ -27,7 +27,7 @@ struct QiblaView: View {
                     .onAppear {
                         locationService.startUpdatingLocation()
                         locationService.publisher
-                            .sink {location in
+                            .sink { location in
                                 // Calculate direction of Qibla from user's location
                                 let kaabaLocation = CLLocation(latitude: 21.4225, longitude: 39.8262) // Coordinates of Kaaba
                                 let qiblaDirection = location.coordinate.direction(to: kaabaLocation.coordinate)

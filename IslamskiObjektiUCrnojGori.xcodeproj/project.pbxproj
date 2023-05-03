@@ -371,8 +371,8 @@
 				F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */,
 				65DC376A29C65F37003DD32A /* SplashScreen.swift */,
 				F6B60F9C29CF59050036EB60 /* ObjectDetailsPreview.swift */,
-				F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */,
 				F6225B8929F42A8C0071B42B /* CalendarView.swift */,
+				F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */,
 				F68A93E429F86877007F700F /* ObjectItem.swift */,
 			);
 			path = Components;
