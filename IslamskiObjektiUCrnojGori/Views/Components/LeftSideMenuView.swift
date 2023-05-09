@@ -11,10 +11,6 @@ import SFSafeSymbols
 
 struct LeftSideMenuView: View {
     typealias S = TK.LeftSideMenu
-    @State var isObjectListViewPresented = false
-    @State var isQiblaViewPresented = false
-    @State var isNotificationsViewPresented = false
-    @State var isAboutProjectViewPresented = false
     
     @State private var navigationDestination: NavigationDestination? = nil
     
@@ -25,6 +21,7 @@ struct LeftSideMenuView: View {
     
     enum NavigationDestination {
         case objectsView
+        case nearestMosqueView
         case notificationsView
         case calendarView
         case quiblaView
@@ -49,7 +46,9 @@ struct LeftSideMenuView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     Text(S.sectionTitle)
                     
-                    MenuRow(image: Img.icon4.swiftUIImage, text: S.closestObject)
+                    MenuRow(image: Img.icon4.swiftUIImage, text: S.closestObject) {
+                        navigationDestination = .nearestMosqueView
+                    }
                     
                     MenuRow(image: Img.icon2.swiftUIImage, text: S.vaktija)
                     
@@ -108,6 +107,14 @@ struct LeftSideMenuView: View {
                 selection: $navigationDestination,
                 label: { }
             )
+            
+            NavigationLink(
+                destination: NearestMosqueView(allObjects: allObjects),
+                tag: NavigationDestination.nearestMosqueView,
+                selection: $navigationDestination,
+                label: { }
+            )
+            
             NavigationLink(
                 destination: NotificationsView(),
                 tag: NavigationDestination.notificationsView,

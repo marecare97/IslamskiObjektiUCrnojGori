@@ -17,12 +17,17 @@ struct ObjectListView: View {
         Group {
             ZStack(alignment: .top) {
                 List {
-                    ForEach(sortedObjectsByDistance()) { object in
-                        ObjectItem(details: object)
-                            .padding()
+                    ForEach(allObjects) { object in
+                        NavigationLink {
+                            ObjectDetailsView(details: object)
+                        } label: {
+                            ObjectItem(details: object)
+                                .padding()
+                        }
+                        
                     }
                 }
-                customNavBar
+                CustomNavBar(navBarTitle: TK.HomePageView.objects)
             }
         }
         .navigationBarBackButtonHidden()
@@ -37,43 +42,6 @@ struct ObjectListView: View {
         .onDisappear {
             locationService.stopUpdatingLocation()
         }
-    }
-    
-    var customNavBar: some View {
-        HStack {
-            ZStack {
-                Img.toolbar.swiftUIImage
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                defaultNavBar
-            }
-        }
-        .background(Color.clear)
-        .frame(maxHeight: 50)
-    }
-    
-    var defaultNavBar: some View {
-        HStack {
-            Button(action: {
-                withAnimation {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            }, label: {
-                Img.back.swiftUIImage
-                    .resizable()
-                    .frame(width: 20, height: 20)
-            })
-            
-            Text(TK.HomePageView.objects)
-                .foregroundColor(.white)
-                .padding(.leading)
-            
-            Spacer()
-        }
-        .padding(.bottom)
-        .padding(.horizontal)
     }
     
     func sortedObjectsByDistance() -> [ObjectDetails] {

@@ -15,7 +15,7 @@ struct QiblaView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            customNavBar
+            CustomNavBar(navBarTitle: TK.Kibla.title)
             VStack {
                 Spacer()
                 
@@ -42,43 +42,6 @@ struct QiblaView: View {
             }
         }
         .navigationBarBackButtonHidden()
-    }
-    
-    var customNavBar: some View {
-        HStack {
-            ZStack {
-                Img.toolbar.swiftUIImage
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                defaultNavBar
-            }
-        }
-        .background(Color.clear)
-        .frame(maxHeight: 50)
-    }
-    
-    var defaultNavBar: some View {
-        HStack {
-            Button(action: {
-                withAnimation {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            }, label: {
-                Img.back.swiftUIImage
-                    .resizable()
-                    .frame(width: 20, height: 20)
-            })
-            
-            Text(TK.Kibla.title)
-                .foregroundColor(.white)
-                .padding(.leading)
-            
-            Spacer()
-        }
-        .padding(.bottom)
-        .padding(.horizontal)
     }
 }
 

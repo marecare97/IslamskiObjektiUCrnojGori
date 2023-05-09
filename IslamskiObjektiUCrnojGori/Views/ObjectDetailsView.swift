@@ -16,7 +16,7 @@ struct ObjectDetailsView: View {
     var body: some View {
         ZStack(alignment: .top) {
             contentView
-            customNavBar
+            CustomNavBar(navBarTitle: details.name)
         }
         .navigationBarBackButtonHidden()
     }
@@ -94,43 +94,6 @@ struct ObjectDetailsView: View {
             .padding()
         }
         .background(.black)
-    }
-    
-    var customNavBar: some View {
-        HStack {
-            ZStack {
-                Img.toolbar.swiftUIImage
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                defaultNavBar
-            }
-        }
-        .background(Color.clear)
-        .frame(maxHeight: 50)
-    }
-    
-    var defaultNavBar: some View {
-        HStack {
-            Button(action: {
-                withAnimation {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            }, label: {
-                Img.back.swiftUIImage
-                    .resizable()
-                    .frame(width: 20, height: 20)
-            })
-            
-            Text(details.name)
-                .foregroundColor(.white)
-                .padding(.leading)
-            
-            Spacer()
-        }
-        .padding(.bottom)
-        .padding(.horizontal)
     }
     
     var basicInformationView: some View {
