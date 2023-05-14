@@ -13,18 +13,24 @@ struct ObjectListView: View {
     @StateObject var locationService = CompositionRoot.shared.locationService
     @State var allObjects: [ObjectDetails]
     
+    @State var isObjectDetailsViewPresented = false
+    
     var body: some View {
+        // MARK: in progress
         Group {
             ZStack(alignment: .top) {
                 List {
-                    ForEach(allObjects) { object in
-                        NavigationLink {
+                    ForEach(sortedObjectsByDistance()) { object in
+                        NavigationLink(isActive: $isObjectDetailsViewPresented, destination: {
                             ObjectDetailsView(details: object)
-                        } label: {
+                        }, label: {
                             ObjectItem(details: object)
                                 .padding()
-                        }
-                        
+                                .onTapGesture {
+                                    print("tap tap")
+                                    isObjectDetailsViewPresented = true
+                                }
+                        })
                     }
                 }
                 CustomNavBar(navBarTitle: TK.HomePageView.objects)

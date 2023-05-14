@@ -12,7 +12,7 @@ import CoreLocation
 struct ObjectItem: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     let details: ObjectDetails?
-//    @State var distanceBetweenObjectAndUser = ""
+    @State var distanceBetweenObjectAndUser = ""
     
     var body: some View {
         HStack {
@@ -23,8 +23,7 @@ struct ObjectItem: View {
                             .resizable()
                             .frame(width: 20, height: 32)
                         
-//                        Text(objDetails.town.name + " " + "(\(String(describing: distanceBetweenObjectAndUser)) km)")
-                        Text(objDetails.town.name)
+                        Text(objDetails.town.name + " " + "(\(String(describing: distanceBetweenObjectAndUser)) km)")
                             .font(RFT.bold.swiftUIFont(size: 13))
                             .lineLimit(1)
                             .foregroundColor(.gray)
@@ -52,6 +51,9 @@ struct ObjectItem: View {
                 Text("No object details available")
             }
         }
+        .onAppear {
+            getDistance()
+        }
     }
     
     func getObjectIcon(objName: String) -> Image {
@@ -65,22 +67,22 @@ struct ObjectItem: View {
         return iconMap[objName] ?? Img.mosque.swiftUIImage
     }
     
-    // FIXME:
-//    func getDistance() {
-//        let locationManager = CLLocationManager()
-//        guard let currentLocation = locationManager.location else { return }
-//        guard let objectLat = details?.latitude else { return }
-//        guard let objectLong = details?.longitude else { return }
-//
-//        let currentCoordinate = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
-//        let targetCoordinate = CLLocationCoordinate2D(latitude: objectLat, longitude: objectLong)
-//
-//        let distanceInMeters = CLLocation.distance(from: currentCoordinate, to: targetCoordinate)
-//        let distanceInKilometers = distanceInMeters/1000
-//        let formattedKilometers = String(format: "%.3f", distanceInKilometers)
-//        print("DISTANCE =====> \(formattedKilometers)")
-//        distanceBetweenObjectAndUser = formattedKilometers
-//    }
+    //     FIXME:
+    func getDistance() {
+        let locationManager = CLLocationManager()
+        guard let currentLocation = locationManager.location else { return }
+        guard let objectLat = details?.latitude else { return }
+        guard let objectLong = details?.longitude else { return }
+        
+        let currentCoordinate = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+        let targetCoordinate = CLLocationCoordinate2D(latitude: objectLat, longitude: objectLong)
+        
+        let distanceInMeters = CLLocation.distance(from: currentCoordinate, to: targetCoordinate)
+        let distanceInKilometers = distanceInMeters/1000
+        let formattedKilometers = String(format: "%.3f", distanceInKilometers)
+        print("DISTANCE =====> \(formattedKilometers)")
+        distanceBetweenObjectAndUser = formattedKilometers
+    }
 }
 
 struct ObjectItem_Previews: PreviewProvider {

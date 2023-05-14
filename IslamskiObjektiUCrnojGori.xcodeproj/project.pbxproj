@@ -355,11 +355,11 @@
 				F6E1057829B3810C00A55004 /* Components */,
 				F660473A29B36D710053D136 /* HomePageView.swift */,
 				F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */,
-				65D38CB829B7BE9900072C9C /* AboutView.swift */,
+				F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */,
 				65D38CBC29B7C9D900072C9C /* NotificationsView.swift */,
+				65D38CB829B7BE9900072C9C /* AboutView.swift */,
 				65D38CBE29B7CDAB00072C9C /* ReportProblemView.swift */,
 				65D38CC429B7E21200072C9C /* ObjectDetailsView.swift */,
-				F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
