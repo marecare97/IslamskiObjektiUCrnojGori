@@ -181,9 +181,10 @@ struct HomePageView: View {
                     self.showLeftSideMenu.toggle()
                 }
             }, label: {
-                Image(systemSymbol: .line3Horizontal)
+                Image(systemSymbol: showLeftSideMenu ? .arrowBackward : .line3Horizontal)
                     .foregroundColor(.white)
                     .imageScale(.large)
+                    .rotationEffect(Angle.degrees(showLeftSideMenu ? 360 : 0))
             })
             
             Text((Str.objects + " (\(viewModel.allObjects.count))"))
@@ -204,7 +205,7 @@ struct HomePageView: View {
         .padding(.bottom)
         .padding(.horizontal)
     }
-    
+
     // MARK: Search NavBar
     var searchNavBar: some View {
         HStack {

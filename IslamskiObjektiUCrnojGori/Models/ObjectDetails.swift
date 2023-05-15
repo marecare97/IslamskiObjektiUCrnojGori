@@ -13,7 +13,14 @@ struct ObjectDetailsResponse: Decodable {
     let message: ObjectDetails
 }
 
-struct ObjectDetails: Codable, Identifiable {
+struct ObjectDetails: Codable, Identifiable, Hashable {
+    static func == (lhs: ObjectDetails, rhs: ObjectDetails) -> Bool {
+        return lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     let id, ind: Int
     let name, about: String
     let town, majlis: Location

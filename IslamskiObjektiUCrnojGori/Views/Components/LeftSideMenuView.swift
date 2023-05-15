@@ -102,7 +102,7 @@ struct LeftSideMenuView: View {
     var navigationLinks: some View {
         VStack {
             NavigationLink(
-                destination: ObjectListView(allObjects: allObjects),
+                destination: ObjectListView(),
                 tag: NavigationDestination.objectsView,
                 selection: $navigationDestination,
                 label: { }

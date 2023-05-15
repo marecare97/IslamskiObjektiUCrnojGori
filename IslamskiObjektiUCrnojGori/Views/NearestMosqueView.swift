@@ -17,9 +17,12 @@ struct NearestMosqueView: View {
     @State var allObjects: [ObjectDetails]
     
     var body: some View {
-        ZStack(alignment: .top) {
+        VStack {
+            CustomNavBar(navBarTitle: TK.LeftSideMenu.closestObject)
             VStack {
                 objectTypeFilterView
+                    .padding(.vertical)
+                    .background(Color.gray)
                 List {
                     ForEach(allObjects) { object in
                         NavigationLink {
@@ -32,25 +35,29 @@ struct NearestMosqueView: View {
                     }
                 }
             }
-            CustomNavBar(navBarTitle: TK.LeftSideMenu.closestObject)
         }
         .navigationBarBackButtonHidden()
     }
     
     var objectTypeFilterView: some View {
-        HStack(alignment: .center) {
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 10) {
+        HStack {
+            LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
+                
                 ForEach(mosqueTypes, id: \.self) { mosque in
-                    HStack {
+                    HStack(alignment: .center, spacing: 20) {
+                        
+                        Spacer()
+                        
                         Image(systemSymbol: .square)
                             .foregroundColor(.green)
+                        
                         Text(mosque)
+                        
+                        Spacer()
                     }
                 }
             }
         }
-        .padding(.top)
-        .padding(.horizontal)
     }
 }
 
