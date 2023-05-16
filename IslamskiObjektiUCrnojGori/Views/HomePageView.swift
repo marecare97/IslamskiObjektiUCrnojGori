@@ -50,11 +50,10 @@ struct HomePageView: View {
             locationService.startUpdatingLocation()
             locationService.publisher
                 .sink { location in
-                    viewModel.sortedObjectsByDistance(userLocation: location.coordinate)
+                    viewModel.fetchAndSortObjects(userLocation: location.coordinate)
                     print("USER LOCATION ==> \(location.coordinate)")
                 }
                 .store(in: &locationService.cancellables)
-            viewModel.fetchAllObjects()
         }
     }
     
@@ -424,14 +423,26 @@ extension HomePageView {
             case finished
         }
         
-        func fetchAllObjects() {
-            cancellable = CompositionRoot.shared.objectsProvider.fetchAllObjects()
-                .sink { completion in
-                    print(completion)
-                } receiveValue: { allObjects in
-                    self.allObjects = allObjects.message
-                    self.state = .finished
-                }
+        func fetchAndSortObjects(userLocation: CLLocationCoordinate2D?) {
+            if let currentLocation = userLocation {
+                let currentCLLocation = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+                
+                cancellable = CompositionRoot.shared.objectsProvider.fetchAllObjects()
+                    .sink { completion in
+                        print(completion)
+                    } receiveValue: { allObjects in
+                        self.allObjects = allObjects.message
+                        let sorted = self.allObjects.sorted { (object1, object2) -> Bool in
+                            let location1 = CLLocation(latitude: object1.latitude, longitude: object1.longitude)
+                            let location2 = CLLocation(latitude: object2.latitude, longitude: object2.longitude)
+                            let distance1 = currentCLLocation.distance(from: location1)
+                            let distance2 = currentCLLocation.distance(from: location2)
+                            return distance1 < distance2
+                        }
+                        self.sortedObjects = sorted
+                        self.state = .finished
+                    }
+            }
         }
         
         func filterObjects(with searchTerm: String) {
@@ -441,21 +452,6 @@ extension HomePageView {
                 filteredObjects = allObjects.filter { object in
                     object.name.lowercased().contains(searchTerm.lowercased())
                 }
-            }
-        }
-        
-        func sortedObjectsByDistance(userLocation: CLLocationCoordinate2D?) {
-            if let currentLocation = userLocation {
-                let currentCLLocation = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
-                
-                let sorted = allObjects.sorted { (object1, object2) -> Bool in
-                    let location1 = CLLocation(latitude: object1.latitude, longitude: object1.longitude)
-                    let location2 = CLLocation(latitude: object2.latitude, longitude: object2.longitude)
-                    let distance1 = currentCLLocation.distance(from: location1)
-                    let distance2 = currentCLLocation.distance(from: location2)
-                    return distance1 < distance2
-                }
-                sortedObjects = sorted
             }
         }
     }

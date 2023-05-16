@@ -39,21 +39,20 @@ struct NearestMosqueView: View {
         .navigationBarBackButtonHidden()
     }
     
+
+    
     var objectTypeFilterView: some View {
         HStack {
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
-                
+            LazyVGrid(columns: columns, alignment: .center, spacing: 12) {
                 ForEach(mosqueTypes, id: \.self) { mosque in
                     HStack(alignment: .center, spacing: 20) {
-                        
-                        Spacer()
-                        
-                        Image(systemSymbol: .square)
-                            .foregroundColor(.green)
-                        
-                        Text(mosque)
-                        
-                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image(systemSymbol: .square)
+                                .foregroundColor(.green)
+                            Text(mosque)
+                            Spacer()
+                        }
                     }
                 }
             }
