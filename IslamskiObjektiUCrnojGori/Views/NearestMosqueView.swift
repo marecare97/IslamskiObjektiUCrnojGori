@@ -14,7 +14,7 @@ struct NearestMosqueView: View {
     
     let mosqueTypes = ["Sabah", "Jacija", "Podne", "Dzuma", "Ikindija", "Teravija", "Akšam", "Bajram"]
     
-    @State var allObjects: [ObjectDetails]
+    var sortedObjects: [ObjectDetails]
     
     var body: some View {
         VStack {
@@ -24,7 +24,7 @@ struct NearestMosqueView: View {
                     .padding(.vertical)
                     .background(Color.gray)
                 List {
-                    ForEach(allObjects) { object in
+                    ForEach(sortedObjects) { object in
                         NavigationLink {
                             ObjectDetailsView(details: object)
                         } label: {
@@ -63,6 +63,6 @@ struct NearestMosqueView: View {
 
 struct NearestMosqueView_Previews: PreviewProvider {
     static var previews: some View {
-        NearestMosqueView(allObjects: [])
+        NearestMosqueView(sortedObjects: [])
     }
 }

@@ -18,6 +18,7 @@ struct LeftSideMenuView: View {
     @State var latitude: Double?
     
     @Binding var allObjects: [ObjectDetails]
+    @Binding var sortedObjects: [ObjectDetails]
     
     enum NavigationDestination {
         case objectsView
@@ -102,14 +103,14 @@ struct LeftSideMenuView: View {
     var navigationLinks: some View {
         VStack {
             NavigationLink(
-                destination: ObjectListView(),
+                destination: ObjectListView(sortedObjects: sortedObjects),
                 tag: NavigationDestination.objectsView,
                 selection: $navigationDestination,
                 label: { }
             )
             
             NavigationLink(
-                destination: NearestMosqueView(allObjects: allObjects),
+                destination: NearestMosqueView(sortedObjects: sortedObjects),
                 tag: NavigationDestination.nearestMosqueView,
                 selection: $navigationDestination,
                 label: { }

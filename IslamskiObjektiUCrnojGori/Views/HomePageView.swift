@@ -27,6 +27,7 @@ struct HomePageView: View {
     @State var isChangeMapStyleButtonTapped = false
     
     @StateObject var viewModel = ViewModel()
+    
     @StateObject var locationService = CompositionRoot.shared.locationService
     
     @Binding var latitude: Double?
@@ -45,7 +46,16 @@ struct HomePageView: View {
         }
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
-        .onAppear(perform: viewModel.fetchAllObjects)
+        .onAppear {
+            locationService.startUpdatingLocation()
+            locationService.publisher
+                .sink { location in
+                    viewModel.sortedObjectsByDistance(userLocation: location.coordinate)
+                    print("USER LOCATION ==> \(location.coordinate)")
+                }
+                .store(in: &locationService.cancellables)
+            viewModel.fetchAllObjects()
+        }
     }
     
     var groupedView: some View {
@@ -205,7 +215,7 @@ struct HomePageView: View {
         .padding(.bottom)
         .padding(.horizontal)
     }
-
+    
     // MARK: Search NavBar
     var searchNavBar: some View {
         HStack {
@@ -272,7 +282,7 @@ struct HomePageView: View {
                 )
                 
                 if self.showLeftSideMenu {
-                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects)
+                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects)
                         .frame(width: geometry.size.width / 1.5)
                         .transition(.move(edge: .leading))
                 }
@@ -402,8 +412,10 @@ struct ContentView_Previews: PreviewProvider {
 extension HomePageView {
     final class ViewModel: ObservableObject {
         private var cancellable: AnyCancellable?
+        
         @Published var allObjects = [ObjectDetails]()
         @Published var filteredObjects: [ObjectDetails] = []
+        @Published var sortedObjects: [ObjectDetails] = []
         @Published var state: ViewState = .initial
         
         enum ViewState {
@@ -429,6 +441,21 @@ extension HomePageView {
                 filteredObjects = allObjects.filter { object in
                     object.name.lowercased().contains(searchTerm.lowercased())
                 }
+            }
+        }
+        
+        func sortedObjectsByDistance(userLocation: CLLocationCoordinate2D?) {
+            if let currentLocation = userLocation {
+                let currentCLLocation = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+                
+                let sorted = allObjects.sorted { (object1, object2) -> Bool in
+                    let location1 = CLLocation(latitude: object1.latitude, longitude: object1.longitude)
+                    let location2 = CLLocation(latitude: object2.latitude, longitude: object2.longitude)
+                    let distance1 = currentCLLocation.distance(from: location1)
+                    let distance2 = currentCLLocation.distance(from: location2)
+                    return distance1 < distance2
+                }
+                sortedObjects = sorted
             }
         }
     }
