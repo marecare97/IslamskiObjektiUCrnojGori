@@ -18,6 +18,7 @@ struct IslamskiObjektiUCrnojGoriApp: App {
             NavigationView {
                 LocationPermissionView()
             }
+            .navigationViewStyle(.stack)
         }
     }
 }

@@ -13,8 +13,14 @@ struct ObjectListView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var sortedObjects: [ObjectDetails]
+    
     @State var isObjectDetailsViewPresented = false
     @State var selectedObjectDetails: ObjectDetails?
+    @State private var navigationDestination: NavigationDestination? = nil
+    
+    enum NavigationDestination {
+        case objectDetailsView
+    }
     
     init(sortedObjects: [ObjectDetails], selectedObjectDetails: ObjectDetails? = nil) {
         self.sortedObjects = sortedObjects
@@ -23,6 +29,7 @@ struct ObjectListView: View {
     
     var body: some View {
         Group {
+            navigationLinks
             contentView
         }
         .navigationBarBackButtonHidden()
@@ -30,14 +37,6 @@ struct ObjectListView: View {
     
     var contentView: some View {
         VStack {
-            if let objDetails = selectedObjectDetails {
-                NavigationLink(
-                    destination: ObjectDetailsView(details: objDetails),
-                    isActive: $isObjectDetailsViewPresented,
-                    label: {}
-                )
-                .isHidden(true)
-            }
             CustomNavBar(navBarTitle: TK.HomePageView.objects)
             ScrollView {
                 ForEach(sortedObjects, id: \.id) { object in
@@ -47,7 +46,7 @@ struct ObjectListView: View {
                             .onTapGesture {
                                 selectedObjectDetails = object
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-                                    isObjectDetailsViewPresented = true
+                                    navigationDestination = .objectDetailsView
                                 }
                             }
                         Divider()
@@ -56,6 +55,22 @@ struct ObjectListView: View {
                 }
             }
         }
+    }
+    
+    // MARK: -- Navigation
+    var navigationLinks: some View {
+        VStack {
+            if let objDetails = selectedObjectDetails {
+                NavigationLink(
+                    destination: ObjectDetailsView(details: objDetails),
+                    tag: NavigationDestination.objectDetailsView,
+                    selection: $navigationDestination,
+                    label: { }
+                )
+            }
+        }
+        .hidden()
+        .frame(width: 0, height: 0)
     }
 }
 
