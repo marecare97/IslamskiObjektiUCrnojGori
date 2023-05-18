@@ -12,9 +12,10 @@ struct NearestMosqueView: View {
     
     private let columns = [GridItem(.adaptive(minimum: UIScreen.main.bounds.width / 3))]
     
-    let mosqueTypes = ["Sabah", "Jacija", "Podne", "Dzuma", "Ikindija", "Teravija", "Akšam", "Bajram"]
+    let sortedObjects: [ObjectDetails]
     
-    var sortedObjects: [ObjectDetails]
+    let mosqueTypes = Mosque.mosqueTypes
+    @State var selectedMosqueTypes = [MosqueTypes]()
     
     var body: some View {
         VStack {
@@ -37,31 +38,40 @@ struct NearestMosqueView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .onChange(of: selectedMosqueTypes) { _ in
+            //
+        }
     }
-    
-
     
     var objectTypeFilterView: some View {
         HStack {
             LazyVGrid(columns: columns, alignment: .center, spacing: 12) {
                 ForEach(mosqueTypes, id: \.self) { mosque in
                     HStack(alignment: .center, spacing: 20) {
-                        HStack {
-                            Spacer()
+                        if selectedMosqueTypes.contains(mosque) {
+                            Image(systemSymbol: .checkmarkSquareFill)
+                                .foregroundColor(.green)
+                                .onTapGesture {
+                                    selectedMosqueTypes = selectedMosqueTypes.filter { $0 != mosque }
+                                }
+                            
+                        } else {
                             Image(systemSymbol: .square)
                                 .foregroundColor(.green)
-                            Text(mosque)
-                            Spacer()
+                                .onTapGesture {
+                                    selectedMosqueTypes.append(mosque)
+                                }
                         }
+                        Text(mosque.name)
                     }
                 }
             }
         }
     }
-}
-
-struct NearestMosqueView_Previews: PreviewProvider {
-    static var previews: some View {
-        NearestMosqueView(sortedObjects: [])
+    
+    struct NearestMosqueView_Previews: PreviewProvider {
+        static var previews: some View {
+            NearestMosqueView(sortedObjects: [])
+        }
     }
 }

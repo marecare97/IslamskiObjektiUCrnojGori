@@ -431,6 +431,7 @@ extension HomePageView {
                     .sink { completion in
                         print(completion)
                     } receiveValue: { allObjects in
+                        print("svi objekti", allObjects)
                         self.allObjects = allObjects.message
                         let sorted = self.allObjects.sorted { (object1, object2) -> Bool in
                             let location1 = CLLocation(latitude: object1.latitude, longitude: object1.longitude)

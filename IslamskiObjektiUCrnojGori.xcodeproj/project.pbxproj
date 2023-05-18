@@ -61,6 +61,7 @@
 		F6B60F9D29CF59050036EB60 /* ObjectDetailsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B60F9C29CF59050036EB60 /* ObjectDetailsPreview.swift */; };
 		F6B60F9F29CF7D630036EB60 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B60F9E29CF7D630036EB60 /* RoundedCorner.swift */; };
 		F6B60FA129CF7D850036EB60 /* View+CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B60FA029CF7D850036EB60 /* View+CornerRadius.swift */; };
+		F6C0E54F2A14062700BA5AC1 /* MosqueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0E54E2A14062700BA5AC1 /* MosqueTypes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 		F6B60F9C29CF59050036EB60 /* ObjectDetailsPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetailsPreview.swift; sourceTree = "<group>"; };
 		F6B60F9E29CF7D630036EB60 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		F6B60FA029CF7D850036EB60 /* View+CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+CornerRadius.swift"; sourceTree = "<group>"; };
+		F6C0E54E2A14062700BA5AC1 /* MosqueTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosqueTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				65A43F9F29B7AC5700D34E8B /* ObjectDetails.swift */,
 				65A43FA129B7AD6600D34E8B /* AllObjects.swift */,
 				F6225B8B29F43AC60071B42B /* PrayerTime.swift */,
+				F6C0E54E2A14062700BA5AC1 /* MosqueTypes.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				65D38CC529B7E21200072C9C /* ObjectDetailsView.swift in Sources */,
 				65D38CBF29B7CDAB00072C9C /* ReportProblemView.swift in Sources */,
 				65A43F9029B7A92800D34E8B /* APIRequest.swift in Sources */,
+				F6C0E54F2A14062700BA5AC1 /* MosqueTypes.swift in Sources */,
 				65DC376F29C66828003DD32A /* QiblaView.swift in Sources */,
 				65A43F9229B7A93300D34E8B /* NetworkService.swift in Sources */,
 				F631C20229B6771D00C4619B /* UsefulLinksSideMenuView.swift in Sources */,
@@ -751,7 +755,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = marko.IslamskiObjektiUCrnojGori;
+				PRODUCT_BUNDLE_IDENTIFIER = markos.IslamskiObjektiUCrnojGori;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -792,7 +796,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = marko.IslamskiObjektiUCrnojGori;
+				PRODUCT_BUNDLE_IDENTIFIER = markos.IslamskiObjektiUCrnojGori;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
