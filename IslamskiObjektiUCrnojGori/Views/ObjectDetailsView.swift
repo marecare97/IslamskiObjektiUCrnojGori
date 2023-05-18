@@ -23,75 +23,77 @@ struct ObjectDetailsView: View {
     
     var contentView: some View {
         ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading) {
-                PagingView(urls: details.images) { str in
+            LazyVStack(alignment: .leading) {
+                PagingView(urls: details.images, objectLat: details.latitude, objectLong: details.longitude, objectId: details.id) { str in
                     RemoteImage(url: str)
                 }
-                .frame(height: 200)
+                .frame(height: 250)
                 .frame(maxWidth: .infinity)
                 
-                Text(details.name)
-                    .font(PFT.semiBold.swiftUIFont(size: 30))
-                    .lineLimit(2)
-                    .padding(.bottom)
-                    .foregroundColor(.white)
-                
-                ExpandableText(text: details.about)
-                    .font(RFT.bold.swiftUIFont(size: 15))
-                    .lineLimit(5)
-                    .foregroundColor(.gray)
-                    .expandButton(TextSet(text: "Prikaži još ↓", font: .body, color: .green))
-                    .collapseButton(TextSet(text: "Prikaži manje ↑", font: .body, color: .green))
-                    .expandAnimation(.easeOut)
-                
-                Text(S.basicInfo)
-                    .font(RFT.bold.swiftUIFont(size: 20))
-                    .foregroundColor(.white)
-                    .textCase(.uppercase)
-                    .padding(.vertical)
-                
-                basicInformationView
-                
-                if let alternativeNames = details.alternativeNames {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(S.otherNames + ":")
-                            .font(RFT.bold.swiftUIFont(size: 15))
-                            .foregroundColor(.gray)
-                        
-                        Text(alternativeNames)
-                            .font(RFT.medium.swiftUIFont(size: 15))
-                            .foregroundColor(.white)
+                LazyVStack {
+                    Text(details.name)
+                        .font(PFT.semiBold.swiftUIFont(size: 30))
+                        .lineLimit(2)
+                        .padding(.bottom)
+                        .foregroundColor(.white)
+                    
+                    ExpandableText(text: details.about)
+                        .font(RFT.bold.swiftUIFont(size: 15))
+                        .lineLimit(5)
+                        .foregroundColor(.gray)
+                        .expandButton(TextSet(text: "Prikaži još ↓", font: .body, color: .green))
+                        .collapseButton(TextSet(text: "Prikaži manje ↑", font: .body, color: .green))
+                        .expandAnimation(.easeOut)
+                    
+                    Text(S.basicInfo)
+                        .font(RFT.bold.swiftUIFont(size: 20))
+                        .foregroundColor(.white)
+                        .textCase(.uppercase)
+                        .padding(.vertical)
+                    
+                    basicInformationView
+                    
+                    if let alternativeNames = details.alternativeNames {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(S.otherNames + ":")
+                                .font(RFT.bold.swiftUIFont(size: 15))
+                                .foregroundColor(.gray)
+                            
+                            Text(alternativeNames)
+                                .font(RFT.medium.swiftUIFont(size: 15))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.vertical)
                     }
-                    .padding(.vertical)
+                    
+                    Text(S.geoInfo)
+                        .font(RFT.bold.swiftUIFont(size: 20))
+                        .foregroundColor(.white)
+                        .textCase(.uppercase)
+                        .padding(.vertical)
+                    
+                    geoInformationView
+                    
+                    //                MapBoxMapView(
+                    //                    allObjects: .constant([]),
+                    //                    filteredObjects: .constant([]),
+                    //                    selectedObject: details,
+                    //                    isChangeMapStyleButtonTapped: .constant(false),
+                    //                    didTapOnObject: { _ in }
+                    //                )
+                    
+                    Text(S.dimensions)
+                        .font(RFT.bold.swiftUIFont(size: 20))
+                        .foregroundColor(.white)
+                        .textCase(.uppercase)
+                        .padding(.vertical)
+                    
+                    Text(details.baseDimensions ?? "")
+                        .font(RFT.bold.swiftUIFont(size: 15))
+                        .foregroundColor(.white)
                 }
-                
-                Text(S.geoInfo)
-                    .font(RFT.bold.swiftUIFont(size: 20))
-                    .foregroundColor(.white)
-                    .textCase(.uppercase)
-                    .padding(.vertical)
-                
-                geoInformationView
-                
-//                MapBoxMapView(
-//                    allObjects: .constant([]),
-//                    filteredObjects: .constant([]),
-//                    selectedObject: details,
-//                    isChangeMapStyleButtonTapped: .constant(false),
-//                    didTapOnObject: { _ in }
-//                )
-                
-                Text(S.dimensions)
-                    .font(RFT.bold.swiftUIFont(size: 20))
-                    .foregroundColor(.white)
-                    .textCase(.uppercase)
-                    .padding(.vertical)
-                
-                Text(details.baseDimensions ?? "")
-                    .font(RFT.bold.swiftUIFont(size: 15))
-                    .foregroundColor(.white)
+                .padding()
             }
-            .padding()
         }
         .background(.black)
     }

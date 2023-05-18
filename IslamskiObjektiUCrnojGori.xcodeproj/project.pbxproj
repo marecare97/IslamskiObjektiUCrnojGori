@@ -39,6 +39,7 @@
 		65DC376D29C66412003DD32A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65DC376C29C66412003DD32A /* Colors.xcassets */; };
 		65DC376F29C66828003DD32A /* QiblaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC376E29C66828003DD32A /* QiblaView.swift */; };
 		F6149B3329E7FC6C007D6B1F /* ObjectListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */; };
+		F61F8D5D2A168EFD00A6FDB3 /* FullScreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */; };
 		F6225B8A29F42A8C0071B42B /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6225B8929F42A8C0071B42B /* CalendarView.swift */; };
 		F6225B8C29F43AC60071B42B /* PrayerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6225B8B29F43AC60071B42B /* PrayerTime.swift */; };
 		F631C20229B6771D00C4619B /* UsefulLinksSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */; };
@@ -112,6 +113,7 @@
 		65DC376C29C66412003DD32A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		65DC376E29C66828003DD32A /* QiblaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiblaView.swift; sourceTree = "<group>"; };
 		F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectListView.swift; sourceTree = "<group>"; };
+		F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageView.swift; sourceTree = "<group>"; };
 		F6225B8929F42A8C0071B42B /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		F6225B8B29F43AC60071B42B /* PrayerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTime.swift; sourceTree = "<group>"; };
 		F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefulLinksSideMenuView.swift; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 				F6225B8929F42A8C0071B42B /* CalendarView.swift */,
 				F68A93E429F86877007F700F /* ObjectItem.swift */,
 				F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */,
+				F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				F6225B8C29F43AC60071B42B /* PrayerTime.swift in Sources */,
 				65D38CC529B7E21200072C9C /* ObjectDetailsView.swift in Sources */,
 				65D38CBF29B7CDAB00072C9C /* ReportProblemView.swift in Sources */,
+				F61F8D5D2A168EFD00A6FDB3 /* FullScreenImageView.swift in Sources */,
 				65A43F9029B7A92800D34E8B /* APIRequest.swift in Sources */,
 				F6C0E54F2A14062700BA5AC1 /* MosqueTypes.swift in Sources */,
 				65DC376F29C66828003DD32A /* QiblaView.swift in Sources */,
