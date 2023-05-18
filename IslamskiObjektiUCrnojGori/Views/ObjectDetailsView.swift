@@ -13,8 +13,15 @@ struct ObjectDetailsView: View {
     typealias S = TK.ObjectDetails
     let details: ObjectDetails
     
+    @State private var navigationDestination: NavigationDestination? = nil
+    
+    enum NavigationDestination {
+        case reportAProblemView
+    }
+    
     var body: some View {
         ZStack(alignment: .top) {
+            navigationLinks
             contentView
             CustomNavBar(navBarTitle: details.name)
         }
@@ -91,6 +98,20 @@ struct ObjectDetailsView: View {
                     Text(details.baseDimensions ?? "")
                         .font(RFT.bold.swiftUIFont(size: 15))
                         .foregroundColor(.white)
+                    
+                    Button {
+                        navigationDestination = .reportAProblemView
+                    } label: {
+                        ZStack {
+                            Color.green
+                            Text(S.reportAProblem)
+                        }
+                        .cornerRadius(20, corners: .allCorners)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 40)
+                        .padding(.horizontal)
+                    }
                 }
                 .padding()
             }
@@ -153,5 +174,19 @@ struct ObjectDetailsView: View {
             .font(RFT.bold.swiftUIFont(size: 15))
             .foregroundColor(.white)
         }
+    }
+    
+    // MARK: -- Navigation
+    var navigationLinks: some View {
+        VStack {
+            NavigationLink(
+                destination: ReportProblemView(object: details),
+                tag: NavigationDestination.reportAProblemView,
+                selection: $navigationDestination,
+                label: { }
+            )
+        }
+        .hidden()
+        .frame(width: 0, height: 0)
     }
 }

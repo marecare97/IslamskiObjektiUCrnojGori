@@ -86,6 +86,8 @@ internal enum TK {
     internal static let otherNames = TK.tr("sr", "objectDetails.otherNames", fallback: "Drugi nazivi")
     /// Obnovljena
     internal static let renewed = TK.tr("sr", "objectDetails.renewed", fallback: "Obnovljena")
+    /// PRIJAVITE POGRESAN PODATAK
+    internal static let reportAProblem = TK.tr("sr", "objectDetails.reportAProblem", fallback: "PRIJAVITE POGRESAN PODATAK")
   }
   internal enum ObjectDetailsPreview {
     /// Detaljnije
@@ -96,6 +98,8 @@ internal enum TK {
     internal static let comment = TK.tr("sr", "reportProblem.comment", fallback: "Vaš komentar")
     /// Pošalji
     internal static let send = TK.tr("sr", "reportProblem.send", fallback: "Pošalji")
+    /// Prijavite problem
+    internal static let title = TK.tr("sr", "reportProblem.title", fallback: "Prijavite problem")
     /// Vaša e-mail adresa
     internal static let yourEmail = TK.tr("sr", "reportProblem.yourEmail", fallback: "Vaša e-mail adresa")
   }

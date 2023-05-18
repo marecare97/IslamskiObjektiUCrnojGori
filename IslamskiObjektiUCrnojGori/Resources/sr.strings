@@ -16,6 +16,7 @@
 "leftSideMenu.usefulLinks" = "Korisni linkovi";
 "leftSideMenu.sectionTitle" = "Moj namaz";
 
+"reportProblem.title" = "Prijavite problem";
 "reportProblem.yourEmail" = "Vaša e-mail adresa";
 "reportProblem.comment" = "Vaš komentar";
 "reportProblem.send" = "Pošalji";
@@ -29,6 +30,7 @@
 "objectDetails.built" = "Godina izgradnje:";
 "objectDetails.renewed" = "Obnovljena";
 "objectDetails.otherNames" = "Drugi nazivi";
+"objectDetails.reportAProblem" = "PRIJAVITE POGRESAN PODATAK";
 
 "objectDetails.latitude" = "G. širina:";
 "objectDetails.longitude" = "G. dužina:";

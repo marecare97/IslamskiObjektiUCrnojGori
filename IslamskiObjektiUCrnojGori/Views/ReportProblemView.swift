@@ -16,6 +16,14 @@ struct ReportProblemView: View {
     let object: ObjectDetails
     
     var body: some View {
+        VStack{
+            CustomNavBar(navBarTitle: S.title)
+            contentView
+        }
+        .navigationBarBackButtonHidden()
+    }
+    
+    var contentView: some View {
         VStack {
             VStack(alignment: .leading, spacing: 20) {
                 Text(UUID().uuidString)
@@ -51,7 +59,6 @@ struct ReportProblemView: View {
             
             Spacer()
         }
-
     }
 }
 
