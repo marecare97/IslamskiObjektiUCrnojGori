@@ -40,7 +40,6 @@
 		65DC376F29C66828003DD32A /* QiblaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC376E29C66828003DD32A /* QiblaView.swift */; };
 		F6149B3329E7FC6C007D6B1F /* ObjectListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */; };
 		F61F8D5D2A168EFD00A6FDB3 /* FullScreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */; };
-		F6225B8A29F42A8C0071B42B /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6225B8929F42A8C0071B42B /* CalendarView.swift */; };
 		F6225B8C29F43AC60071B42B /* PrayerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6225B8B29F43AC60071B42B /* PrayerTime.swift */; };
 		F631C20229B6771D00C4619B /* UsefulLinksSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */; };
 		F660473929B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660473829B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift */; };
@@ -51,6 +50,12 @@
 		F660475629B36D720053D136 /* IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660475529B36D720053D136 /* IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift */; };
 		F660476529B371920053D136 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F660476429B371920053D136 /* MapboxMaps */; };
 		F660476729B371B20053D136 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F660476629B371B20053D136 /* MapView.swift */; };
+		F67E920A2A19125B0091D3E0 /* MapBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67E92092A19125B0091D3E0 /* MapBoxDetailView.swift */; };
+		F67E920C2A1917760091D3E0 /* VaktijaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67E920B2A1917760091D3E0 /* VaktijaView.swift */; };
+		F67E920E2A1917AF0091D3E0 /* PrayerTimesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67E920D2A1917AF0091D3E0 /* PrayerTimesProvider.swift */; };
+		F67E92102A19186B0091D3E0 /* CountdownTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67E920F2A19186B0091D3E0 /* CountdownTimerView.swift */; };
+		F67E92122A191C3F0091D3E0 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67E92112A191C3F0091D3E0 /* CalendarView.swift */; };
+		F67E92142A191C520091D3E0 /* vaktija.json in Resources */ = {isa = PBXBuildFile; fileRef = F67E92132A191C520091D3E0 /* vaktija.json */; };
 		F6865ECF29C0D6CF00BFAEA7 /* LocationPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */; };
 		F6865ED229C0DBBB00BFAEA7 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6865ED129C0DBBB00BFAEA7 /* LocationService.swift */; };
 		F68A93E529F86877007F700F /* ObjectItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68A93E429F86877007F700F /* ObjectItem.swift */; };
@@ -114,7 +119,6 @@
 		65DC376E29C66828003DD32A /* QiblaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiblaView.swift; sourceTree = "<group>"; };
 		F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectListView.swift; sourceTree = "<group>"; };
 		F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageView.swift; sourceTree = "<group>"; };
-		F6225B8929F42A8C0071B42B /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		F6225B8B29F43AC60071B42B /* PrayerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTime.swift; sourceTree = "<group>"; };
 		F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefulLinksSideMenuView.swift; sourceTree = "<group>"; };
 		F660473529B36D710053D136 /* IslamskiObjektiUCrnojGori.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IslamskiObjektiUCrnojGori.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +132,12 @@
 		F660475529B36D720053D136 /* IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslamskiObjektiUCrnojGoriUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F660476229B36F400053D136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F660476629B371B20053D136 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		F67E92092A19125B0091D3E0 /* MapBoxDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapBoxDetailView.swift; sourceTree = "<group>"; };
+		F67E920B2A1917760091D3E0 /* VaktijaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaktijaView.swift; sourceTree = "<group>"; };
+		F67E920D2A1917AF0091D3E0 /* PrayerTimesProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrayerTimesProvider.swift; sourceTree = "<group>"; };
+		F67E920F2A19186B0091D3E0 /* CountdownTimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownTimerView.swift; sourceTree = "<group>"; };
+		F67E92112A191C3F0091D3E0 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		F67E92132A191C520091D3E0 /* vaktija.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = vaktija.json; sourceTree = "<group>"; };
 		F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionView.swift; sourceTree = "<group>"; };
 		F6865ED129C0DBBB00BFAEA7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F6865ED429C0E32E00BFAEA7 /* roboto_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = roboto_bold.ttf; sourceTree = "<group>"; };
@@ -221,6 +231,7 @@
 				65A43FA629B7AF3800D34E8B /* AboutProvider.swift */,
 				65A43FA929B7AFE400D34E8B /* NotificationsProvider.swift */,
 				65A43FAB29B7B01C00D34E8B /* ObjectsProvider.swift */,
+				F67E920D2A1917AF0091D3E0 /* PrayerTimesProvider.swift */,
 				65D38CC029B7CFFC00072C9C /* ReportProblemProvider.swift */,
 			);
 			path = Providers;
@@ -259,6 +270,7 @@
 		F660472C29B36D710053D136 = {
 			isa = PBXGroup;
 			children = (
+				F67E92132A191C520091D3E0 /* vaktija.json */,
 				65A43FB529B7B86800D34E8B /* swiftgen.yml */,
 				F660473729B36D710053D136 /* IslamskiObjektiUCrnojGori */,
 				F660474829B36D720053D136 /* IslamskiObjektiUCrnojGoriTests */,
@@ -359,6 +371,7 @@
 				F6AB691829BD04C100DFFA97 /* Helpers */,
 				F6E1057829B3810C00A55004 /* Components */,
 				F660473A29B36D710053D136 /* HomePageView.swift */,
+				F67E92112A191C3F0091D3E0 /* CalendarView.swift */,
 				F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */,
 				F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */,
 				65D38CBC29B7C9D900072C9C /* NotificationsView.swift */,
@@ -372,6 +385,7 @@
 		F6E1057829B3810C00A55004 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				F67E92092A19125B0091D3E0 /* MapBoxDetailView.swift */,
 				F660476629B371B20053D136 /* MapView.swift */,
 				65A43FB029B7B70E00D34E8B /* LeftSideMenuView.swift */,
 				65121BB429C77F71009010EA /* RightSideMenu.swift */,
@@ -382,8 +396,9 @@
 				F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */,
 				65DC376A29C65F37003DD32A /* SplashScreen.swift */,
 				F6B60F9C29CF59050036EB60 /* ObjectDetailsPreview.swift */,
-				F6225B8929F42A8C0071B42B /* CalendarView.swift */,
 				F68A93E429F86877007F700F /* ObjectItem.swift */,
+				F67E920B2A1917760091D3E0 /* VaktijaView.swift */,
+				F67E920F2A19186B0091D3E0 /* CountdownTimerView.swift */,
 				F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */,
 				F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */,
 			);
@@ -511,6 +526,7 @@
 				65DC376D29C66412003DD32A /* Colors.xcassets in Resources */,
 				65A43FB629B7B86800D34E8B /* swiftgen.yml in Resources */,
 				65A43FB329B7B74500D34E8B /* sr.strings in Resources */,
+				F67E92142A191C520091D3E0 /* vaktija.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,9 +551,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F67E920C2A1917760091D3E0 /* VaktijaView.swift in Sources */,
 				65A43F9E29B7ABFF00D34E8B /* Notifications.swift in Sources */,
 				F6B60F9D29CF59050036EB60 /* ObjectDetailsPreview.swift in Sources */,
 				65D38CB929B7BE9900072C9C /* AboutView.swift in Sources */,
+				F67E920E2A1917AF0091D3E0 /* PrayerTimesProvider.swift in Sources */,
 				F660473B29B36D710053D136 /* HomePageView.swift in Sources */,
 				F6865ECF29C0D6CF00BFAEA7 /* LocationPermissionView.swift in Sources */,
 				65D38CB429B7BA7700072C9C /* Strings.swift in Sources */,
@@ -549,6 +567,7 @@
 				65A43FAC29B7B01C00D34E8B /* ObjectsProvider.swift in Sources */,
 				F660473929B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift in Sources */,
 				F68A93E529F86877007F700F /* ObjectItem.swift in Sources */,
+				F67E92102A19186B0091D3E0 /* CountdownTimerView.swift in Sources */,
 				F6B60F9F29CF7D630036EB60 /* RoundedCorner.swift in Sources */,
 				F6225B8C29F43AC60071B42B /* PrayerTime.swift in Sources */,
 				65D38CC529B7E21200072C9C /* ObjectDetailsView.swift in Sources */,
@@ -572,9 +591,10 @@
 				F6865ED229C0DBBB00BFAEA7 /* LocationService.swift in Sources */,
 				65D38CC729B7E39F00072C9C /* PagingView.swift in Sources */,
 				65A43FB129B7B70E00D34E8B /* LeftSideMenuView.swift in Sources */,
-				F6225B8A29F42A8C0071B42B /* CalendarView.swift in Sources */,
+				F67E920A2A19125B0091D3E0 /* MapBoxDetailView.swift in Sources */,
 				65A43FA729B7AF3800D34E8B /* AboutProvider.swift in Sources */,
 				65A43F9A29B7AB8200D34E8B /* Links.swift in Sources */,
+				F67E92122A191C3F0091D3E0 /* CalendarView.swift in Sources */,
 				65D38CBB29B7C4B300072C9C /* WebView.swift in Sources */,
 				F6B60FA129CF7D850036EB60 /* View+CornerRadius.swift in Sources */,
 				F6AB691A29BD04D500DFFA97 /* View+DynamicHide.swift in Sources */,

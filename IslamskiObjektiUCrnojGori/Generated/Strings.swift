@@ -113,6 +113,10 @@ internal enum TK {
     /// GODINA IZGRADNJE
     internal static let yearBuilt = TK.tr("sr", "rightSideMenu.yearBuilt", fallback: "GODINA IZGRADNJE")
   }
+  internal enum Vaktija {
+    /// Vaktija
+    internal static let title = TK.tr("sr", "vaktija.title", fallback: "Vaktija")
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

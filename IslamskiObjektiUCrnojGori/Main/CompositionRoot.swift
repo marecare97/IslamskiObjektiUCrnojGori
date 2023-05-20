@@ -19,4 +19,5 @@ final class CompositionRoot {
     lazy var notificationsProvider = NotificationsProvider(webService: webService)
     lazy var objectsProvider = ObjectsProvider(webService: webService)
     lazy var reportProblemProvider = ReportProblemProvider(webService: webService)
+    lazy var prayerTimesProvider = PrayersProvider()
 }

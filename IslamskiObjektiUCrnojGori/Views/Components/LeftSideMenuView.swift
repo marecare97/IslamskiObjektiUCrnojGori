@@ -25,6 +25,7 @@ struct LeftSideMenuView: View {
         case nearestMosqueView
         case notificationsView
         case calendarView
+        case vaktijaView
         case quiblaView
         case aboutView
     }
@@ -51,7 +52,9 @@ struct LeftSideMenuView: View {
                         navigationDestination = .nearestMosqueView
                     }
                     
-                    MenuRow(image: Img.icon2.swiftUIImage, text: S.vaktija)
+                    MenuRow(image: Img.icon2.swiftUIImage, text: S.vaktija) {
+                        navigationDestination = .vaktijaView
+                    }
                     
                     MenuRow(image: Img.icon1.swiftUIImage, text: S.kibla) {
                         navigationDestination = .quiblaView
@@ -138,8 +141,15 @@ struct LeftSideMenuView: View {
             )
             
             NavigationLink(
-                destination: CalendarView(latitude: latitude, longitude: longitude),
+                destination: CalendarView(),
                 tag: NavigationDestination.calendarView,
+                selection: $navigationDestination,
+                label: { }
+            )
+            
+            NavigationLink(
+                destination: VaktijaView(),
+                tag: NavigationDestination.vaktijaView,
                 selection: $navigationDestination,
                 label: { }
             )

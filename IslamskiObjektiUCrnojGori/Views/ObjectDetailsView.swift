@@ -60,17 +60,20 @@ struct ObjectDetailsView: View {
                     
                     basicInformationView
                     
-                    if let alternativeNames = details.alternativeNames {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(S.otherNames + ":")
-                                .font(RFT.bold.swiftUIFont(size: 15))
-                                .foregroundColor(.gray)
-                            
-                            Text(alternativeNames)
-                                .font(RFT.medium.swiftUIFont(size: 15))
-                                .foregroundColor(.white)
+                    HStack {
+                        if let alternativeNames = details.alternativeNames {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(S.otherNames + ":")
+                                    .font(RFT.bold.swiftUIFont(size: 15))
+                                    .foregroundColor(.gray)
+                                
+                                Text(alternativeNames)
+                                    .font(RFT.medium.swiftUIFont(size: 15))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.vertical)
                         }
-                        .padding(.vertical)
+                        Spacer()
                     }
                     
                     Text(S.geoInfo)

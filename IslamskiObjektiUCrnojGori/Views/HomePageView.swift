@@ -25,6 +25,8 @@ struct HomePageView: View {
     @State private var isSearchNavBarHidden = true
     @State var searchTerm: String = ""
     @State var isChangeMapStyleButtonTapped = false
+    @State var nextPrayerDate: Date? = nil
+    @State var isWidgetPresented: Bool = UserDefaults.standard.bool(forKey: "islamskiObjekti.isWidgetPresented")
     
     @StateObject var viewModel = ViewModel()
     
@@ -42,6 +44,10 @@ struct HomePageView: View {
                 ProgressView()
             case .finished:
                 groupedView
+                    .onAppear {
+                        isWidgetPresented = UserDefaults.standard.bool(forKey: "islamskiObjekti.isWidgetPresented")
+                        nextPrayerDate =  CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime() ?? CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime(forToday: false)
+                    }
             }
         }
         .navigationBarHidden(true)
@@ -133,7 +139,7 @@ struct HomePageView: View {
                 }
                 
                 // MARK: Bottom center namaz view
-                if !showLeftSideMenu && !showRightSideMenu {
+                if !showLeftSideMenu && !showRightSideMenu && isWidgetPresented {
                     VStack {
                         Spacer()
                         HStack {
@@ -144,10 +150,14 @@ struct HomePageView: View {
                                     .resizable()
                                     .frame(width: 250, height: 80)
                                 
-                                Text(Str.nextNamaz)
-                                    .font(RFT.medium.swiftUIFont(size: 15))
-                                    .foregroundColor(.gray)
-                                    .padding(.bottom)
+                                VStack {
+                                    Text(Str.nextNamaz)
+                                        .font(RFT.medium.swiftUIFont(size: 15))
+                                        .foregroundColor(.gray)
+                                    if let nextPrayerDate {
+                                        CountdownTimerView(futureDate: nextPrayerDate)
+                                    }
+                                }
                             }
                             
                             Spacer()

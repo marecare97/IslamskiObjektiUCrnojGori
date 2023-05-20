@@ -19,6 +19,13 @@ struct IslamskiObjektiUCrnojGoriApp: App {
                 LocationPermissionView()
             }
             .navigationViewStyle(.stack)
+            .onAppear {
+                let hasWidgetCheckBeenPerformed =  UserDefaults.standard.bool(forKey: "islamskiObjekti.isFirstTimeCheckingWidget")
+                if !hasWidgetCheckBeenPerformed {
+                    UserDefaults.standard.set(true, forKey: "islamskiObjekti.isFirstTimeCheckingWidget")
+                    UserDefaults.standard.set(true, forKey: "islamskiObjekti.isWidgetPresented")
+                }
+            }
         }
     }
 }
