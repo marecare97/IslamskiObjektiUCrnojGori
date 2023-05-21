@@ -14,6 +14,7 @@ struct ObjectDetailsView: View {
     let details: ObjectDetails
     
     @State private var navigationDestination: NavigationDestination? = nil
+    @State var isChangeMapStyleButtonTapped = false
     
     enum NavigationDestination {
         case reportAProblemView
@@ -37,123 +38,140 @@ struct ObjectDetailsView: View {
                 .frame(height: 250)
                 .frame(maxWidth: .infinity)
                 
-                LazyVStack {
-                    Text(details.name)
-                        .font(PFT.semiBold.swiftUIFont(size: 30))
-                        .lineLimit(2)
-                        .padding(.bottom)
-                        .foregroundColor(.white)
-                    
-                    ExpandableText(text: details.about)
-                        .font(RFT.bold.swiftUIFont(size: 15))
-                        .lineLimit(5)
-                        .foregroundColor(.gray)
-                        .expandButton(TextSet(text: "Prikaži još ↓", font: .body, color: .green))
-                        .collapseButton(TextSet(text: "Prikaži manje ↑", font: .body, color: .green))
-                        .expandAnimation(.easeOut)
-                    
-                    Text(S.basicInfo)
-                        .font(RFT.bold.swiftUIFont(size: 20))
-                        .foregroundColor(.white)
-                        .textCase(.uppercase)
-                        .padding(.vertical)
-                    
-                    basicInformationView
-                    
-                    HStack {
-                        if let alternativeNames = details.alternativeNames {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text(S.otherNames + ":")
-                                    .font(RFT.bold.swiftUIFont(size: 15))
-                                    .foregroundColor(.gray)
-                                
-                                Text(alternativeNames)
-                                    .font(RFT.medium.swiftUIFont(size: 15))
-                                    .foregroundColor(.white)
-                            }
-                            .padding(.vertical)
-                        }
-                        Spacer()
+                allObjectInfoView
+                    .padding()
+                
+                // MARK: Prijavi problem dugme
+                Button {
+                    navigationDestination = .reportAProblemView
+                } label: {
+                    ZStack {
+                        Color.green
+                        Text(S.reportAProblem)
                     }
-                    
-                    Text(S.geoInfo)
-                        .font(RFT.bold.swiftUIFont(size: 20))
-                        .foregroundColor(.white)
-                        .textCase(.uppercase)
-                        .padding(.vertical)
-                    
-                    geoInformationView
-                    
-                    //                MapBoxMapView(
-                    //                    allObjects: .constant([]),
-                    //                    filteredObjects: .constant([]),
-                    //                    selectedObject: details,
-                    //                    isChangeMapStyleButtonTapped: .constant(false),
-                    //                    didTapOnObject: { _ in }
-                    //                )
-                    
+                    .cornerRadius(20, corners: .allCorners)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 40)
+                    .padding(.horizontal)
+                }
+            }
+        }
+        .background(.black)
+    }
+    
+    // MARK: Views combined
+    var allObjectInfoView: some View {
+        LazyVStack {
+            HStack {
+                Text(details.name)
+                    .font(PFT.semiBold.swiftUIFont(size: 30))
+                    .lineLimit(2)
+                    .padding(.bottom)
+                    .foregroundColor(.white)
+                
+                Spacer()
+            }
+            
+            ExpandableText(text: details.about)
+                .font(RFT.bold.swiftUIFont(size: 15))
+                .lineLimit(5)
+                .foregroundColor(.gray)
+                .expandButton(TextSet(text: "Prikaži još ↓", font: .body, color: .green))
+                .collapseButton(TextSet(text: "Prikaži manje ↑", font: .body, color: .green))
+                .expandAnimation(.easeOut)
+            
+            // MARK: Osnovni podaci
+            HStack {
+                Text(S.basicInfo)
+                    .font(RFT.bold.swiftUIFont(size: 20))
+                    .foregroundColor(.white)
+                    .textCase(.uppercase)
+                    .padding(.vertical)
+                
+                Spacer()
+            }
+            
+            basicInformationView
+            
+            // MARK: Drugi nazivi
+            HStack {
+                if let alternativeNames = details.alternativeNames {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(S.otherNames + ":")
+                            .font(RFT.bold.swiftUIFont(size: 15))
+                            .foregroundColor(.gray)
+                        
+                        Text(alternativeNames)
+                            .font(RFT.medium.swiftUIFont(size: 15))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.vertical)
+                }
+                Spacer()
+            }
+            
+            // MARK: Geografski podaci
+            HStack {
+                Text(S.geoInfo)
+                    .font(RFT.bold.swiftUIFont(size: 20))
+                    .foregroundColor(.white)
+                    .textCase(.uppercase)
+                    .padding(.vertical)
+                
+                Spacer()
+            }
+            
+            geoInformationView
+            
+            mapBoxView
+                .padding(.vertical)
+            
+            // MARK: Dimenzije
+            if details.baseDimensions != nil {
+                HStack {
                     Text(S.dimensions)
                         .font(RFT.bold.swiftUIFont(size: 20))
                         .foregroundColor(.white)
                         .textCase(.uppercase)
                         .padding(.vertical)
                     
-                    Text(details.baseDimensions ?? "")
-                        .font(RFT.bold.swiftUIFont(size: 15))
-                        .foregroundColor(.white)
-                    
-                    Button {
-                        navigationDestination = .reportAProblemView
-                    } label: {
-                        ZStack {
-                            Color.green
-                            Text(S.reportAProblem)
-                        }
-                        .cornerRadius(20, corners: .allCorners)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 40)
-                        .padding(.horizontal)
-                    }
+                    Spacer()
                 }
-                .padding()
+                
+                dimensionsView
+            }
+            
+            // MARK: Vjerska aktivnost
+            if details.sabah != nil {
+                HStack {
+                    Text(S.religiousActivity)
+                        .font(RFT.bold.swiftUIFont(size: 20))
+                        .foregroundColor(.white)
+                        .textCase(.uppercase)
+                        .padding(.vertical)
+                    
+                    Spacer()
+                }
+                
+                religiousActivityView
             }
         }
-        .background(.black)
     }
     
+    
+    // MARK: Views sliced
     var basicInformationView: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 10) {
-                Text(S.city)
-                Text(S.medzlis)
-                Text(S.objectType)
-                Text(S.built)
-                Text(S.renewed)
+        VStack(alignment: .leading, spacing: 10) {
+            ObjectDimensionsRowView(title: S.city, value: details.town.name)
+            ObjectDimensionsRowView(title: S.medzlis, value: details.majlis.name)
+            ObjectDimensionsRowView(title: S.objectType, value: details.objType.name)
+            ObjectDimensionsRowView(title: S.built, value: details.yearBuilt)
+            if let yearRenewed = details.yearRebuilt {
+                ObjectDimensionsRowView(title: S.renewed, value: yearRenewed)
+            } else {
+                ObjectDimensionsRowView(title: S.renewed, value: "N/A")
             }
-            .font(RFT.medium.swiftUIFont(size: 15))
-            .foregroundColor(.gray)
-            
-            Spacer()
-            
-            VStack(alignment: .trailing, spacing: 10) {
-                Text(details.town.name)
-                Text(details.majlis.name)
-                Text(details.objType.name)
-                if let yearBuilt = details.yearBuilt {
-                    Text("\(yearBuilt)")
-                } else {
-                    Text(details.yearBuiltText ?? "")
-                }
-                if let yearRenewed = details.yearRebuilt {
-                    Text("\(yearRenewed)")
-                } else {
-                    Text("N/A")
-                }
-            }
-            .font(RFT.bold.swiftUIFont(size: 15))
-            .foregroundColor(.white)
-            
         }
     }
     
@@ -176,6 +194,71 @@ struct ObjectDetailsView: View {
             }
             .font(RFT.bold.swiftUIFont(size: 15))
             .foregroundColor(.white)
+        }
+    }
+    
+    var dimensionsView: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if let baseDimenstions = details.baseDimensions,
+               let minaretHeight = details.minaretHeight,
+               let closedPrayingSpace = details.closedPrayingSpace,
+               let maxWorshipersCapacity = details.maxWorshipersCapacity {
+                ObjectDimensionsRowView(title: S.basis, value: "\(baseDimenstions) [m]")
+                ObjectDimensionsRowView(title: S.minaretHeight, value: "\(minaretHeight) m")
+                ObjectDimensionsRowView(title: S.closedPrayingSpace, value: "\(closedPrayingSpace) m2")
+                ObjectDimensionsRowView(title: S.maxCapacity, value: "\(maxWorshipersCapacity)")
+            }
+        }
+    }
+    
+    var mapBoxView: some View {
+        ZStack {
+            MapBoxDetailView(objectDetails: details, isChangeMapStyleButtonTapped: $isChangeMapStyleButtonTapped)
+                .frame(height: 200)
+                .frame(maxWidth: .infinity)
+                .cornerRadius(5, corners: .allCorners)
+            VStack {
+                HStack {
+                    
+                    Spacer()
+                    
+                    Button {
+                        isChangeMapStyleButtonTapped.toggle()
+                    } label: {
+                        Img.iconGallery.swiftUIImage
+                            .resizable()
+                            .renderingMode(.template)
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.green)
+                    }
+                }
+                
+                Spacer()
+            }
+        }
+    }
+    
+    var religiousActivityView: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 10) {
+                ReligiousActivityRowView(title: "Sabah:", value: details.sabah)
+                ReligiousActivityRowView(title: "Podne:", value: details.podne)
+                ReligiousActivityRowView(title: "Ikindija:", value: details.ikindija)
+                ReligiousActivityRowView(title: "Akšam:", value: details.aksam)
+                ReligiousActivityRowView(title: "Jacija:", value: details.jacija)
+            }
+            
+            Spacer()
+            
+            VStack(alignment: .leading, spacing: 10) {
+                ReligiousActivityRowView(title: "Džuma:", value: details.dzuma)
+                ReligiousActivityRowView(title: "Teravija:", value: details.teravija)
+                ReligiousActivityRowView(title: "Bajram:", value: details.bayram)
+                    .padding(.bottom, 30)
+                ReligiousActivityRowView(title: "Stalni imam:", value: details.permanentImam)
+            }
+            
+            Spacer()
         }
     }
     

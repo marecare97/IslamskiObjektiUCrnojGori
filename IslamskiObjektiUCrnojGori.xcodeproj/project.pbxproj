@@ -67,6 +67,8 @@
 		F6B60F9D29CF59050036EB60 /* ObjectDetailsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B60F9C29CF59050036EB60 /* ObjectDetailsPreview.swift */; };
 		F6B60F9F29CF7D630036EB60 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B60F9E29CF7D630036EB60 /* RoundedCorner.swift */; };
 		F6B60FA129CF7D850036EB60 /* View+CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B60FA029CF7D850036EB60 /* View+CornerRadius.swift */; };
+		F6BB7AE42A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BB7AE32A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift */; };
+		F6BB7AE62A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BB7AE52A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift */; };
 		F6C0E54F2A14062700BA5AC1 /* MosqueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0E54E2A14062700BA5AC1 /* MosqueTypes.swift */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +153,8 @@
 		F6B60F9C29CF59050036EB60 /* ObjectDetailsPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetailsPreview.swift; sourceTree = "<group>"; };
 		F6B60F9E29CF7D630036EB60 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		F6B60FA029CF7D850036EB60 /* View+CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+CornerRadius.swift"; sourceTree = "<group>"; };
+		F6BB7AE32A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligiousActivityRowView.swift; sourceTree = "<group>"; };
+		F6BB7AE52A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDimensionsRowView.swift; sourceTree = "<group>"; };
 		F6C0E54E2A14062700BA5AC1 /* MosqueTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosqueTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -365,6 +369,19 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		F6BB7AE22A1A4BE900AEB9C1 /* ObjectDetails */ = {
+			isa = PBXGroup;
+			children = (
+				F6B60F9C29CF59050036EB60 /* ObjectDetailsPreview.swift */,
+				F67E92092A19125B0091D3E0 /* MapBoxDetailView.swift */,
+				65D38CC629B7E39F00072C9C /* PagingView.swift */,
+				F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */,
+				F6BB7AE32A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift */,
+				F6BB7AE52A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift */,
+			);
+			path = ObjectDetails;
+			sourceTree = "<group>";
+		};
 		F6E1057729B380EE00A55004 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,22 +402,19 @@
 		F6E1057829B3810C00A55004 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				F67E92092A19125B0091D3E0 /* MapBoxDetailView.swift */,
+				F6BB7AE22A1A4BE900AEB9C1 /* ObjectDetails */,
 				F660476629B371B20053D136 /* MapView.swift */,
 				65A43FB029B7B70E00D34E8B /* LeftSideMenuView.swift */,
 				65121BB429C77F71009010EA /* RightSideMenu.swift */,
 				65DC376E29C66828003DD32A /* QiblaView.swift */,
 				F631C20129B6771D00C4619B /* UsefulLinksSideMenuView.swift */,
 				65D38CBA29B7C4B300072C9C /* WebView.swift */,
-				65D38CC629B7E39F00072C9C /* PagingView.swift */,
 				F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */,
 				65DC376A29C65F37003DD32A /* SplashScreen.swift */,
-				F6B60F9C29CF59050036EB60 /* ObjectDetailsPreview.swift */,
 				F68A93E429F86877007F700F /* ObjectItem.swift */,
 				F67E920B2A1917760091D3E0 /* VaktijaView.swift */,
 				F67E920F2A19186B0091D3E0 /* CountdownTimerView.swift */,
 				F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */,
-				F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -563,6 +577,7 @@
 				F6B4EC0E2A0AD7F0004F9A9E /* NearestMosqueView.swift in Sources */,
 				65A43FAA29B7AFE400D34E8B /* NotificationsProvider.swift in Sources */,
 				65A43F9429B7A93D00D34E8B /* NetworSession.swift in Sources */,
+				F6BB7AE42A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift in Sources */,
 				F660476729B371B20053D136 /* MapView.swift in Sources */,
 				65A43FAC29B7B01C00D34E8B /* ObjectsProvider.swift in Sources */,
 				F660473929B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift in Sources */,
@@ -574,6 +589,7 @@
 				65D38CBF29B7CDAB00072C9C /* ReportProblemView.swift in Sources */,
 				F61F8D5D2A168EFD00A6FDB3 /* FullScreenImageView.swift in Sources */,
 				65A43F9029B7A92800D34E8B /* APIRequest.swift in Sources */,
+				F6BB7AE62A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift in Sources */,
 				F6C0E54F2A14062700BA5AC1 /* MosqueTypes.swift in Sources */,
 				65DC376F29C66828003DD32A /* QiblaView.swift in Sources */,
 				65A43F9229B7A93300D34E8B /* NetworkService.swift in Sources */,

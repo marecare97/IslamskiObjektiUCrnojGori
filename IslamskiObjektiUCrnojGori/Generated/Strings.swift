@@ -70,6 +70,8 @@ internal enum TK {
     internal static let built = TK.tr("sr", "objectDetails.built", fallback: "Godina izgradnje:")
     /// Grad:
     internal static let city = TK.tr("sr", "objectDetails.city", fallback: "Grad:")
+    /// Zatvoreni molitveni prostor:
+    internal static let closedPrayingSpace = TK.tr("sr", "objectDetails.closedPrayingSpace", fallback: "Zatvoreni molitveni prostor:")
     /// Dimenzije
     internal static let dimensions = TK.tr("sr", "objectDetails.dimensions", fallback: "Dimenzije")
     /// Geografski podaci
@@ -78,12 +80,18 @@ internal enum TK {
     internal static let latitude = TK.tr("sr", "objectDetails.latitude", fallback: "G. širina:")
     /// G. dužina:
     internal static let longitude = TK.tr("sr", "objectDetails.longitude", fallback: "G. dužina:")
+    /// Maksimalan kapacitet klanjača:
+    internal static let maxCapacity = TK.tr("sr", "objectDetails.maxCapacity", fallback: "Maksimalan kapacitet klanjača:")
     /// Medžlis:
     internal static let medzlis = TK.tr("sr", "objectDetails.medzlis", fallback: "Medžlis:")
+    /// Visina minareta (cca):
+    internal static let minaretHeight = TK.tr("sr", "objectDetails.minaretHeight", fallback: "Visina minareta (cca):")
     /// Tip objekta:
     internal static let objectType = TK.tr("sr", "objectDetails.objectType", fallback: "Tip objekta:")
     /// Drugi nazivi
     internal static let otherNames = TK.tr("sr", "objectDetails.otherNames", fallback: "Drugi nazivi")
+    /// VJERSKA AKTIVNOST
+    internal static let religiousActivity = TK.tr("sr", "objectDetails.religiousActivity", fallback: "VJERSKA AKTIVNOST")
     /// Obnovljena
     internal static let renewed = TK.tr("sr", "objectDetails.renewed", fallback: "Obnovljena")
     /// PRIJAVITE POGRESAN PODATAK
