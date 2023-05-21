@@ -12,6 +12,7 @@ struct VaktijaView: View {
     @State var prayerTimes: [Date] = CompositionRoot.shared.prayerTimesProvider.getPrayerTimesForCity(.podgorica)
     @State var date = Date()
     @State var isAllCitiesBottomSheetPresented = false
+    @State private var selectedDropdownIndex: Int?
     
     let prayers = [
         "Sabah",
@@ -91,16 +92,19 @@ struct VaktijaView: View {
                 isAllCitiesBottomSheetPresented = true
             }
             
-            
             datePicker
+            
+            Spacer()
+            
             HStack {
                 Text("Prikaži vidžet na mapi")
+                    .lineLimit(1)
+                    .fixedSize(horizontal: false, vertical: true)
                 
                 Spacer()
                 
                 Toggle("", isOn: $isWidgetPresented)
             }
-            .padding(.horizontal)
             
             VStack {
                 ForEach(prayerTimes, id: \.self) {
@@ -109,14 +113,33 @@ struct VaktijaView: View {
                     let index = prayerTimes.firstIndex(of: $0)
                     VStack {
                         HStack(alignment: .top) {
-                            if let index, let prayer = prayers[index] {
-                                HStack {
-                                    Text(prayer)
-                                        .font(.system(size: 20, weight: .bold))
-                                    Image(systemSymbol: .chevronDown)
-                                        .resizable()
-                                        .frame(width: 12, height: 10)
-                                        .font(.system(size: 10, weight: .semibold))
+                            VStack {
+                                if let index, let prayer = prayers[index] {
+                                    VStack {
+                                        HStack {
+                                            Text(prayer)
+                                                .font(.system(size: 20, weight: .bold))
+                                            Image(systemSymbol: selectedDropdownIndex == index ? .chevronUp : .chevronDown)
+                                                .resizable()
+                                                .frame(width: 12, height: 10)
+                                                .font(.system(size: 10, weight: .semibold))
+                                        }
+                                        if selectedDropdownIndex == index {
+                                            Button {
+                                                //
+                                            } label: {
+                                                ZStack {
+                                                    Color.green
+                                                    Text("Podsjeti me")
+                                                }
+                                                .cornerRadius(20, corners: .allCorners)
+                                                .foregroundColor(.white)
+                                                .frame(width: 120, height: 40)
+                                                .padding(.horizontal)
+                                                .transition(.opacity)
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             
@@ -132,15 +155,21 @@ struct VaktijaView: View {
                                 
                             }
                         }
+                        .onTapGesture {
+                            withAnimation {
+                                if selectedDropdownIndex == index {
+                                    selectedDropdownIndex = nil
+                                } else {
+                                    selectedDropdownIndex = index
+                                }
+                            }
+                        }
                         .padding()
+                        
                         Divider()
                     }
                 }
             }
-            .padding(.horizontal)
-            
-            Spacer()
-            
         }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $isAllCitiesBottomSheetPresented, content: {
