@@ -30,8 +30,6 @@ struct HomePageView: View {
     
     @StateObject var viewModel = ViewModel()
     
-    @StateObject var locationService = CompositionRoot.shared.locationService
-    
     @Binding var latitude: Double?
     @Binding var longitude: Double?
     
@@ -52,15 +50,6 @@ struct HomePageView: View {
         }
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
-        .onAppear {
-            locationService.startUpdatingLocation()
-            locationService.publisher
-                .sink { location in
-                    viewModel.fetchAndSortObjects(userLocation: location.coordinate)
-                    print("USER LOCATION ==> \(location.coordinate)")
-                }
-                .store(in: &locationService.cancellables)
-        }
     }
     
     var groupedView: some View {
@@ -426,6 +415,7 @@ extension HomePageView {
         @Published var filteredObjects: [ObjectDetails] = []
         @Published var sortedObjects: [ObjectDetails] = []
         @Published var state: ViewState = .initial
+        @Published var locationService = CompositionRoot.shared.locationService
         
         enum ViewState {
             case initial
@@ -433,27 +423,45 @@ extension HomePageView {
             case finished
         }
         
+        private var cancellables = Set<AnyCancellable>()
+        
+        init() {
+            locationService.publisher
+                .sink { [weak self] location in
+                    guard let self = self else { return }
+                    self.fetchAndSortObjects(userLocation: location.coordinate)
+                    print("USER LOCATION ==> \(location.coordinate)")
+                }
+                .store(in: &cancellables)
+        }
+        
         func fetchAndSortObjects(userLocation: CLLocationCoordinate2D?) {
-            if let currentLocation = userLocation {
-                let currentCLLocation = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
-                
-                cancellable = CompositionRoot.shared.objectsProvider.fetchAllObjects()
-                    .sink { completion in
-                        print(completion)
-                    } receiveValue: { allObjects in
-                        print("svi objekti", allObjects)
-                        self.allObjects = allObjects.message
-                        let sorted = self.allObjects.sorted { (object1, object2) -> Bool in
-                            let location1 = CLLocation(latitude: object1.latitude, longitude: object1.longitude)
-                            let location2 = CLLocation(latitude: object2.latitude, longitude: object2.longitude)
-                            let distance1 = currentCLLocation.distance(from: location1)
-                            let distance2 = currentCLLocation.distance(from: location2)
-                            return distance1 < distance2
-                        }
-                        self.sortedObjects = sorted
-                        self.state = .finished
-                    }
+            guard let currentLocation = userLocation else {
+                // Handle the case when userLocation is nil
+                return
             }
+            
+            let currentCLLocation = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+            
+            CompositionRoot.shared.objectsProvider.fetchAllObjects()
+                .sink { [weak self] completion in
+                    guard self != nil else { return }
+                    print(completion)
+                } receiveValue: { [weak self] allObjects in
+                    guard let self = self else { return }
+                    print("svi objekti", allObjects)
+                    self.allObjects = allObjects.message
+                    let sorted = self.allObjects.sorted { (object1, object2) -> Bool in
+                        let location1 = CLLocation(latitude: object1.latitude, longitude: object1.longitude)
+                        let location2 = CLLocation(latitude: object2.latitude, longitude: object2.longitude)
+                        let distance1 = currentCLLocation.distance(from: location1)
+                        let distance2 = currentCLLocation.distance(from: location2)
+                        return distance1 < distance2
+                    }
+                    self.sortedObjects = sorted
+                    self.state = .finished
+                }
+                .store(in: &cancellables)
         }
         
         func filterObjects(with searchTerm: String) {
