@@ -70,6 +70,7 @@
 		F6BB7AE42A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BB7AE32A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift */; };
 		F6BB7AE62A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BB7AE52A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift */; };
 		F6C0E54F2A14062700BA5AC1 /* MosqueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0E54E2A14062700BA5AC1 /* MosqueTypes.swift */; };
+		F6F9EE312A1B59120098FA6B /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9EE302A1B59120098FA6B /* PushNotificationsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,6 +157,7 @@
 		F6BB7AE32A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligiousActivityRowView.swift; sourceTree = "<group>"; };
 		F6BB7AE52A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDimensionsRowView.swift; sourceTree = "<group>"; };
 		F6C0E54E2A14062700BA5AC1 /* MosqueTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosqueTypes.swift; sourceTree = "<group>"; };
+		F6F9EE302A1B59120098FA6B /* PushNotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				F660473829B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift */,
+				F6F9EE302A1B59120098FA6B /* PushNotificationsManager.swift */,
 				65A43FAE29B7B17F00D34E8B /* CompositionRoot.swift */,
 			);
 			path = Main;
@@ -591,6 +594,7 @@
 				65A43F9029B7A92800D34E8B /* APIRequest.swift in Sources */,
 				F6BB7AE62A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift in Sources */,
 				F6C0E54F2A14062700BA5AC1 /* MosqueTypes.swift in Sources */,
+				F6F9EE312A1B59120098FA6B /* PushNotificationsManager.swift in Sources */,
 				65DC376F29C66828003DD32A /* QiblaView.swift in Sources */,
 				65A43F9229B7A93300D34E8B /* NetworkService.swift in Sources */,
 				F631C20229B6771D00C4619B /* UsefulLinksSideMenuView.swift in Sources */,
