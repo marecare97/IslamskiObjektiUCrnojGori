@@ -12,13 +12,28 @@ import MapboxMaps
 struct MapBoxDetailView: UIViewControllerRepresentable {
     let objectDetails: ObjectDetails
     @Binding var isChangeMapStyleButtonTapped: Bool
+    
+    init(
+        objectDetails: ObjectDetails,
+        isChangeMapStyleButtonTapped: Binding<Bool>
+    ) {
+        self.objectDetails = objectDetails
+        self._isChangeMapStyleButtonTapped = isChangeMapStyleButtonTapped
+    }
 
     func makeUIViewController(context: Context) -> MapBoxDetailViewController {
-        MapBoxDetailViewController(selectedDetails: objectDetails, isChangeMapStyleButtonTapped: $isChangeMapStyleButtonTapped)
+        let viewController = MapBoxDetailViewController(selectedDetails: objectDetails, isChangeMapStyleButtonTapped: $isChangeMapStyleButtonTapped)
+        viewController.isMapInitialized = false
+        return viewController
     }
     
     func updateUIViewController(_ uiViewController: MapBoxDetailViewController, context: Context) {
-//        uiViewController.updateMapStyle(isSatellite: isChangeMapStyleButtonTapped)
+        uiViewController.selectedDetails = objectDetails
+        if !uiViewController.isMapInitialized {
+            uiViewController.initializeMap()
+            uiViewController.isMapInitialized = true
+        }
+        uiViewController.updateMapStyle(isSatellite: isChangeMapStyleButtonTapped)
     }
 }
 
@@ -27,6 +42,7 @@ final class MapBoxDetailViewController: UIViewController {
     var selectedDetails: ObjectDetails
     private var pointAnnotationManager: PointAnnotationManager!
     @Binding var isChangeMapStyleButtonTapped: Bool
+    var isMapInitialized = false
     
     init(
         selectedDetails: ObjectDetails,
@@ -42,30 +58,27 @@ final class MapBoxDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+    }
+    
+    func initializeMap() {
+        let myResourceOptions = ResourceOptions(accessToken: "pk.eyJ1IjoiYm96aWRhcnMyNyIsImEiOiJjazh6eGM0MTUwODNrM25uNDEzeTN0bGNxIn0.ruHpEdNSJu5NnmxEXmvYFg")
         
-             let myResourceOptions = ResourceOptions(accessToken: "pk.eyJ1IjoiYm96aWRhcnMyNyIsImEiOiJjazh6eGM0MTUwODNrM25uNDEzeTN0bGNxIn0.ruHpEdNSJu5NnmxEXmvYFg")
-             
-             let cameraOptions = CameraOptions(center: CLLocationCoordinate2D(latitude: selectedDetails.latitude, longitude: selectedDetails.longitude), zoom: 15)
-             
-             
-             let myMapInitOptions = MapInitOptions(
-                 resourceOptions: myResourceOptions,
-                 cameraOptions: cameraOptions,
-                 styleURI: isChangeMapStyleButtonTapped ? .satellite : .light
-             )
-             
-             let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 200)
-                    mapView = MapView(frame: frame, mapInitOptions: myMapInitOptions)
-             mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-             
-             self.view.addSubview(mapView)
-             
-             pointAnnotationManager = mapView.annotations.makePointAnnotationManager()
-             
-             setPin()
+        let cameraOptions = CameraOptions(center: CLLocationCoordinate2D(latitude: selectedDetails.latitude, longitude: selectedDetails.longitude), zoom: 15)
         
-//            updateMapStyle(isSatellite: isChangeMapStyleButtonTapped)
+        let myMapInitOptions = MapInitOptions(
+            resourceOptions: myResourceOptions,
+            cameraOptions: cameraOptions,
+            styleURI: isChangeMapStyleButtonTapped ? .satellite : .light
+        )
         
+        mapView = MapView(frame: view.bounds, mapInitOptions: myMapInitOptions)
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        self.view.addSubview(mapView)
+        
+        pointAnnotationManager = mapView.annotations.makePointAnnotationManager()
+        
+        setPin()
     }
     
     func setPin() {
@@ -93,9 +106,12 @@ final class MapBoxDetailViewController: UIViewController {
         mapView.layoutSubviews()
     }
     
-//    func updateMapStyle(isSatellite: Bool) {
-//        mapView.mapboxMap.style.uri = isSatellite ? .satelliteStreets : .streets
-//    }
+    func updateMapStyle(isSatellite: Bool) {
+        guard let mapView = mapView else {
+            return // Exit early if mapView is nil
+        }
+        mapView.mapboxMap.style.uri = isSatellite ? .satelliteStreets : .streets
+    }
 }
 
 
