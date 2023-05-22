@@ -75,101 +75,19 @@ struct VaktijaView: View {
         }
     }
     
+    // MARK: Content view
     var contentView: some View {
         VStack {
-            HStack {
-                Spacer()
-                Img.icLocationGreen.swiftUIImage
-                    .resizable()
-                    .frame(width: 10, height: 10)
-                
-                Text(selectedCity.displayName)
-                
-                Spacer()
-            }
-            .scaleEffect(x: 1.5, y: 1.5)
-            .onTapGesture {
-                isAllCitiesBottomSheetPresented = true
-            }
+            
+            locationView
             
             datePicker
             
             Spacer()
             
-            HStack {
-                Text("Prikaži vidžet na mapi")
-                    .lineLimit(1)
-                    .fixedSize(horizontal: false, vertical: true)
-                
-                Spacer()
-                
-                Toggle("", isOn: $isWidgetPresented)
-            }
+            widgetView
             
-            VStack {
-                ForEach(prayerTimes, id: \.self) {
-                    
-                    let components = Calendar.current.dateComponents([.hour, .minute], from: $0)
-                    let index = prayerTimes.firstIndex(of: $0)
-                    VStack {
-                        HStack(alignment: .top) {
-                            VStack {
-                                if let index, let prayer = prayers[index] {
-                                    VStack {
-                                        HStack {
-                                            Text(prayer)
-                                                .font(.system(size: 20, weight: .bold))
-                                            Image(systemSymbol: selectedDropdownIndex == index ? .chevronUp : .chevronDown)
-                                                .resizable()
-                                                .frame(width: 12, height: 10)
-                                                .font(.system(size: 10, weight: .semibold))
-                                        }
-                                        if selectedDropdownIndex == index {
-                                            Button {
-                                                //
-                                            } label: {
-                                                ZStack {
-                                                    Color.green
-                                                    Text("Podsjeti me")
-                                                }
-                                                .cornerRadius(20, corners: .allCorners)
-                                                .foregroundColor(.white)
-                                                .frame(width: 120, height: 40)
-                                                .padding(.horizontal)
-                                                .transition(.opacity)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            Spacer()
-                            
-                            if let hours = components.hour, let minutes = components.minute {
-                                Text(String(format: "%02d", hours))
-                                    .font(.system(size: 20, weight: .bold))
-                                + Text(":")
-                                    .font(.system(size: 20, weight: .bold))
-                                +  Text(String(format: "%02d", minutes))
-                                    .font(.system(size: 20, weight: .bold))
-                                
-                            }
-                        }
-                        .onTapGesture {
-                            withAnimation {
-                                if selectedDropdownIndex == index {
-                                    selectedDropdownIndex = nil
-                                } else {
-                                    selectedDropdownIndex = index
-                                }
-                            }
-                        }
-                        .padding()
-                        
-                        Divider()
-                    }
-                }
-            }
+            prayerTimesView
         }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $isAllCitiesBottomSheetPresented, content: {
@@ -196,10 +114,109 @@ struct VaktijaView: View {
         }
     }
     
+    // MARK: Bottom sheet location view
+    var locationView: some View {
+        HStack {
+            Spacer()
+            Img.icLocationGreen.swiftUIImage
+                .resizable()
+                .frame(width: 15, height: 15)
+            
+            Text(selectedCity.displayName)
+            
+            Spacer()
+        }
+        .scaleEffect(x: 1.5, y: 1.5)
+        .onTapGesture {
+            isAllCitiesBottomSheetPresented = true
+        }
+    }
+    
+    // MARK: Widget view
+    var widgetView: some  View {
+        HStack {
+            Text("Prikaži vidžet na mapi")
+                .lineLimit(1)
+                .fixedSize(horizontal: false, vertical: true)
+            
+            Spacer()
+            
+            Toggle("", isOn: $isWidgetPresented)
+        }
+    }
+    
+    // MARK: Prayer times view
+    var prayerTimesView: some View {
+        LazyVStack {
+            ForEach(prayerTimes, id: \.self) {
+                
+                let components = Calendar.current.dateComponents([.hour, .minute], from: $0)
+                let index = prayerTimes.firstIndex(of: $0)
+                VStack {
+                    HStack(alignment: .top) {
+                        VStack {
+                            if let index, let prayer = prayers[index] {
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text(prayer)
+                                            .font(.system(size: 20, weight: .bold))
+                                        Image(systemSymbol: selectedDropdownIndex == index ? .chevronUp : .chevronDown)
+                                            .resizable()
+                                            .frame(width: 12, height: 10)
+                                            .font(.system(size: 10, weight: .semibold))
+                                        
+                                        
+                                        Spacer()
+                                        
+                                        if let hours = components.hour, let minutes = components.minute {
+                                            Text(String(format: "%02d", hours))
+                                                .font(.system(size: 20, weight: .bold))
+                                            + Text(":")
+                                                .font(.system(size: 20, weight: .bold))
+                                            +  Text(String(format: "%02d", minutes))
+                                                .font(.system(size: 20, weight: .bold))
+                                        }
+                                    }
+                                    if selectedDropdownIndex == index {
+                                        Button {
+                                            // MARK: Push notifications to be implemented
+                                        } label: {
+                                            ZStack {
+                                                Color.green
+                                                Text("Podsjeti me")
+                                            }
+                                            .cornerRadius(20, corners: .allCorners)
+                                            .foregroundColor(.white)
+                                            .frame(width: 120, height: 40)
+                                            .transition(.opacity)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .onTapGesture {
+                        withAnimation {
+                            if selectedDropdownIndex == index {
+                                selectedDropdownIndex = nil
+                            } else {
+                                selectedDropdownIndex = index
+                            }
+                        }
+                    }
+                    .padding()
+                    
+                    Divider()
+                }
+            }
+        }
+    }
+    
+    // MARK: Date picker view
     var datePicker: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { value in
-                HStack(spacing: 20) {
+                LazyHStack(spacing: 20) {
                     ForEach(dates, id: \.self) { loopDate in
                         ZStack {
                             if Calendar.current.isDate(loopDate, inSameDayAs: date) {
@@ -239,8 +256,9 @@ struct VaktijaView: View {
         .scaleEffect(x: 1.1)
     }
     
+    // MARK: All cities view
     var allCitiesView: some View  {
-        VStack {
+        LazyVStack {
             ForEach(PrayersProvider.Cities.allCases, id: \.displayName) { city in
                 Button {
                     selectedCity = city

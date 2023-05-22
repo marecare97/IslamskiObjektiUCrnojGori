@@ -423,16 +423,15 @@ extension HomePageView {
             case finished
         }
         
-        private var cancellables = Set<AnyCancellable>()
-        
         init() {
+            locationService.startUpdatingLocation()
             locationService.publisher
                 .sink { [weak self] location in
                     guard let self = self else { return }
                     self.fetchAndSortObjects(userLocation: location.coordinate)
                     print("USER LOCATION ==> \(location.coordinate)")
                 }
-                .store(in: &cancellables)
+                .store(in: &locationService.cancellables)
         }
         
         func fetchAndSortObjects(userLocation: CLLocationCoordinate2D?) {
@@ -461,7 +460,7 @@ extension HomePageView {
                     self.sortedObjects = sorted
                     self.state = .finished
                 }
-                .store(in: &cancellables)
+                .store(in: &locationService.cancellables)
         }
         
         func filterObjects(with searchTerm: String) {
