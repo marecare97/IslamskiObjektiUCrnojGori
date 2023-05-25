@@ -424,7 +424,8 @@ extension HomePageView {
         }
         
         init() {
-            locationService.startUpdatingLocation()
+            // FIXME: 
+//            locationService.startUpdatingLocation()
             locationService.publisher
                 .sink { [weak self] location in
                     guard let self = self else { return }
