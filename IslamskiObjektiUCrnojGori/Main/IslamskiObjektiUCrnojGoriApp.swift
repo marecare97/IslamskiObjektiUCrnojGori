@@ -13,6 +13,8 @@ typealias PFT = FontFamily.Poppins // font family Poppins
 
 @main
 struct IslamskiObjektiUCrnojGoriApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
             NavigationView {
