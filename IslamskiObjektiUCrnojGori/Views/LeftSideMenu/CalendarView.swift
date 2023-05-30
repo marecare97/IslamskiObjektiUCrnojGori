@@ -25,22 +25,27 @@ struct CalendarView: View {
     }
     
     var body: some View {
-        newCalendar
-            .onAppear {
-                viewModel.fetchPrayerTimes()
+        VStack {
+            CustomNavBar(navBarTitle: TK.LeftSideMenu.calendar)
+                .padding(.bottom)
+            ScrollView {
+                newCalendar
             }
+        }
+        .navigationBarBackButtonHidden()
+        .onAppear {
+            viewModel.fetchPrayerTimes()
+        }
     }
     
     var newCalendar: some View {
         VStack(alignment: .center) {
             CustomDatePicker(currentDate: $viewModel.date, prayerTimes: $viewModel.prayerTimes)
             
-            Spacer()
-            
             if let prayerTimes = viewModel.prayerTimes[ViewModel.CalendarTime(month: Calendar.current.component(.month, from: viewModel.date), year: Calendar.current.component(.year, from: viewModel.date))], let data = prayerTimes.data.first(where: { $0.gregorian.date == getDateToCompareToResponse(date: viewModel.date)
             }) {
                 if data.hijri.holidays != [] {
-                    VStack {
+                    LazyVStack {
                         ForEach(data.hijri.holidays, id: \.self) {
                             Text($0)
                                 .foregroundColor(.green)
@@ -69,7 +74,7 @@ struct CalendarView: View {
                 .clipped()
                 .compositingGroup()
             
-            Spacer()
+            //            Spacer()
         }
         .onChange(of: viewModel.date) { newValue in
             print(getDateToCompareToResponse(date: newValue))
@@ -147,35 +152,30 @@ struct CustomDatePicker: View {
     
     var body: some View {
         
-        VStack(spacing: 35){
+        VStack(spacing: 10){
             
             // Days...
-            let days: [String] = ["Mon","Tue","Wed","Thu","Fri","Sat", "Sun"]
+            let days: [String] = ["pon","uto","sri","čet","pet","sub", "ned"]
             
-            HStack(spacing: 20){
-                
-                
+            HStack(spacing: 15){
                 Button {
                     withAnimation{
                         currentMonth -= 1
                     }
                 } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.title2)
+                    Image(systemName: "arrowtriangle.left.fill")
+                        .frame(width: 20, height: 20)
                         .foregroundColor(.black)
                 }
                 
                 Spacer()
-                    
+                
                 HStack(spacing: 5) {
-                                        
                     Text(extraDate()[1])
-                        .font(.title.bold())
-                    
                     Text(extraDate()[0])
-                        .font(.title.bold())
-
                 }
+                .font(RFT.bold.swiftUIFont(size: 16))
+                .foregroundColor(.gray)
                 .lineLimit(1)
                 
                 Spacer(minLength: 0)
@@ -187,8 +187,8 @@ struct CustomDatePicker: View {
                     }
                     
                 } label: {
-                    Image(systemName: "chevron.right")
-                        .font(.title2)
+                    Image(systemName: "arrowtriangle.right.fill")
+                        .frame(width: 20, height: 20)
                         .foregroundColor(.black)
                 }
                 
@@ -196,15 +196,15 @@ struct CustomDatePicker: View {
             .padding(.horizontal)
             // Day View...
             
-            HStack(spacing: 0){
-                ForEach(days,id: \.self){day in
-                    
+            LazyHStack(spacing: 37) {
+                ForEach(days, id: \.self) { day in
                     Text(day)
-                        .font(.callout)
-                        .fontWeight(.semibold)
+                        .font(RFT.bold.swiftUIFont(size: 13))
+                        .foregroundColor(.gray)
                         .frame(maxWidth: .infinity)
                 }
             }
+            .padding(.horizontal)
             
             // Dates....
             // Lazy Grid..
@@ -236,39 +236,41 @@ struct CustomDatePicker: View {
     }
     
     @ViewBuilder
-    func CardView(value: DateValue)->some View{
-        
-        VStack{
-            
+    func CardView(value: DateValue)-> some View {
+        VStack {
             if let prayerTimes = prayerTimes[CalendarView.ViewModel.CalendarTime(month: Calendar.current.component(.month, from: value.date), year: Calendar.current.component(.year, from: value.date))], let prayer = prayerTimes.data.first(where: { $0.gregorian.date == getDateToCompareToResponse(date: value.date) }) {
-                    if let prayer = prayer, !prayer.hijri.holidays.isEmpty {
-                        ZStack {
-                            Circle()
-                                .fill(Color.green.opacity(Calendar.current.isDateInToday(value.date) ? 1 : !prayer.hijri.holidays.isEmpty ? 0.5 : 0))
-                                .frame(width: 35,height: 35)
-                            Text("\(value.day)")
-                                .font(.title3.bold())
-                                .foregroundColor(Calendar.current.isDateInToday(value.date) ? .white : .black)
-                                .frame(maxWidth: .infinity)
-                        }
-                    } else {
+                if let prayer = prayer, !prayer.hijri.holidays.isEmpty {
+                    ZStack {
+                        Circle()
+                            .fill(Color.green.opacity(Calendar.current.isDateInToday(value.date) ? 1 : !prayer.hijri.holidays.isEmpty ? 0.5 : 0))
+                            .frame(width: 35,height: 35)
                         Text("\(value.day)")
-                            .font(.title3.bold())
+                            .font(RFT.medium.swiftUIFont(size: 12))
+                            .foregroundColor(.black)
+                            .foregroundColor(Calendar.current.isDateInToday(value.date) ? .white : .black)
                             .frame(maxWidth: .infinity)
-                        
-                        Spacer()
                     }
                 } else {
                     Text("\(value.day)")
-                        .font(.title3.bold())
+                        .font(RFT.medium.swiftUIFont(size: 12))
+                        .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
                     
                     Spacer()
                 }
+            } else {
+                Text("\(value.day)")
+                    .font(RFT.medium.swiftUIFont(size: 12))
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                
+                Spacer()
             }
+        }
         .padding(.vertical,9)
         .frame(height: 60,alignment: .top)
     }
+    
     
     // checking dates...
     func isSameDay(date1: Date,date2: Date)->Bool{
@@ -384,12 +386,12 @@ struct CalendarResponse: Codable {
         let status: String
         let data: [DataItem]
     }
-
+    
     struct DataItem: Codable {
         let gregorian: Gregorian
         let hijri: Hijri
     }
-
+    
     struct Gregorian: Codable {
         let date: String
         let format: String
@@ -399,7 +401,7 @@ struct CalendarResponse: Codable {
         let year: String
         let designation: Designation
     }
-
+    
     struct Hijri: Codable {
         let date: String
         let format: String
@@ -410,18 +412,18 @@ struct CalendarResponse: Codable {
         let designation: Designation
         let holidays: [String]
     }
-
+    
     struct Weekday: Codable {
         let en: String
         let ar: String?
     }
-
+    
     struct Month: Codable {
         let number: Int
         let en: String
         let ar: String?
     }
-
+    
     struct Designation: Codable {
         let abbreviated: String
         let expanded: String
