@@ -12,6 +12,8 @@ struct ReportProblemView: View {
     typealias S = TK.ReportProblem
     @State var email = ""
     @State var comment = ""
+    @FocusState private var emailIsFocused: Bool
+    @FocusState private var commentIsFocused: Bool
     @ObservedObject var viewModel = ViewModel()
     let object: ObjectDetails
     
@@ -19,6 +21,11 @@ struct ReportProblemView: View {
         VStack{
             CustomNavBar(navBarTitle: S.title)
             contentView
+                .onTapGesture {
+                    emailIsFocused = false
+                    commentIsFocused = false
+                }
+                .padding([.vertical, .horizontal])
         }
         .navigationBarBackButtonHidden()
     }
@@ -26,18 +33,32 @@ struct ReportProblemView: View {
     var contentView: some View {
         VStack {
             VStack(alignment: .leading, spacing: 20) {
-                Text(UUID().uuidString)
+                HStack {
+                    Spacer()
+                    Text(object.name)
+                        .font(RFT.bold.swiftUIFont(size: 20))
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                }
+                .padding(.horizontal)
                 
                 Text(S.yourEmail)
+                    .font(PFT.semiBold.swiftUIFont(size: 16))
+                    .foregroundColor(.black)
                 
                 TextField("", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .focused($emailIsFocused)
                 
                 
                 Text(S.comment)
+                    .font(PFT.semiBold.swiftUIFont(size: 16))
+                    .foregroundColor(.black)
                 
                 TextField("", text: $comment, axis: .vertical)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .focused($commentIsFocused)
                     .lineLimit(8, reservesSpace: true)
                 
                 
@@ -54,8 +75,13 @@ struct ReportProblemView: View {
                     Spacer()
                 }
             }
-            .background(Color.white)
             .padding()
+            .background(Color.white)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(.gray, lineWidth: 1)
+            )
+            
             
             Spacer()
         }

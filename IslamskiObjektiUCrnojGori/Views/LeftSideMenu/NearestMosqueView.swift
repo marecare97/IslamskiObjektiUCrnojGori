@@ -17,19 +17,27 @@ struct NearestMosqueView: View {
     let mosqueTypes = Mosque.mosqueTypes
     @State var selectedMosqueTypes = [MosqueTypes]()
     
-    // MARK: filter to be added
-    //    var filteredObjects: [ObjectDetails] {
-    //        let selectedTypes = Set(selectedMosqueTypes.map { $0.name })
-    //        return sortedObjects.filter { selectedTypes.contains($0.aksam) }
-    //    }
-    //
+    // MARK: filter objects
+    var filteredObjects: [ObjectDetails] {
+        let selectedTypes = Set(selectedMosqueTypes)
+        
+        if selectedTypes.isEmpty {
+            return sortedObjects // Return all objects when no filter is applied
+        } else {
+            return sortedObjects.filter { object in
+                let objectTypes = Set(object.mosqueTypes)
+                return selectedTypes.isSubset(of: objectTypes)
+            }
+        }
+    }
+    
     var body: some View {
         VStack {
             CustomNavBar(navBarTitle: TK.LeftSideMenu.closestObject)
             objectTypeFilterView
                 .padding(.vertical)
             List {
-                ForEach(sortedObjects) { object in
+                ForEach(filteredObjects) { object in
                     NavigationLink {
                         ObjectDetailsView(details: object)
                     } label: {
@@ -59,8 +67,6 @@ struct NearestMosqueView: View {
                                     .foregroundColor(.green)
                                     .onTapGesture {
                                         selectedMosqueTypes = selectedMosqueTypes.filter { $0 != mosque }
-                                        print("clicked object", selectedMosqueTypes)
-                                        print("objects array", sortedObjects)
                                     }
                                 
                             } else {
@@ -68,6 +74,7 @@ struct NearestMosqueView: View {
                                     .foregroundColor(.green)
                                     .onTapGesture {
                                         selectedMosqueTypes.append(mosque)
+//                                        print("clicked object", selectedMosqueTypes)
                                     }
                             }
                             Text(mosque.name)

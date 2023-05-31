@@ -40,6 +40,22 @@ struct ObjectDetails: Codable, Identifiable, Hashable {
     let imagesFull: [ImagePath]
     let images: [String]
     let image: String
+    var mosqueTypes: [MosqueTypes] {
+        let types: [(Bool, Int, String)] = [
+            (dzuma ?? false, 3, "Dzuma"),
+            (teravija ?? false, 5, "Teravija"),
+            (bayram ?? false, 7, "Bajram"),
+            (sabah ?? false, 0, "Sabah"),
+            (podne ?? false, 2, "Podne"),
+            (ikindija ?? false, 4, "Ikindija"),
+            (aksam ?? false, 6, "Akšam"),
+            (jacija ?? false, 1, "Jacija")
+        ]
+        
+        return types
+            .filter { $0.0 } // Filter out the tuples with false values
+            .map { MosqueTypes(id: $0.1, name: $0.2) } // Create MosqueTypes instances
+    }
     
     enum CodingKeys: String, CodingKey {
         case id, ind, name, about, town, majlis
@@ -112,16 +128,16 @@ extension Array where Element == ObjectDetails {
     }
     
     func filterObjects(towns: [Location]?, majlises: [Location]?, yearBuiltFrom: Int?, yearBuiltTo: Int?, objTypes: [ObjType]?) -> [ObjectDetails] {
-           return self.filter { object in
-               let matchesTown = towns == nil || towns!.contains(object.town)
-               let matchesMajlis = majlises == nil || majlises!.contains(object.majlis)
-               let matchesYearBuiltFrom = yearBuiltFrom == nil || (object.yearBuilt ?? Int.min) >= yearBuiltFrom!
-               let matchesYearBuiltTo = yearBuiltTo == nil || (object.yearBuilt ?? Int.max) <= yearBuiltTo!
-               let matchesObjType = objTypes == nil || objTypes!.contains(object.objType)
-               
-               return matchesTown || matchesMajlis || matchesYearBuiltFrom || matchesYearBuiltTo || matchesObjType
-           }
-       }
+        return self.filter { object in
+            let matchesTown = towns == nil || towns!.contains(object.town)
+            let matchesMajlis = majlises == nil || majlises!.contains(object.majlis)
+            let matchesYearBuiltFrom = yearBuiltFrom == nil || (object.yearBuilt ?? Int.min) >= yearBuiltFrom!
+            let matchesYearBuiltTo = yearBuiltTo == nil || (object.yearBuilt ?? Int.max) <= yearBuiltTo!
+            let matchesObjType = objTypes == nil || objTypes!.contains(object.objType)
+            
+            return matchesTown || matchesMajlis || matchesYearBuiltFrom || matchesYearBuiltTo || matchesObjType
+        }
+    }
 }
 
 extension Array where Element: Equatable {

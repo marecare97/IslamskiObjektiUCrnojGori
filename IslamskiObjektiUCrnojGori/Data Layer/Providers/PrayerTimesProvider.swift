@@ -49,39 +49,39 @@ final class PrayersProvider {
         }
         
         var displayName: String {
-               switch self {
-               case .podgorica:
-                   return "Podgorica"
-               case .tuzi:
-                   return "Tuzi"
-               case .bar:
-                   return "Bar"
-               case .ulcinj:
-                   return "Ulcinj"
-               case .pljevlja:
-                   return "Pljevlja"
-               case .niksic:
-                   return "Nikšić"
-               case .budva:
-                   return "Budva"
-               case .tivat:
-                   return "Tivat"
-               case .hercegNovi:
-                   return "Herceg Novi"
-               case .bijeloPolje:
-                   return "Bijelo Polje"
-               case .plav:
-                   return "Plav"
-               case .gusinje:
-                   return "Gusinje"
-               case .berane:
-                   return "Berane"
-               case .petnjica:
-                   return "Petnjica"
-               case .rozaje:
-                   return "Rožaje"
-               }
-           }
+            switch self {
+            case .podgorica:
+                return "Podgorica"
+            case .tuzi:
+                return "Tuzi"
+            case .bar:
+                return "Bar"
+            case .ulcinj:
+                return "Ulcinj"
+            case .pljevlja:
+                return "Pljevlja"
+            case .niksic:
+                return "Nikšić"
+            case .budva:
+                return "Budva"
+            case .tivat:
+                return "Tivat"
+            case .hercegNovi:
+                return "Herceg Novi"
+            case .bijeloPolje:
+                return "Bijelo Polje"
+            case .plav:
+                return "Plav"
+            case .gusinje:
+                return "Gusinje"
+            case .berane:
+                return "Berane"
+            case .petnjica:
+                return "Petnjica"
+            case .rozaje:
+                return "Rožaje"
+            }
+        }
         
         var coordinates: CLLocationCoordinate2D {
             switch self {
@@ -138,42 +138,46 @@ final class PrayersProvider {
     }
     
     func getNextPrayerTime(forToday: Bool = true) -> Date? {
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "Europe/Belgrade")!
         var currentDate: Date {
             if forToday {
-                return Date()
+                return Date.localDate
             }
             
-            let currentDate = Date()
+            let currentDate = Date.localDate
             var dateComponent = DateComponents()
             dateComponent.day = 1
             
-            let calendar = Calendar.current
+            let calendar = calendar
             return calendar.date(byAdding: dateComponent, to: currentDate)!
         }
         
         guard let prayers = dto, let pljevljaIndex = prayers.locations.firstIndex(of: "Pljevlja") else { return nil }
-        let monthIndex = Calendar.current.component(.month, from: currentDate) - 1
-        let dayIndex = Calendar.current.component(.day, from: currentDate) - 1
+        var monthIndex = calendar.component(.month, from: currentDate)
+        var dayIndex = calendar.component(.day, from: currentDate)
+        
+        monthIndex = monthIndex > 0 ? monthIndex - 1 : monthIndex
+        dayIndex = dayIndex > 0 ? dayIndex - 1 : dayIndex
         
         let vaktija = prayers.vaktija.months[monthIndex].days[dayIndex]
         
         let diff = prayers.differences[pljevljaIndex].months[monthIndex].vakat
         
-        let startOfTheDay = Calendar.current.startOfDay(for: currentDate)
+        let startOfTheDay = calendar.startOfDay(for: currentDate).addingTimeInterval(Double(TimeZone.current.secondsFromGMT(for: Date())))
         
         let dates = vaktija.vakat.map {
             let newDate = startOfTheDay.addingTimeInterval(Double($0))
-            let components = Calendar.current.dateComponents([.hour, .minute], from: newDate)
             
             let index = vaktija.vakat.firstIndex(of: $0)!
             
             let readjust = diff[index]
             
             let readjusted = newDate.addingTimeInterval(Double(readjust))
-            return readjusted
+            return readjusted.addingTimeInterval(3600)
         }
         
-        var dateToCompare: Date = forToday ? currentDate : startOfTheDay
+        let dateToCompare: Date = forToday ? currentDate : startOfTheDay
         
         let futureDates = dates.filter { $0 > dateToCompare }
         
@@ -188,15 +192,20 @@ final class PrayersProvider {
     
     
     func getPrayerTimesForCity(_ city: Cities, date: Date = Date()) -> [Date] {
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "Europe/Belgrade")!
         guard let prayers = dto, let pljevljaIndex = prayers.locations.firstIndex(of: "Pljevlja") else { return [] }
-        let monthIndex = Calendar.current.component(.month, from: date) - 1
-        let dayIndex = Calendar.current.component(.day, from: date) - 1
+        var monthIndex = calendar.component(.month, from: date)
+        var dayIndex = calendar.component(.day, from: date)
+        
+        monthIndex = monthIndex > 0 ? monthIndex - 1 : monthIndex
+        dayIndex = dayIndex > 0 ? dayIndex - 1 : dayIndex
         
         let vaktija = prayers.vaktija.months[monthIndex].days[dayIndex]
         
         let diff = prayers.differences[pljevljaIndex].months[monthIndex].vakat
         
-        let startOfTheDay = Calendar.current.startOfDay(for: date)
+        let startOfTheDay = calendar.startOfDay(for: date)
         
         return vaktija.vakat.map {
             let newDate = startOfTheDay.addingTimeInterval(Double($0 + (city.adjustmentTime * 60)))
@@ -253,4 +262,15 @@ struct Vaktija: Codable {
 // MARK: - VaktijaMonth
 struct VaktijaMonth: Codable {
     let days: [DayElement]
+}
+
+
+extension Date {
+    static var localDate: Date {
+        let nowUTC = Date()
+        let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
+        guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {return Date()}
+        
+        return localDate
+    }
 }

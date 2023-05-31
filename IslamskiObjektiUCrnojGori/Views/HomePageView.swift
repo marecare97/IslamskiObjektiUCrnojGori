@@ -143,9 +143,7 @@ struct HomePageView: View {
                                     Text(Str.nextNamaz)
                                         .font(RFT.medium.swiftUIFont(size: 15))
                                         .foregroundColor(.gray)
-                                    if let nextPrayerDate {
-                                        CountdownTimerView(futureDate: nextPrayerDate)
-                                    }
+                                    CountdownTimerView(targetDate: $viewModel.nextPrayerDate)
                                 }
                             }
                             
@@ -416,6 +414,9 @@ extension HomePageView {
         @Published var sortedObjects: [ObjectDetails] = []
         @Published var state: ViewState = .initial
         @Published var locationService = CompositionRoot.shared.locationService
+        @Published var nextPrayerDate: Date
+        
+        var hasCalledFetch = false
         
         enum ViewState {
             case initial
@@ -424,8 +425,9 @@ extension HomePageView {
         }
         
         init() {
+            nextPrayerDate =  CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime() ?? CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime(forToday: false) ?? Date()
             // FIXME: 
-//            locationService.startUpdatingLocation()
+            locationService.startUpdatingLocation()
             locationService.publisher
                 .sink { [weak self] location in
                     guard let self = self else { return }
@@ -436,6 +438,9 @@ extension HomePageView {
         }
         
         func fetchAndSortObjects(userLocation: CLLocationCoordinate2D?) {
+            guard !hasCalledFetch else { return }
+            hasCalledFetch = true
+            
             guard let currentLocation = userLocation else {
                 // Handle the case when userLocation is nil
                 return
