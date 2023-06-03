@@ -10,7 +10,7 @@ import Combine
 
 struct NotificationsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @ObservedObject var viewModel = ViewModel()
+    @StateObject var viewModel = ViewModel()
     
     var body: some View {
         Group {

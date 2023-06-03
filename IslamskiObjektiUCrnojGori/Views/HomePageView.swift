@@ -432,7 +432,7 @@ extension HomePageView {
                 .sink { [weak self] location in
                     guard let self = self else { return }
                     self.fetchAndSortObjects(userLocation: location.coordinate)
-                    print("USER LOCATION ==> \(location.coordinate)")
+//                    print("USER LOCATION ==> \(location.coordinate)")
                 }
                 .store(in: &locationService.cancellables)
         }

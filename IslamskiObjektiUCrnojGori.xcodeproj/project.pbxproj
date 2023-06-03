@@ -413,7 +413,6 @@
 			children = (
 				F6BB7AE22A1A4BE900AEB9C1 /* ObjectDetails */,
 				F660476629B371B20053D136 /* MapView.swift */,
-				65A43FB029B7B70E00D34E8B /* LeftSideMenuView.swift */,
 				65121BB429C77F71009010EA /* RightSideMenu.swift */,
 				65D38CBA29B7C4B300072C9C /* WebView.swift */,
 				F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */,
@@ -428,6 +427,7 @@
 		F6F9EE322A1BFD0D0098FA6B /* LeftSideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				65A43FB029B7B70E00D34E8B /* LeftSideMenuView.swift */,
 				F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */,
 				F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */,
 				F67E920B2A1917760091D3E0 /* VaktijaView.swift */,
