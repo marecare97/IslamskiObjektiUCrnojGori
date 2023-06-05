@@ -288,7 +288,8 @@ struct HomePageView: View {
                         
                         Spacer()
                         
-                        RightSideMenu(objectsDetails: $viewModel.allObjects)
+                        RightSideMenu(selectedTowns: $viewModel.selectedTowns, selectedMajlises: $viewModel.selectedMajlises, selectedObjectTypes: $viewModel.selectedObjectTypes, objectDetails: viewModel.allObjects)
+                            .environmentObject(viewModel)
                             .frame(width: geometry.size.width / 1.5)
                             .transition(.move(edge: .trailing))
                     }
@@ -416,6 +417,10 @@ extension HomePageView {
         @Published var locationService = CompositionRoot.shared.locationService
         @Published var nextPrayerDate: Date
         
+        @Published var selectedTowns: [Location] = []
+        @Published var selectedMajlises: [Location] = []
+        @Published var selectedObjectTypes: [ObjType] = []
+        
         var hasCalledFetch = false
         
         enum ViewState {
@@ -454,7 +459,7 @@ extension HomePageView {
                     print(completion)
                 } receiveValue: { [weak self] allObjects in
                     guard let self = self else { return }
-                    print("svi objekti", allObjects)
+//                    print("svi objekti", allObjects)
                     self.allObjects = allObjects.message
                     let sorted = self.allObjects.sorted { (object1, object2) -> Bool in
                         let location1 = CLLocation(latitude: object1.latitude, longitude: object1.longitude)
@@ -469,6 +474,7 @@ extension HomePageView {
                 .store(in: &locationService.cancellables)
         }
         
+        // MARK: Objects filters
         func filterObjects(with searchTerm: String) {
             if searchTerm.isEmpty {
                 filteredObjects = allObjects
@@ -476,6 +482,24 @@ extension HomePageView {
                 filteredObjects = allObjects.filter { object in
                     object.name.lowercased().contains(searchTerm.lowercased())
                 }
+            }
+        }
+        
+        func filterObjectsByTown(selectedTowns: [Location]) {
+            filteredObjects = allObjects.filter { object in
+                selectedTowns.contains(object.town)
+            }
+        }
+        
+        func filterObjectsByMajlises(selectedMajlises: [Location]) {
+            filteredObjects = allObjects.filter { object in
+                selectedMajlises.contains(object.majlis)
+            }
+        }
+        
+        func filterObjectsByObjectTypes(selectedObjectTypes: [ObjType]) {
+            filteredObjects = allObjects.filter { object in
+                selectedObjectTypes.contains(object.objType)
             }
         }
     }

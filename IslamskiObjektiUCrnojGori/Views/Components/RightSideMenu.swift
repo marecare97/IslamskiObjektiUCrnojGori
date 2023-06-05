@@ -13,18 +13,28 @@ struct RightSideMenu: View {
     let uniqueMajlis: [Location]
     let uniqueObjectTypes: [ObjType]
     
-    @State var selectedTowns = [Location]()
-    @State var selectedMajlises = [Location]()
-    @State var selectedObjectTypes = [ObjType]()
+    @Binding var selectedTowns: [Location]
+    @Binding var selectedMajlises: [Location]
+    @Binding var selectedObjectTypes: [ObjType]
     
-    @Binding var objectsDetails: [ObjectDetails]
+    var objectDetails: [ObjectDetails]
+    
+    @EnvironmentObject var viewModel: HomePageView.ViewModel
     
     private let columns = [GridItem(.adaptive(minimum: UIScreen.main.bounds.width / 4))]
-
     
-    init(objectsDetails: Binding<[ObjectDetails]>) {
-        self._objectsDetails = objectsDetails
-        let uniqueValues = objectsDetails.wrappedValue.uniqueValues()
+    
+    init(
+        selectedTowns: Binding<[Location]>,
+        selectedMajlises: Binding<[Location]>,
+        selectedObjectTypes: Binding<[ObjType]>,
+        objectDetails: [ObjectDetails])
+    {
+        self._selectedTowns = selectedTowns
+        self._selectedMajlises = selectedMajlises
+        self._selectedObjectTypes = selectedObjectTypes
+        self.objectDetails = objectDetails
+        let uniqueValues = objectDetails.uniqueValues()
         self.uniqueTowns = Array(uniqueValues.towns)
         self.uniqueMajlis = Array(uniqueValues.majlises)
         self.uniqueObjectTypes = Array(uniqueValues.objTypes)
@@ -54,7 +64,13 @@ struct RightSideMenu: View {
         }
         .frame(width: UIScreen.main.bounds.width / 1.3)
         .onChange(of: selectedTowns) { _ in
-            objectsDetails = objectsDetails.filterObjects(towns: selectedTowns, majlises: selectedMajlises, yearBuiltFrom: 0, yearBuiltTo: Int.max, objTypes: selectedObjectTypes)
+            viewModel.filterObjectsByTown(selectedTowns: selectedTowns)
+        }
+        .onChange(of: selectedMajlises) { _ in
+            viewModel.filterObjectsByMajlises(selectedMajlises: selectedMajlises)
+        }
+        .onChange(of: selectedObjectTypes) { _ in
+            viewModel.filterObjectsByObjectTypes(selectedObjectTypes: selectedObjectTypes)
         }
     }
     
@@ -128,6 +144,6 @@ struct RightSideMenu: View {
 
 struct RightSideMenu_Previews: PreviewProvider {
     static var previews: some View {
-        RightSideMenu(objectsDetails: .constant([]))
+        RightSideMenu(selectedTowns: .constant(([])), selectedMajlises: .constant(([])), selectedObjectTypes: .constant(([])), objectDetails: [])
     }
 }
