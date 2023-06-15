@@ -71,7 +71,9 @@ struct VaktijaView: View {
     var body: some View {
         VStack {
             CustomNavBar(navBarTitle: TK.Vaktija.title)
-            contentView
+            ScrollView {
+                contentView
+            }
         }
     }
     
@@ -80,6 +82,7 @@ struct VaktijaView: View {
         VStack {
             
             locationView
+                .padding(.vertical)
             
             datePicker
             
@@ -120,13 +123,13 @@ struct VaktijaView: View {
             Spacer()
             Img.icLocationGreen.swiftUIImage
                 .resizable()
-                .frame(width: 15, height: 15)
+                .frame(width: 25, height: 30)
             
             Text(selectedCity.displayName)
+                .font(RFT.bold.swiftUIFont(size: 20))
             
             Spacer()
         }
-        .scaleEffect(x: 1.5, y: 1.5)
         .onTapGesture {
             isAllCitiesBottomSheetPresented = true
         }
@@ -250,10 +253,9 @@ struct VaktijaView: View {
             }
             
         }
-        
+        .frame(height: 100)
         .padding(.vertical)
         .background(Color.gray.opacity(0.1))
-        .scaleEffect(x: 1.1)
     }
     
     // MARK: All cities view

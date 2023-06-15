@@ -41,7 +41,6 @@
 		F60A8A5F2A1FD70200C2F4D3 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F60A8A5E2A1FD70200C2F4D3 /* FirebaseAnalytics */; };
 		F60A8A612A1FD70200C2F4D3 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = F60A8A602A1FD70200C2F4D3 /* FirebaseMessaging */; };
 		F60A8A632A1FDCF500C2F4D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60A8A622A1FDCF500C2F4D3 /* AppDelegate.swift */; };
-		F60A8A652A1FE00B00C2F4D3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F60A8A642A1FE00B00C2F4D3 /* GoogleService-Info.plist */; };
 		F6149B3329E7FC6C007D6B1F /* ObjectListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */; };
 		F61F8D5D2A168EFD00A6FDB3 /* FullScreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */; };
 		F6225B8C29F43AC60071B42B /* PrayerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6225B8B29F43AC60071B42B /* PrayerTime.swift */; };
@@ -74,6 +73,7 @@
 		F6BB7AE42A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BB7AE32A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift */; };
 		F6BB7AE62A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BB7AE52A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift */; };
 		F6C0E54F2A14062700BA5AC1 /* MosqueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0E54E2A14062700BA5AC1 /* MosqueTypes.swift */; };
+		F6CCBBC42A3A145600D112F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6CCBBC32A3A145600D112F4 /* GoogleService-Info.plist */; };
 		F6F9EE312A1B59120098FA6B /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9EE302A1B59120098FA6B /* PushNotificationsManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -125,7 +125,6 @@
 		65DC376C29C66412003DD32A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		65DC376E29C66828003DD32A /* QiblaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiblaView.swift; sourceTree = "<group>"; };
 		F60A8A622A1FDCF500C2F4D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F60A8A642A1FE00B00C2F4D3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F6149B3229E7FC6C007D6B1F /* ObjectListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectListView.swift; sourceTree = "<group>"; };
 		F61F8D5C2A168EFD00A6FDB3 /* FullScreenImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageView.swift; sourceTree = "<group>"; };
 		F6225B8B29F43AC60071B42B /* PrayerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTime.swift; sourceTree = "<group>"; };
@@ -163,6 +162,8 @@
 		F6BB7AE32A1A4C5100AEB9C1 /* ReligiousActivityRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligiousActivityRowView.swift; sourceTree = "<group>"; };
 		F6BB7AE52A1A4E0B00AEB9C1 /* ObjectDimensionsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDimensionsRowView.swift; sourceTree = "<group>"; };
 		F6C0E54E2A14062700BA5AC1 /* MosqueTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosqueTypes.swift; sourceTree = "<group>"; };
+		F6CCBBC32A3A145600D112F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F6CCBBC52A3A157C00D112F4 /* IslamskiObjektiUCrnojGori.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IslamskiObjektiUCrnojGori.entitlements; sourceTree = "<group>"; };
 		F6F9EE302A1B59120098FA6B /* PushNotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -286,7 +287,7 @@
 		F660472C29B36D710053D136 = {
 			isa = PBXGroup;
 			children = (
-				F60A8A642A1FE00B00C2F4D3 /* GoogleService-Info.plist */,
+				F6CCBBC32A3A145600D112F4 /* GoogleService-Info.plist */,
 				F67E92132A191C520091D3E0 /* vaktija.json */,
 				65A43FB529B7B86800D34E8B /* swiftgen.yml */,
 				F660473729B36D710053D136 /* IslamskiObjektiUCrnojGori */,
@@ -309,6 +310,7 @@
 		F660473729B36D710053D136 /* IslamskiObjektiUCrnojGori */ = {
 			isa = PBXGroup;
 			children = (
+				F6CCBBC52A3A157C00D112F4 /* IslamskiObjektiUCrnojGori.entitlements */,
 				65A43FAD29B7B16E00D34E8B /* Main */,
 				65A43F9529B7A94900D34E8B /* Data Layer */,
 				65A43F9829B7AB7B00D34E8B /* Models */,
@@ -562,10 +564,10 @@
 			files = (
 				F660473D29B36D720053D136 /* Images.xcassets in Resources */,
 				65DC376D29C66412003DD32A /* Colors.xcassets in Resources */,
+				F6CCBBC42A3A145600D112F4 /* GoogleService-Info.plist in Resources */,
 				65A43FB629B7B86800D34E8B /* swiftgen.yml in Resources */,
 				65A43FB329B7B74500D34E8B /* sr.strings in Resources */,
 				F67E92142A191C520091D3E0 /* vaktija.json in Resources */,
-				F60A8A652A1FE00B00C2F4D3 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -799,9 +801,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = IslamskiObjektiUCrnojGori/IslamskiObjektiUCrnojGori.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
 				DEVELOPMENT_TEAM = RDS9R53Y7B;
 				ENABLE_PREVIEWS = YES;
@@ -842,9 +845,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = IslamskiObjektiUCrnojGori/IslamskiObjektiUCrnojGori.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
 				DEVELOPMENT_TEAM = RDS9R53Y7B;
 				ENABLE_PREVIEWS = YES;

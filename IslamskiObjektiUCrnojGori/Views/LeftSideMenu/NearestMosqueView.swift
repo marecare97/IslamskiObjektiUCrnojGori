@@ -64,6 +64,7 @@ struct NearestMosqueView: View {
                         HStack(alignment: .center, spacing: 20) {
                             if selectedMosqueTypes.contains(mosque) {
                                 Image(systemSymbol: .checkmarkSquareFill)
+                                    .frame(width: 20, height: 20)
                                     .foregroundColor(.green)
                                     .onTapGesture {
                                         selectedMosqueTypes = selectedMosqueTypes.filter { $0 != mosque }
@@ -71,13 +72,14 @@ struct NearestMosqueView: View {
                                 
                             } else {
                                 Image(systemSymbol: .square)
+                                    .frame(width: 20, height: 20)
                                     .foregroundColor(.green)
                                     .onTapGesture {
                                         selectedMosqueTypes.append(mosque)
-//                                        print("clicked object", selectedMosqueTypes)
                                     }
                             }
                             Text(mosque.name)
+                                .frame(width: 60, height: 20)
                         }
                     }
                 }

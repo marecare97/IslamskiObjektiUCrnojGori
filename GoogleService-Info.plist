@@ -2,18 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>1038766905927-pkmfc0hnem95dft94qfrd2g9glmtmham.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1038766905927-pkmfc0hnem95dft94qfrd2g9glmtmham</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCXJvA39kARYcF2lMrw3ynkBUAdcmjq83U</string>
+	<string>AIzaSyDG7j9Ty3xi9Q6O5cn4aNusGrUqd3JJGA0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>956464063506</string>
+	<string>1038766905927</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>markos.IslamskiObjektiUCrnojGori</string>
+	<string>muharem.islamskiObjekti.crnagora</string>
 	<key>PROJECT_ID</key>
-	<string>islamskiobjekti-test</string>
+	<string>islamski-objekti-276d8</string>
 	<key>STORAGE_BUCKET</key>
-	<string>islamskiobjekti-test.appspot.com</string>
+	<string>islamski-objekti-276d8.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:956464063506:ios:918529434cd26dcbcea4cb</string>
+	<string>1:1038766905927:ios:a66648548287b945456f62</string>
 </dict>
 </plist>
