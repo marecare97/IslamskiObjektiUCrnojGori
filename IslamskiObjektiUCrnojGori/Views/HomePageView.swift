@@ -37,9 +37,9 @@ struct HomePageView: View {
         Group {
             switch viewModel.state {
             case .initial:
-                ProgressView()
+                LottieAnimatingView(animation: .map_loader)
             case .loading:
-                ProgressView()
+                LottieAnimatingView(animation: .map_loader)
             case .finished:
                 groupedView
                     .onAppear {
@@ -193,7 +193,7 @@ struct HomePageView: View {
                     .rotationEffect(Angle.degrees(showLeftSideMenu ? 360 : 0))
             })
             
-            Text((Str.objects + " (\(viewModel.allObjects.count))"))
+            Text((Str.objects + " (\(viewModel.filteredObjects.count == 0 ? viewModel.allObjects.count : viewModel.filteredObjects.count))"))
                 .foregroundColor(.white)
             
             Spacer()
@@ -431,13 +431,13 @@ extension HomePageView {
         
         init() {
             nextPrayerDate =  CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime() ?? CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime(forToday: false) ?? Date()
-            // FIXME: 
+            // FIXME:
             locationService.startUpdatingLocation()
             locationService.publisher
                 .sink { [weak self] location in
                     guard let self = self else { return }
                     self.fetchAndSortObjects(userLocation: location.coordinate)
-//                    print("USER LOCATION ==> \(location.coordinate)")
+                    //                    print("USER LOCATION ==> \(location.coordinate)")
                 }
                 .store(in: &locationService.cancellables)
         }
@@ -459,7 +459,7 @@ extension HomePageView {
                     print(completion)
                 } receiveValue: { [weak self] allObjects in
                     guard let self = self else { return }
-//                    print("svi objekti", allObjects)
+                    //                    print("svi objekti", allObjects)
                     self.allObjects = allObjects.message
                     let sorted = self.allObjects.sorted { (object1, object2) -> Bool in
                         let location1 = CLLocation(latitude: object1.latitude, longitude: object1.longitude)
@@ -500,6 +500,15 @@ extension HomePageView {
         func filterObjectsByObjectTypes(selectedObjectTypes: [ObjType]) {
             filteredObjects = allObjects.filter { object in
                 selectedObjectTypes.contains(object.objType)
+            }
+        }
+        
+        func filterObjectsByYearBuilt(fromYear: Int, toYear: Int) {
+            filteredObjects = allObjects.filter { object in
+                if let year = object.yearBuilt {
+                    return year >= fromYear && year <= toYear
+                }
+                return false
             }
         }
     }

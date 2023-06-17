@@ -62,6 +62,9 @@
 		F6865ECF29C0D6CF00BFAEA7 /* LocationPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6865ECE29C0D6CF00BFAEA7 /* LocationPermissionView.swift */; };
 		F6865ED229C0DBBB00BFAEA7 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6865ED129C0DBBB00BFAEA7 /* LocationService.swift */; };
 		F68A93E529F86877007F700F /* ObjectItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68A93E429F86877007F700F /* ObjectItem.swift */; };
+		F696E6952A3CB5BE007FC928 /* map_loader.json in Resources */ = {isa = PBXBuildFile; fileRef = F696E6942A3CB5BE007FC928 /* map_loader.json */; };
+		F696E6972A3CB600007FC928 /* LottieAnimatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F696E6962A3CB600007FC928 /* LottieAnimatingView.swift */; };
+		F696E69A2A3CB64C007FC928 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F696E6992A3CB64C007FC928 /* Lottie */; };
 		F6AB691A29BD04D500DFFA97 /* View+DynamicHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */; };
 		F6B4EC0E2A0AD7F0004F9A9E /* NearestMosqueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */; };
 		F6B4EC102A0AE33B004F9A9E /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */; };
@@ -152,6 +155,8 @@
 		F6865ED529C0E32E00BFAEA7 /* poppins_semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = poppins_semibold.ttf; sourceTree = "<group>"; };
 		F6865ED629C0E32E00BFAEA7 /* roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = roboto.ttf; sourceTree = "<group>"; };
 		F68A93E429F86877007F700F /* ObjectItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectItem.swift; sourceTree = "<group>"; };
+		F696E6942A3CB5BE007FC928 /* map_loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map_loader.json; sourceTree = "<group>"; };
+		F696E6962A3CB600007FC928 /* LottieAnimatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimatingView.swift; sourceTree = "<group>"; };
 		F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+DynamicHide.swift"; sourceTree = "<group>"; };
 		F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestMosqueView.swift; sourceTree = "<group>"; };
 		F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
@@ -173,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F60A8A612A1FD70200C2F4D3 /* FirebaseMessaging in Frameworks */,
+				F696E69A2A3CB64C007FC928 /* Lottie in Frameworks */,
 				65D38CCA29B7E41F00072C9C /* SDWebImageSwiftUI in Frameworks */,
 				65D38CB729B7BB0800072C9C /* SFSafeSymbols in Frameworks */,
 				F660476529B371920053D136 /* MapboxMaps in Frameworks */,
@@ -288,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				F6CCBBC32A3A145600D112F4 /* GoogleService-Info.plist */,
+				F696E6942A3CB5BE007FC928 /* map_loader.json */,
 				F67E92132A191C520091D3E0 /* vaktija.json */,
 				65A43FB529B7B86800D34E8B /* swiftgen.yml */,
 				F660473729B36D710053D136 /* IslamskiObjektiUCrnojGori */,
@@ -422,6 +429,7 @@
 				F68A93E429F86877007F700F /* ObjectItem.swift */,
 				F67E920F2A19186B0091D3E0 /* CountdownTimerView.swift */,
 				F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */,
+				F696E6962A3CB600007FC928 /* LottieAnimatingView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -465,6 +473,7 @@
 				F6B60EDE29C7BE0800EC54C0 /* ExpandableText */,
 				F60A8A5E2A1FD70200C2F4D3 /* FirebaseAnalytics */,
 				F60A8A602A1FD70200C2F4D3 /* FirebaseMessaging */,
+				F696E6992A3CB64C007FC928 /* Lottie */,
 			);
 			productName = IslamskiObjektiUCrnojGori;
 			productReference = F660473529B36D710053D136 /* IslamskiObjektiUCrnojGori.app */;
@@ -545,6 +554,7 @@
 				65D38CC829B7E41F00072C9C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				F6B60EDD29C7BE0800EC54C0 /* XCRemoteSwiftPackageReference "ExpandableText" */,
 				F60A8A5D2A1FD70200C2F4D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				F696E6982A3CB64C007FC928 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = F660473629B36D710053D136 /* Products */;
 			projectDirPath = "";
@@ -562,6 +572,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F696E6952A3CB5BE007FC928 /* map_loader.json in Resources */,
 				F660473D29B36D720053D136 /* Images.xcassets in Resources */,
 				65DC376D29C66412003DD32A /* Colors.xcassets in Resources */,
 				F6CCBBC42A3A145600D112F4 /* GoogleService-Info.plist in Resources */,
@@ -612,6 +623,7 @@
 				F67E92102A19186B0091D3E0 /* CountdownTimerView.swift in Sources */,
 				F6B60F9F29CF7D630036EB60 /* RoundedCorner.swift in Sources */,
 				F6225B8C29F43AC60071B42B /* PrayerTime.swift in Sources */,
+				F696E6972A3CB600007FC928 /* LottieAnimatingView.swift in Sources */,
 				65D38CC529B7E21200072C9C /* ObjectDetailsView.swift in Sources */,
 				65D38CBF29B7CDAB00072C9C /* ReportProblemView.swift in Sources */,
 				F61F8D5D2A168EFD00A6FDB3 /* FullScreenImageView.swift in Sources */,
@@ -804,7 +816,7 @@
 				CODE_SIGN_ENTITLEMENTS = IslamskiObjektiUCrnojGori/IslamskiObjektiUCrnojGori.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
 				DEVELOPMENT_TEAM = RDS9R53Y7B;
 				ENABLE_PREVIEWS = YES;
@@ -848,7 +860,7 @@
 				CODE_SIGN_ENTITLEMENTS = IslamskiObjektiUCrnojGori/IslamskiObjektiUCrnojGori.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
 				DEVELOPMENT_TEAM = RDS9R53Y7B;
 				ENABLE_PREVIEWS = YES;
@@ -1041,6 +1053,14 @@
 				version = 10.0.0;
 			};
 		};
+		F696E6982A3CB64C007FC928 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		F6B60EDD29C7BE0800EC54C0 /* XCRemoteSwiftPackageReference "ExpandableText" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/NuPlay/ExpandableText.git";
@@ -1076,6 +1096,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F660476329B371920053D136 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */;
 			productName = MapboxMaps;
+		};
+		F696E6992A3CB64C007FC928 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F696E6982A3CB64C007FC928 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
 		};
 		F6B60EDE29C7BE0800EC54C0 /* ExpandableText */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -9,9 +9,17 @@ import SwiftUI
 import Combine
 
 struct UsefulLinksSideMenuView: View {
-    @ObservedObject var viewModel = ViewModel()
+    @StateObject var viewModel = ViewModel()
     
     var body: some View {
+        VStack {
+            CustomNavBar(navBarTitle: TK.LeftSideMenu.usefulLinks)
+            contentView
+        }
+        .navigationBarBackButtonHidden()
+    }
+    
+    var contentView: some View {
         Group {
             if viewModel.isLoading {
                 VStack {

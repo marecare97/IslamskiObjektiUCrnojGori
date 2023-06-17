@@ -28,6 +28,7 @@ struct LeftSideMenuView: View {
         case vaktijaView
         case quiblaView
         case aboutView
+        case usefulLinks
     }
     
     var body: some View {
@@ -82,7 +83,9 @@ struct LeftSideMenuView: View {
                     foreGroundColor: .green,
                     text: S.usefulLinks,
                     textColor: .green
-                )
+                ) {
+                    navigationDestination = .usefulLinks
+                }
                 
                 Spacer()
                 
@@ -150,6 +153,13 @@ struct LeftSideMenuView: View {
             NavigationLink(
                 destination: VaktijaView(),
                 tag: NavigationDestination.vaktijaView,
+                selection: $navigationDestination,
+                label: { }
+            )
+            
+            NavigationLink(
+                destination: UsefulLinksSideMenuView(),
+                tag: NavigationDestination.usefulLinks,
                 selection: $navigationDestination,
                 label: { }
             )

@@ -66,7 +66,7 @@ class MapViewController: UIViewController  {
     override public func viewDidLoad() {
         super.viewDidLoad()
         let myResourceOptions = ResourceOptions(accessToken: "pk.eyJ1IjoiYm96aWRhcnMyNyIsImEiOiJjazh6eGM0MTUwODNrM25uNDEzeTN0bGNxIn0.ruHpEdNSJu5NnmxEXmvYFg")
-        let cameraOptions = CameraOptions(center: CLLocationCoordinate2D(latitude: 40.83647410051574, longitude: 14.30582273457794), zoom: 4.5)
+        let cameraOptions = CameraOptions(center: CLLocationCoordinate2D(latitude: 42.7087, longitude: 19.3744), zoom: 4.5)
         let myMapInitOptions = MapInitOptions(resourceOptions: myResourceOptions, cameraOptions: cameraOptions, styleURI: isChangeMapStyleButtonTapped ? .satellite : .light)
         mapView = MapView(frame: view.bounds, mapInitOptions: myMapInitOptions)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -178,7 +178,7 @@ class MapViewController: UIViewController  {
 
 extension MapViewController: LocationPermissionsDelegate, LocationConsumer {
     func locationUpdate(newLocation: MapboxMaps.Location) {
-        mapView.camera.fly(to: CameraOptions(center: newLocation.coordinate, zoom: 10.0), duration: 5.0)
+        mapView.camera.fly(to: CameraOptions(center: newLocation.coordinate, zoom: 7.0), duration: 3.0)
     }
 }
 
