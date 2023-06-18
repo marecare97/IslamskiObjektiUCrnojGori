@@ -18,9 +18,9 @@ struct RightSideMenu: View {
     
     @State var isFromYearBuiltBottomSheetPresented = false
     @State var isToYearBuiltBottomSheetPresented = false
+    
     @State var selectedFromYear: Int = 1000
     @State var selectedToYear: Int = 2023
-    
     @Binding var selectedTowns: [Location]
     @Binding var selectedMajlises: [Location]
     @Binding var selectedObjectTypes: [ObjType]
@@ -113,6 +113,12 @@ struct RightSideMenu: View {
         }
         .onChange(of: selectedObjectTypes) { _ in
             viewModel.filterObjectsByObjectTypes(selectedObjectTypes: selectedObjectTypes)
+        }
+        .onChange(of: selectedFromYear) { newValue in
+            viewModel.filterObjectsByYearBuilt(fromYear: newValue, toYear: selectedToYear)
+        }
+        .onChange(of: selectedToYear) { newValue in
+            viewModel.filterObjectsByYearBuilt(fromYear: selectedFromYear, toYear: newValue)
         }
     }
     
