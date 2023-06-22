@@ -157,7 +157,7 @@ struct CustomDatePicker: View {
             // Days...
             let days: [String] = ["pon","uto","sri","čet","pet","sub", "ned"]
             
-            HStack(spacing: 15){
+            HStack(spacing: 15) {
                 Button {
                     withAnimation{
                         currentMonth -= 1
@@ -194,6 +194,7 @@ struct CustomDatePicker: View {
                 
             }
             .padding(.horizontal)
+            .padding(.vertical)
             // Day View...
             
             LazyHStack(spacing: 37) {
@@ -239,30 +240,35 @@ struct CustomDatePicker: View {
     func CardView(value: DateValue)-> some View {
         VStack {
             if let prayerTimes = prayerTimes[CalendarView.ViewModel.CalendarTime(month: Calendar.current.component(.month, from: value.date), year: Calendar.current.component(.year, from: value.date))], let prayer = prayerTimes.data.first(where: { $0.gregorian.date == getDateToCompareToResponse(date: value.date) }) {
-                if let prayer = prayer, !prayer.hijri.holidays.isEmpty {
-                    ZStack {
-                        Circle()
-                            .fill(Color.green.opacity(Calendar.current.isDateInToday(value.date) ? 1 : !prayer.hijri.holidays.isEmpty ? 0.5 : 0))
-                            .frame(width: 35,height: 35)
+                ZStack {
+                    Circle()
+                        .fill(Color.green.opacity(isSameDay(date1: value.date, date2: currentDate) ? 1 : !prayer.hijri.holidays.isEmpty ? 0.5 : 0))
+                        .frame(width: 35,height: 35)
+                    if !prayer.hijri.holidays.isEmpty || isSameDay(date1: value.date, date2: currentDate) {
                         Text("\(value.day)")
                             .font(RFT.medium.swiftUIFont(size: 12))
                             .foregroundColor(.black)
-                            .foregroundColor(Calendar.current.isDateInToday(value.date) ? .white : .black)
+                            .foregroundColor(isSameDay(date1: value.date, date2: currentDate) ? .white : .black)
                             .frame(maxWidth: .infinity)
+                    } else {
+                        Text("\(value.day)")
+                            .font(RFT.medium.swiftUIFont(size: 12))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                        
+                        Spacer()
                     }
-                } else {
+                }
+            } else {
+                ZStack {
+                    Circle()
+                        .fill(Color.clear)
+                        .frame(width: 35,height: 35)
                     Text("\(value.day)")
                         .font(RFT.medium.swiftUIFont(size: 12))
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
-                    
-                    Spacer()
                 }
-            } else {
-                Text("\(value.day)")
-                    .font(RFT.medium.swiftUIFont(size: 12))
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity)
                 
                 Spacer()
             }
@@ -270,7 +276,6 @@ struct CustomDatePicker: View {
         .padding(.vertical,9)
         .frame(height: 60,alignment: .top)
     }
-    
     
     // checking dates...
     func isSameDay(date1: Date,date2: Date)->Bool{

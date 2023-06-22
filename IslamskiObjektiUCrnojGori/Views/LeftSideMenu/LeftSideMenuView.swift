@@ -12,13 +12,15 @@ import SFSafeSymbols
 struct LeftSideMenuView: View {
     typealias S = TK.LeftSideMenu
     
-    @State private var navigationDestination: NavigationDestination? = nil
+    @State private var navigationDestination: NavigationDestination? = .objectsView
+    @State private var objectsViewType: ObjectsViewType? = .mapView
     
     @State var longitude: Double?
     @State var latitude: Double?
     
     @Binding var allObjects: [ObjectDetails]
     @Binding var sortedObjects: [ObjectDetails]
+    @Binding var isObjectsListContentViewPresented: Bool
     
     enum NavigationDestination {
         case objectsView
@@ -31,6 +33,12 @@ struct LeftSideMenuView: View {
         case usefulLinks
     }
     
+    // MARK: unused
+    enum ObjectsViewType {
+        case mapView
+        case objectsListView
+    }
+    
     var body: some View {
         ZStack {
             navigationLinks
@@ -39,8 +47,13 @@ struct LeftSideMenuView: View {
                 .ignoresSafeArea(edges: .bottom)
             VStack(alignment: .leading, spacing: 20) {
                 
-                MenuRow(image: Img.icon4.swiftUIImage, text: S.objects) {
+                MenuRow(
+                    image: Img.icon4.swiftUIImage,
+                    text: S.objects,
+                    textColor: navigationDestination == .objectsView ? .green : .primary
+                ) {
                     navigationDestination = .objectsView
+                    //                    isObjectsListContentViewPresented.toggle()
                 }
                 
                 Divider()
@@ -53,15 +66,24 @@ struct LeftSideMenuView: View {
                         navigationDestination = .nearestMosqueView
                     }
                     
-                    MenuRow(image: Img.icon2.swiftUIImage, text: S.vaktija) {
+                    MenuRow(
+                        image: Img.icon2.swiftUIImage,
+                        text: S.vaktija
+                    ) {
                         navigationDestination = .vaktijaView
                     }
                     
-                    MenuRow(image: Img.icon1.swiftUIImage, text: S.kibla) {
+                    MenuRow(
+                        image: Img.icon1.swiftUIImage,
+                        text: S.kibla
+                    ) {
                         navigationDestination = .quiblaView
                     }
                     
-                    MenuRow(image: Img.icon3.swiftUIImage, text: S.calendar) {
+                    MenuRow(
+                        image: Img.icon3.swiftUIImage,
+                        text: S.calendar
+                    ) {
                         navigationDestination = .calendarView
                     }
                     
@@ -70,19 +92,24 @@ struct LeftSideMenuView: View {
                 Divider()
                     .offset(x: -12)
                 
-                MenuRow(image: Image(systemSymbol: .bellCircleFill), text: S.notifications) {
+                MenuRow(
+                    image: Image(systemSymbol: .bellCircleFill),
+                    text: S.notifications
+                ) {
                     navigationDestination = .notificationsView
                 }
                 
-                MenuRow(image: Image(systemSymbol: .infoCircleFill), text: S.about) {
+                MenuRow(
+                    image: Image(systemSymbol: .infoCircleFill),
+                    text: S.about
+                ) {
                     navigationDestination = .aboutView
                 }
                 
                 MenuRow(
                     image: Image(systemSymbol: .link),
                     foreGroundColor: .green,
-                    text: S.usefulLinks,
-                    textColor: .green
+                    text: S.usefulLinks
                 ) {
                     navigationDestination = .usefulLinks
                 }
@@ -101,19 +128,19 @@ struct LeftSideMenuView: View {
                 .padding()
             }
             .padding()
-            .padding(.top, 120)
+            .padding(.top, !isObjectsListContentViewPresented ? 120 : 60)
         }
     }
     
     // MARK: -- Navigation
     var navigationLinks: some View {
         VStack {
-            NavigationLink(
-                destination: ObjectListView(sortedObjects: sortedObjects),
-                tag: NavigationDestination.objectsView,
-                selection: $navigationDestination,
-                label: { }
-            )
+            //            NavigationLink(
+            //                destination: ObjectListView(sortedObjects: sortedObjects),
+            //                tag: NavigationDestination.objectsView,
+            //                selection: $navigationDestination,
+            //                label: { }
+            //            )
             
             NavigationLink(
                 destination: NearestMosqueView(sortedObjects: sortedObjects),

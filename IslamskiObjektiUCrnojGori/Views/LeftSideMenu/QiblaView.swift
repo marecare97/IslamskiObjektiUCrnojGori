@@ -11,6 +11,7 @@ import CoreLocation
 struct QiblaView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var locationService = CompositionRoot.shared.locationService
+    @StateObject var rotationManager = PhoneRotationManager()
     @State private var qiblaDirection: Double = 0
     
     var body: some View {
@@ -22,7 +23,7 @@ struct QiblaView: View {
                 Img.qiblaCompass.swiftUIImage
                     .resizable()
                     .frame(width: 300, height: 300)
-                    .rotationEffect(.degrees(qiblaDirection))
+                    .rotationEffect(.degrees(qiblaDirection - locationService.heading))
                     .ignoresSafeArea()
                     .onAppear {
                         locationService.startUpdatingLocation()
@@ -31,7 +32,7 @@ struct QiblaView: View {
                                 // Calculate direction of Qibla from user's location
                                 let kaabaLocation = CLLocation(latitude: 21.4225, longitude: 39.8262) // Coordinates of Kaaba
                                 let qiblaDirection = location.coordinate.direction(to: kaabaLocation.coordinate)
-                                print("QIBLA DIRECTION ==> \(qiblaDirection)")
+//                                print("QIBLA DIRECTION ==> \(qiblaDirection)")
                                 withAnimation {
                                     self.qiblaDirection = qiblaDirection
                                 }

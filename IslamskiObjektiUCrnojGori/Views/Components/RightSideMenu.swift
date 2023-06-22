@@ -13,18 +13,19 @@ struct RightSideMenu: View {
     let uniqueMajlis: [Location]
     let uniqueObjectTypes: [ObjType]
     
-    let yearFromDropDown = Array(stride(from: 1000, through: 2000, by: 50))
-    let yearToDropDown = Array(stride(from: 1000, through: 2023, by: 50))
+    let fromYears = YearOfBuild.yearFromDropdown
+    let toYears = YearOfBuild.yearToDropdown
     
     @State var isFromYearBuiltBottomSheetPresented = false
     @State var isToYearBuiltBottomSheetPresented = false
     
-    @State var selectedFromYear: Int = 1000
-    @State var selectedToYear: Int = 2023
+    @Binding var selectedFromYear: Int
+    @Binding var selectedToYear: Int
     @Binding var selectedTowns: [Location]
     @Binding var selectedMajlises: [Location]
     @Binding var selectedObjectTypes: [ObjType]
-    
+    @Binding var isObjectsListContentViewPresented: Bool
+
     var objectDetails: [ObjectDetails]
     
     @EnvironmentObject var viewModel: HomePageView.ViewModel
@@ -33,11 +34,16 @@ struct RightSideMenu: View {
     
     
     init(
+        selectedFromYear: Binding<Int>,
+        selectedToYear: Binding<Int>,
         selectedTowns: Binding<[Location]>,
         selectedMajlises: Binding<[Location]>,
         selectedObjectTypes: Binding<[ObjType]>,
-        objectDetails: [ObjectDetails])
-    {
+        objectDetails: [ObjectDetails],
+        isObjectsListContentViewPresented: Binding<Bool>
+    ) {
+        self._selectedFromYear = selectedFromYear
+        self._selectedToYear = selectedToYear
         self._selectedTowns = selectedTowns
         self._selectedMajlises = selectedMajlises
         self._selectedObjectTypes = selectedObjectTypes
@@ -46,6 +52,7 @@ struct RightSideMenu: View {
         self.uniqueTowns = Array(uniqueValues.towns)
         self.uniqueMajlis = Array(uniqueValues.majlises)
         self.uniqueObjectTypes = Array(uniqueValues.objTypes)
+        self._isObjectsListContentViewPresented = isObjectsListContentViewPresented
     }
     
     var body: some View {
@@ -69,7 +76,7 @@ struct RightSideMenu: View {
                     yearBuiltFilterView
                     
                 }
-                .padding(.top, 130)
+                .padding(.top, !isObjectsListContentViewPresented ? 130 : 65)
                 .padding(.bottom, 50)
             }
             .padding(.leading, 30)
@@ -199,7 +206,7 @@ struct RightSideMenu: View {
                             .shadow(.drop(radius: 2, x: 5, y: 5)))
                         .frame(width: 90, height: 30)
                         .border(.white, width: 0.5)
-                    Text("\(selectedFromYear)")
+                    Text("\(selectedFromYear.formattedString())")
                 }
                 .onTapGesture {
                     isFromYearBuiltBottomSheetPresented = true
@@ -216,7 +223,7 @@ struct RightSideMenu: View {
                             .shadow(.drop(radius: 2, x: 5, y: 5)))
                         .frame(width: 90, height: 30)
                         .border(.white, width: 0.5)
-                    Text("\(selectedToYear)")
+                    Text("\(selectedToYear.formattedString())")
                 }
                 .onTapGesture {
                     isToYearBuiltBottomSheetPresented = true
@@ -229,7 +236,7 @@ struct RightSideMenu: View {
     
     var fromYearDropDownView: some View {
         LazyVStack {
-            ForEach(yearFromDropDown, id: \.self) { year in
+            ForEach(fromYears, id: \.self) { year in
                 let isSelected = selectedFromYear == year
                 let scale = isSelected ? 1.2 : 1
                 let textColor = isSelected ? Color.black : Color.gray
@@ -238,7 +245,7 @@ struct RightSideMenu: View {
                     selectedFromYear = year
                     isFromYearBuiltBottomSheetPresented = false
                 } label: {
-                    Text("\(year)")
+                    Text("\(year.formattedString())")
                         .padding()
                         .fontWeight(isSelected ? .bold : .regular)
                         .scaleEffect(x: scale, y: scale)
@@ -250,7 +257,7 @@ struct RightSideMenu: View {
     
     var toYearDropDownView: some View {
         LazyVStack {
-            ForEach(yearToDropDown, id: \.self) { year in
+            ForEach(toYears, id: \.self) { year in
                 let isSelected = selectedToYear == year
                 let scale = isSelected ? 1.2 : 1
                 let textColor = isSelected ? Color.black : Color.gray
@@ -259,7 +266,7 @@ struct RightSideMenu: View {
                     selectedToYear = year
                     isToYearBuiltBottomSheetPresented = false
                 } label: {
-                    Text("\(year)")
+                    Text("\(year.formattedString())")
                         .padding()
                         .fontWeight(isSelected ? .bold : .regular)
                         .scaleEffect(x: scale, y: scale)
@@ -272,6 +279,16 @@ struct RightSideMenu: View {
 
 struct RightSideMenu_Previews: PreviewProvider {
     static var previews: some View {
-        RightSideMenu(selectedTowns: .constant(([])), selectedMajlises: .constant(([])), selectedObjectTypes: .constant(([])), objectDetails: [])
+        RightSideMenu(selectedFromYear: .constant(0), selectedToYear: .constant(0),selectedTowns: .constant(([])), selectedMajlises: .constant(([])), selectedObjectTypes: .constant(([])), objectDetails: [], isObjectsListContentViewPresented: .constant(false))
+    }
+}
+
+extension Int {
+    func formattedString() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = ""
+        
+        return formatter.string(from: NSNumber(value: self)) ?? ""
     }
 }

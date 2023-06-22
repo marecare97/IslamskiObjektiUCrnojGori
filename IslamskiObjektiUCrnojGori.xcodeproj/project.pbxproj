@@ -65,6 +65,7 @@
 		F696E6952A3CB5BE007FC928 /* map_loader.json in Resources */ = {isa = PBXBuildFile; fileRef = F696E6942A3CB5BE007FC928 /* map_loader.json */; };
 		F696E6972A3CB600007FC928 /* LottieAnimatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F696E6962A3CB600007FC928 /* LottieAnimatingView.swift */; };
 		F696E69A2A3CB64C007FC928 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F696E6992A3CB64C007FC928 /* Lottie */; };
+		F696E6A32A424B1B007FC928 /* PhoneRotationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F696E6A22A424B1B007FC928 /* PhoneRotationManager.swift */; };
 		F6AB691A29BD04D500DFFA97 /* View+DynamicHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */; };
 		F6B4EC0E2A0AD7F0004F9A9E /* NearestMosqueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */; };
 		F6B4EC102A0AE33B004F9A9E /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */; };
@@ -157,6 +158,7 @@
 		F68A93E429F86877007F700F /* ObjectItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectItem.swift; sourceTree = "<group>"; };
 		F696E6942A3CB5BE007FC928 /* map_loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map_loader.json; sourceTree = "<group>"; };
 		F696E6962A3CB600007FC928 /* LottieAnimatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimatingView.swift; sourceTree = "<group>"; };
+		F696E6A22A424B1B007FC928 /* PhoneRotationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRotationManager.swift; sourceTree = "<group>"; };
 		F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+DynamicHide.swift"; sourceTree = "<group>"; };
 		F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestMosqueView.swift; sourceTree = "<group>"; };
 		F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 			children = (
 				F660473829B36D710053D136 /* IslamskiObjektiUCrnojGoriApp.swift */,
 				F6F9EE302A1B59120098FA6B /* PushNotificationsManager.swift */,
+				F696E6A22A424B1B007FC928 /* PhoneRotationManager.swift */,
 				65A43FAE29B7B17F00D34E8B /* CompositionRoot.swift */,
 				F60A8A622A1FDCF500C2F4D3 /* AppDelegate.swift */,
 			);
@@ -607,6 +610,7 @@
 				65A43F9E29B7ABFF00D34E8B /* Notifications.swift in Sources */,
 				F6B60F9D29CF59050036EB60 /* ObjectDetailsPreview.swift in Sources */,
 				65D38CB929B7BE9900072C9C /* AboutView.swift in Sources */,
+				F696E6A32A424B1B007FC928 /* PhoneRotationManager.swift in Sources */,
 				F67E920E2A1917AF0091D3E0 /* PrayerTimesProvider.swift in Sources */,
 				F660473B29B36D710053D136 /* HomePageView.swift in Sources */,
 				F6865ECF29C0D6CF00BFAEA7 /* LocationPermissionView.swift in Sources */,
@@ -1049,8 +1053,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mapbox/mapbox-maps-ios.git";
 			requirement = {
-				kind = exactVersion;
-				version = 10.0.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
 			};
 		};
 		F696E6982A3CB64C007FC928 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {

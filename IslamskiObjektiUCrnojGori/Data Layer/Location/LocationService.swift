@@ -15,6 +15,7 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let authorizationStatusSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
     var cancellables = Set<AnyCancellable>()
     
+    @Published var heading: Double = 0.0
     @Published var lastKnownLocation: CLLocationCoordinate2D?
     
     var publisher: AnyPublisher<CLLocation, Never> {
@@ -46,6 +47,7 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func startUpdatingLocation() {
         locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading()
     }
     
     func stopUpdatingLocation() {
@@ -68,5 +70,11 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
     func disableBackgroundUpdates() {
         locationManager.allowsBackgroundLocationUpdates = false
         locationManager.pausesLocationUpdatesAutomatically = true
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        DispatchQueue.main.async {
+            self.heading = newHeading.trueHeading
+        }
     }
 }

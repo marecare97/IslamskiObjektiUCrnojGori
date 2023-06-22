@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-common-ios.git",
       "state" : {
-        "revision" : "0344eb61ec9e3cf96c81b1767354a8a3cd1246fc",
-        "version" : "20.0.0"
+        "revision" : "584006ae5dcd08ba5ce206c3363bd679600ed39c",
+        "version" : "23.6.0"
       }
     },
     {
@@ -113,17 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-core-maps-ios.git",
       "state" : {
-        "revision" : "fd3b7e65b51fd984831c1337876b038ed183480b",
-        "version" : "10.0.0"
-      }
-    },
-    {
-      "identity" : "mapbox-events-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mapbox/mapbox-events-ios.git",
-      "state" : {
-        "revision" : "42aa5121a6810adee85bbc3ceb45c9792ae416d0",
-        "version" : "1.0.5"
+        "revision" : "4ba4f85e4b6d71134a32a46d0bc05b7395dc96c0",
+        "version" : "10.14.0"
       }
     },
     {
@@ -131,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mapbox/mapbox-maps-ios.git",
       "state" : {
-        "revision" : "75f38ef5c15a7ff97bd41f4243ad343befcd3e6a",
-        "version" : "10.0.0"
+        "revision" : "e3c48af54e28c3fe1eeb7790dd6e26f65a86898d",
+        "version" : "10.14.0"
       }
     },
     {
@@ -158,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImage.git",
       "state" : {
-        "revision" : "fb50c1d20f24db5322b2f8f379de3618f75fe08e",
-        "version" : "5.15.5"
+        "revision" : "c51ba84499268ea3020e6aee9e229c0f56b9d924",
+        "version" : "5.16.0"
       }
     },
     {
@@ -167,8 +158,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI.git",
       "state" : {
-        "revision" : "61fefe9c284fd41ddef77d02749e88f00c305196",
-        "version" : "2.2.2"
+        "revision" : "e837c37d45449fbd3b4745c10c5b5274e73edead",
+        "version" : "2.2.3"
       }
     },
     {
@@ -185,8 +176,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
       "state" : {
-        "revision" : "0af9125c4eae12a4973fb66574c53a54962a9e1e",
-        "version" : "1.21.0"
+        "revision" : "f25867a208f459d3c5a06935dceb9083b11cd539",
+        "version" : "1.22.0"
       }
     },
     {

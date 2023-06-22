@@ -13,6 +13,7 @@ struct ObjectListView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var sortedObjects: [ObjectDetails]
+    var filteredObjects: [ObjectDetails]
     
     @State var isObjectDetailsViewPresented = false
     @State var selectedObjectDetails: ObjectDetails?
@@ -22,8 +23,13 @@ struct ObjectListView: View {
         case objectDetailsView
     }
     
-    init(sortedObjects: [ObjectDetails], selectedObjectDetails: ObjectDetails? = nil) {
+    init(
+        sortedObjects: [ObjectDetails],
+        filteredObjects: [ObjectDetails],
+        selectedObjectDetails: ObjectDetails? = nil
+    ) {
         self.sortedObjects = sortedObjects
+        self.filteredObjects = filteredObjects
         self.selectedObjectDetails = selectedObjectDetails
     }
     
@@ -36,25 +42,23 @@ struct ObjectListView: View {
     }
     
     var contentView: some View {
-        VStack {
-            CustomNavBar(navBarTitle: TK.HomePageView.objects)
-            ScrollView {
-                ForEach(sortedObjects, id: \.id) { object in
-                    LazyVStack {
-                        ObjectItem(details: object)
-                            .padding()
-                            .onTapGesture {
-                                selectedObjectDetails = object
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-                                    navigationDestination = .objectDetailsView
-                                }
+        ScrollView {
+            ForEach(filteredObjects.count == 0 ? sortedObjects : filteredObjects, id: \.id) { object in
+                LazyVStack {
+                    ObjectItem(details: object)
+                        .padding()
+                        .onTapGesture {
+                            selectedObjectDetails = object
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+                                navigationDestination = .objectDetailsView
                             }
-                        Divider()
-                    }
-                    .padding(.horizontal, 30)
+                        }
+                    Divider()
                 }
+                .padding(.horizontal, 30)
             }
         }
+        .padding(.top, 50)
     }
     
     // MARK: -- Navigation
@@ -76,6 +80,6 @@ struct ObjectListView: View {
 
 struct ObjectListView_Previews: PreviewProvider {
     static var previews: some View {
-        ObjectListView(sortedObjects: [])
+        ObjectListView(sortedObjects: [], filteredObjects: [])
     }
 }

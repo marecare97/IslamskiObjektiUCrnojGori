@@ -12,9 +12,12 @@ import CoreLocation
 struct MapBoxMapView: UIViewControllerRepresentable {
     @Binding var allObjects: [ObjectDetails]
     @Binding var filteredObjects: [ObjectDetails]
-    let selectedObject: ObjectDetails? // FIXME: - crash
     @Binding var isChangeMapStyleButtonTapped: Bool
+    
+    let selectedObject: ObjectDetails? // FIXME: - crash
     let didTapOnObject: (ObjectDetails) -> Void
+    
+    @State var hasMapLoaded = false
     
     init(
         allObjects: Binding<[ObjectDetails]>,
@@ -31,12 +34,13 @@ struct MapBoxMapView: UIViewControllerRepresentable {
     }
     
     func makeUIViewController(context: Context) -> MapViewController {
-        return MapViewController(didTapOnObject: didTapOnObject, isChangeMapStyleButtonTapped: $isChangeMapStyleButtonTapped)
+        return MapViewController(didTapOnObject: didTapOnObject, isChangeMapStyleButtonTapped: $isChangeMapStyleButtonTapped, hasMapLoaded: $hasMapLoaded)
     }
     
     func updateUIViewController(_ uiViewController: MapViewController, context: Context) {
+        guard hasMapLoaded else { return }
         uiViewController.setPins(for: allObjects)
-        uiViewController.setPins(for: filteredObjects)
+        uiViewController.setPins(for: filteredObjects, isForAllObjects: false)
         if let selectedObject {
             uiViewController.setPin(for: selectedObject)
         }
@@ -46,18 +50,24 @@ struct MapBoxMapView: UIViewControllerRepresentable {
 
 class MapViewController: UIViewController  {
     internal var mapView: MapView!
+    let id = "islamskiobjekti"
+    var hasSetPinsForAllObjects = false
+    var lastFilteredObjects = [ObjectDetails]()
     private var pointAnnotationManager: PointAnnotationManager!
     private var allObjects = [ObjectDetails]()
     private var filteredObjects = [ObjectDetails]()
     let didTapOnObject: (ObjectDetails) -> Void
     @Binding var isChangeMapStyleButtonTapped: Bool
+    @Binding var hasMapLoaded: Bool
     
     init(
         didTapOnObject: @escaping (ObjectDetails) -> Void,
-        isChangeMapStyleButtonTapped: Binding<Bool>
+        isChangeMapStyleButtonTapped: Binding<Bool>,
+        hasMapLoaded: Binding<Bool>
     ) {
         self.didTapOnObject = didTapOnObject
         self._isChangeMapStyleButtonTapped = isChangeMapStyleButtonTapped
+        self._hasMapLoaded = hasMapLoaded
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -82,8 +92,10 @@ class MapViewController: UIViewController  {
         mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onMapClick)))
         
         mapView.mapboxMap.onNext(.mapLoaded) { [weak self] _ in
+            self?.hasMapLoaded = true
             guard let self = self, let latestLocation = self.mapView.location.latestLocation else { return }
             self.locationUpdate(newLocation: latestLocation)
+            self.setupAnnotationClustering()
         }
     }
     
@@ -104,8 +116,15 @@ class MapViewController: UIViewController  {
     //        }
     //    }
     
-    func setPins(for objects: [ObjectDetails]) {
+    func setPins(for objects: [ObjectDetails], isForAllObjects: Bool = true) {
         if !objects.isEmpty {
+            if isForAllObjects {
+                guard !hasSetPinsForAllObjects else { return }
+                hasSetPinsForAllObjects = true
+            } else {
+                guard objects != lastFilteredObjects else { return }
+                lastFilteredObjects = objects
+            }
             self.allObjects = objects
             let annotations = objects.map { object in
                 var point = PointAnnotation(
@@ -162,6 +181,28 @@ class MapViewController: UIViewController  {
         mapView.mapboxMap.style.uri = isSatellite ? .satelliteStreets : .streets
     }
     
+    func setupAnnotationClustering() {
+        let clusterOptions = ClusterOptions(
+            circleRadius: .constant(8),
+            circleColor: .constant(.init(UIColor.clear)),
+            textColor: .constant(StyleColor(.black)),
+            textField: .constant(""),
+            clusterRadius: 8,
+            clusterProperties: [:]
+        )
+        
+        pointAnnotationManager = mapView.annotations.makePointAnnotationManager(id: id, clusterOptions: clusterOptions)
+        
+        
+        do {
+            try mapView.mapboxMap.style.updateLayer(withId: "mapbox-iOS-cluster-circle-layer-manager-" + id, type: CircleLayer.self, update: { _ in
+                
+            })
+        } catch {
+            print("Updating the layer failed: \(error.localizedDescription)")
+        }
+    }
+    
     @objc private func onMapClick(_ sender: UITapGestureRecognizer) {
         let point = sender.location(in: mapView)
         let coordinate = mapView.mapboxMap.coordinate(for: point)
@@ -178,7 +219,7 @@ class MapViewController: UIViewController  {
 
 extension MapViewController: LocationPermissionsDelegate, LocationConsumer {
     func locationUpdate(newLocation: MapboxMaps.Location) {
-        mapView.camera.fly(to: CameraOptions(center: newLocation.coordinate, zoom: 7.0), duration: 3.0)
+        mapView.mapboxMap.setCamera(to: CameraOptions(center: newLocation.coordinate, zoom: 7.0))
     }
 }
 

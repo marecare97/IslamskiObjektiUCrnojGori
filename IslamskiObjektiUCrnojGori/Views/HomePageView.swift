@@ -17,13 +17,19 @@ struct HomePageView: View {
     
     @State var showLeftSideMenu = false
     @State var showRightSideMenu = false
+    
     @State var selectedObjectDetails: ObjectDetails?
     @State private var didTapOnObject = false
+    
+    @State var isObjectsListContentViewPresented = false
     @State var isObjectDetailsPreviewViewPresented = false
     @State var isObjectDetailsViewPresented = false
+    @State private var isLoading = true
+    
     @State private var isEditing = false
     @State private var isSearchNavBarHidden = true
     @State var searchTerm: String = ""
+    
     @State var isChangeMapStyleButtonTapped = false
     @State var nextPrayerDate: Date? = nil
     @State var isWidgetPresented: Bool = UserDefaults.standard.bool(forKey: "islamskiObjekti.isWidgetPresented")
@@ -57,12 +63,17 @@ struct HomePageView: View {
             customNavBar
                 .zIndex(1)
             ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
-                contentView
-                    .ignoresSafeArea()
+                if isObjectsListContentViewPresented {
+                    objectsListContentView
+                } else {
+                    mapBoxContentView
+                        .ignoresSafeArea()
+                }
                 
                 objectDetailsPreview
                     .isHidden(!showLeftSideMenu ? false : true)
                     .isHidden(!showRightSideMenu ? false : true)
+                    .isHidden(!isObjectsListContentViewPresented ? false : true)
                     .isHidden(didTapOnObject ? false : true)
                     .animation(.easeOut)
                     .cornerRadius(30, corners: [.bottomLeft, .bottomRight])
@@ -73,12 +84,14 @@ struct HomePageView: View {
                         
                         Spacer()
                         
-                        Img.list.swiftUIImage
+                        let leftIconToShow = isObjectsListContentViewPresented ? Img.map.swiftUIImage : Img.list.swiftUIImage
+                        
+                        leftIconToShow
                             .resizable()
                             .frame(width: 50, height: 80)
                             .onTapGesture {
                                 withAnimation {
-                                    showLeftSideMenu = true
+                                    isObjectsListContentViewPresented.toggle()
                                 }
                             }
                         
@@ -105,30 +118,37 @@ struct HomePageView: View {
                                     Circle()
                                         .fill(Color.green)
                                         .frame(width: 50, height: 50)
-                                    Img.iconFilter.swiftUIImage
+                                    
+                                    let rightFilterIconToShow = isObjectsListContentViewPresented ? Img.filterMajorMonotone.swiftUIImage :  Img.iconFilter.swiftUIImage
+                                    
+                                    rightFilterIconToShow
                                         .resizable()
                                         .frame(width: 30, height: 30)
                                 }
                             }
-                            Button(action: {
-                                isChangeMapStyleButtonTapped.toggle()
-                            }) {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.green)
-                                        .frame(width: 50, height: 50)
-                                    Img.iconGallery.swiftUIImage
-                                        .resizable()
-                                        .frame(width: 30, height: 30)
+                            
+                            if !isObjectsListContentViewPresented {
+                                Button(action: {
+                                    isChangeMapStyleButtonTapped.toggle()
+                                }) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color.green)
+                                            .frame(width: 50, height: 50)
+                                        Img.iconGallery.swiftUIImage
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                    }
                                 }
                             }
                         }
                         .padding(.bottom, 50)
                     }
+                    .padding(.trailing)
                 }
                 
                 // MARK: Bottom center namaz view
-                if !showLeftSideMenu && !showRightSideMenu && isWidgetPresented {
+                if !showLeftSideMenu && !showRightSideMenu && isWidgetPresented && !isObjectsListContentViewPresented {
                     VStack {
                         Spacer()
                         HStack {
@@ -247,8 +267,8 @@ struct HomePageView: View {
         }
     }
     
-    // MARK: Content View
-    var contentView: some View {
+    // MARK: Map Box Content View
+    var mapBoxContentView: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 MapBoxMapView(
@@ -278,7 +298,7 @@ struct HomePageView: View {
                 )
                 
                 if self.showLeftSideMenu {
-                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects)
+                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
                         .frame(width: geometry.size.width / 1.5)
                         .transition(.move(edge: .leading))
                 }
@@ -288,7 +308,7 @@ struct HomePageView: View {
                         
                         Spacer()
                         
-                        RightSideMenu(selectedTowns: $viewModel.selectedTowns, selectedMajlises: $viewModel.selectedMajlises, selectedObjectTypes: $viewModel.selectedObjectTypes, objectDetails: viewModel.allObjects)
+                        RightSideMenu(selectedFromYear: $viewModel.selectedFromYear, selectedToYear: $viewModel.selectedToYear,selectedTowns: $viewModel.selectedTowns, selectedMajlises: $viewModel.selectedMajlises, selectedObjectTypes: $viewModel.selectedObjectTypes, objectDetails: viewModel.allObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
                             .environmentObject(viewModel)
                             .frame(width: geometry.size.width / 1.5)
                             .transition(.move(edge: .trailing))
@@ -314,7 +334,59 @@ struct HomePageView: View {
         }
     }
     
-    // MARK: Obejct Details Preview
+    // MARK: Objects List Content View
+    var objectsListContentView: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                ObjectListView(sortedObjects: viewModel.sortedObjects, filteredObjects: viewModel.filteredObjects)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .disabled(self.showLeftSideMenu ? true : false)
+                    .disabled(self.showRightSideMenu ? true : false)
+                    .blur(
+                        radius: showLeftSideMenu ? 1.0 : 0.0
+                    )
+                    .blur(
+                        radius: showRightSideMenu ? 1.0 : 0.0
+                    )
+                
+                if self.showLeftSideMenu {
+                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
+                        .frame(width: geometry.size.width / 1.5)
+                        .transition(.move(edge: .leading))
+                }
+                
+                if self.showRightSideMenu {
+                    HStack {
+                        
+                        Spacer()
+                        
+                        RightSideMenu(selectedFromYear: $viewModel.selectedFromYear, selectedToYear: $viewModel.selectedToYear,selectedTowns: $viewModel.selectedTowns, selectedMajlises: $viewModel.selectedMajlises, selectedObjectTypes: $viewModel.selectedObjectTypes, objectDetails: viewModel.allObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
+                            .environmentObject(viewModel)
+                            .frame(width: geometry.size.width / 1.5)
+                            .transition(.move(edge: .trailing))
+                    }
+                }
+            }
+            .gesture(
+                DragGesture()
+                    .onEnded { gesture in
+                        // scroll to the right and hide right side menu
+                        if gesture.translation.width > 100 {
+                            withAnimation {
+                                self.showRightSideMenu = false
+                            }
+                            // scroll to the left and hide left side menu
+                        } else if gesture.translation.width < -100 {
+                            withAnimation {
+                                self.showLeftSideMenu = false
+                            }
+                        }
+                    }
+            )
+        }
+    }
+    
+    // MARK: Object Details Preview
     var objectDetailsPreview: some View {
         VStack {
             
@@ -388,6 +460,7 @@ struct HomePageView: View {
         .background(.black)
     }
     
+    // MARK: Functions
     private func getObjectIcon(objName: String) -> SwiftUI.Image {
         let iconMap: [String: SwiftUI.Image] = [
             "mosque": Img.mosque.swiftUIImage,
@@ -413,6 +486,7 @@ extension HomePageView {
         @Published var allObjects = [ObjectDetails]()
         @Published var filteredObjects: [ObjectDetails] = []
         @Published var sortedObjects: [ObjectDetails] = []
+        
         @Published var state: ViewState = .initial
         @Published var locationService = CompositionRoot.shared.locationService
         @Published var nextPrayerDate: Date
@@ -420,6 +494,8 @@ extension HomePageView {
         @Published var selectedTowns: [Location] = []
         @Published var selectedMajlises: [Location] = []
         @Published var selectedObjectTypes: [ObjType] = []
+        @Published var selectedFromYear: Int = YearOfBuild.yearFromDropdown.first ?? 0
+        @Published var selectedToYear: Int = YearOfBuild.currentYear
         
         var hasCalledFetch = false
         
@@ -486,29 +562,45 @@ extension HomePageView {
         }
         
         func filterObjectsByTown(selectedTowns: [Location]) {
-            filteredObjects = allObjects.filter { object in
-                selectedTowns.contains(object.town)
+            if selectedTowns.isEmpty {
+                filteredObjects = allObjects
+            } else {
+                filteredObjects = allObjects.filter { object in
+                    selectedTowns.contains(object.town)
+                }
             }
         }
         
         func filterObjectsByMajlises(selectedMajlises: [Location]) {
-            filteredObjects = allObjects.filter { object in
-                selectedMajlises.contains(object.majlis)
+            if selectedMajlises.isEmpty {
+                filteredObjects = allObjects
+            } else {
+                filteredObjects = allObjects.filter { object in
+                    selectedMajlises.contains(object.majlis)
+                }
             }
         }
         
         func filterObjectsByObjectTypes(selectedObjectTypes: [ObjType]) {
-            filteredObjects = allObjects.filter { object in
-                selectedObjectTypes.contains(object.objType)
+            if selectedObjectTypes.isEmpty {
+                filteredObjects = allObjects
+            } else {
+                filteredObjects = allObjects.filter { object in
+                    selectedObjectTypes.contains(object.objType)
+                }
             }
         }
         
         func filterObjectsByYearBuilt(fromYear: Int, toYear: Int) {
-            filteredObjects = allObjects.filter { object in
-                if let year = object.yearBuilt {
-                    return year >= fromYear && year <= toYear
+            if fromYear == 0 && toYear == 0 {
+                filteredObjects = allObjects
+            } else {
+                filteredObjects = allObjects.filter { object in
+                    if let year = object.yearBuilt {
+                        return year >= fromYear && year <= toYear
+                    }
+                    return false
                 }
-                return false
             }
         }
     }

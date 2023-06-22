@@ -90,6 +90,16 @@ struct Location: Codable, Hashable, Equatable {
     let key, name: String
 }
 
+struct YearOfBuild: Codable, Hashable, Equatable {
+    static var currentYear = Calendar.current.component(.year, from: Date())
+    static var yearFromDropdown = Array(stride(from: 1000, through: 2000, by: +50))
+    static var yearToDropdown: [Int] {
+        var years = Array(stride(from: 2000, through: 1000, by: -50))
+        years.insert(currentYear, at: 0)
+        return years
+    }
+}
+
 // MARK: - ObjType
 struct ObjType: Codable, Hashable, Identifiable, Equatable  {
     let id: Int
