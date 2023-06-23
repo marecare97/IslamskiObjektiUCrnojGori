@@ -29,6 +29,7 @@ struct HomePageView: View {
     @State private var isEditing = false
     @State private var isSearchNavBarHidden = true
     @State var searchTerm: String = ""
+    @State var isFiltering = false
     
     @State var isChangeMapStyleButtonTapped = false
     @State var nextPrayerDate: Date? = nil
@@ -53,6 +54,9 @@ struct HomePageView: View {
                         nextPrayerDate =  CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime() ?? CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime(forToday: false)
                     }
             }
+        }
+        .onChange(of: viewModel.filteredObjects) { _ in
+            isFiltering = !viewModel.filteredObjects.isEmpty
         }
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
@@ -298,7 +302,7 @@ struct HomePageView: View {
                 )
                 
                 if self.showLeftSideMenu {
-                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
+                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects, filteredObjects: $viewModel.filteredObjects ,isObjectsListContentViewPresented: $isObjectsListContentViewPresented, isFiltering: isFiltering)
                         .frame(width: geometry.size.width / 1.5)
                         .transition(.move(edge: .leading))
                 }
@@ -338,7 +342,7 @@ struct HomePageView: View {
     var objectsListContentView: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                ObjectListView(sortedObjects: viewModel.sortedObjects, filteredObjects: viewModel.filteredObjects)
+                ObjectListView(sortedObjects: viewModel.sortedObjects, filteredObjects: viewModel.filteredObjects, isFiltering: isFiltering)
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .disabled(self.showLeftSideMenu ? true : false)
                     .disabled(self.showRightSideMenu ? true : false)
@@ -350,7 +354,7 @@ struct HomePageView: View {
                     )
                 
                 if self.showLeftSideMenu {
-                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
+                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects, filteredObjects: $viewModel.filteredObjects ,isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
                         .frame(width: geometry.size.width / 1.5)
                         .transition(.move(edge: .leading))
                 }
@@ -553,7 +557,7 @@ extension HomePageView {
         // MARK: Objects filters
         func filterObjects(with searchTerm: String) {
             if searchTerm.isEmpty {
-                filteredObjects = allObjects
+                filteredObjects = []
             } else {
                 filteredObjects = allObjects.filter { object in
                     object.name.lowercased().contains(searchTerm.lowercased())
@@ -563,7 +567,7 @@ extension HomePageView {
         
         func filterObjectsByTown(selectedTowns: [Location]) {
             if selectedTowns.isEmpty {
-                filteredObjects = allObjects
+                filteredObjects = []
             } else {
                 filteredObjects = allObjects.filter { object in
                     selectedTowns.contains(object.town)
@@ -573,7 +577,7 @@ extension HomePageView {
         
         func filterObjectsByMajlises(selectedMajlises: [Location]) {
             if selectedMajlises.isEmpty {
-                filteredObjects = allObjects
+                filteredObjects = []
             } else {
                 filteredObjects = allObjects.filter { object in
                     selectedMajlises.contains(object.majlis)
@@ -583,7 +587,7 @@ extension HomePageView {
         
         func filterObjectsByObjectTypes(selectedObjectTypes: [ObjType]) {
             if selectedObjectTypes.isEmpty {
-                filteredObjects = allObjects
+                filteredObjects = []
             } else {
                 filteredObjects = allObjects.filter { object in
                     selectedObjectTypes.contains(object.objType)
@@ -593,7 +597,7 @@ extension HomePageView {
         
         func filterObjectsByYearBuilt(fromYear: Int, toYear: Int) {
             if fromYear == 0 && toYear == 0 {
-                filteredObjects = allObjects
+                filteredObjects = []
             } else {
                 filteredObjects = allObjects.filter { object in
                     if let year = object.yearBuilt {

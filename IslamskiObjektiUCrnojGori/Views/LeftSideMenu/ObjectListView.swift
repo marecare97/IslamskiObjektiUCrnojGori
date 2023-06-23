@@ -18,6 +18,7 @@ struct ObjectListView: View {
     @State var isObjectDetailsViewPresented = false
     @State var selectedObjectDetails: ObjectDetails?
     @State private var navigationDestination: NavigationDestination? = nil
+    var isFiltering = false
     
     enum NavigationDestination {
         case objectDetailsView
@@ -26,11 +27,13 @@ struct ObjectListView: View {
     init(
         sortedObjects: [ObjectDetails],
         filteredObjects: [ObjectDetails],
-        selectedObjectDetails: ObjectDetails? = nil
+        selectedObjectDetails: ObjectDetails? = nil,
+        isFiltering: Bool
     ) {
         self.sortedObjects = sortedObjects
         self.filteredObjects = filteredObjects
         self.selectedObjectDetails = selectedObjectDetails
+        self.isFiltering = isFiltering
     }
     
     var body: some View {
@@ -43,7 +46,7 @@ struct ObjectListView: View {
     
     var contentView: some View {
         ScrollView {
-            ForEach(filteredObjects.count == 0 ? sortedObjects : filteredObjects, id: \.id) { object in
+            ForEach(isFiltering ? filteredObjects : sortedObjects, id: \.id) { object in
                 LazyVStack {
                     ObjectItem(details: object)
                         .padding()
@@ -80,6 +83,6 @@ struct ObjectListView: View {
 
 struct ObjectListView_Previews: PreviewProvider {
     static var previews: some View {
-        ObjectListView(sortedObjects: [], filteredObjects: [])
+        ObjectListView(sortedObjects: [], filteredObjects: [], isFiltering: false)
     }
 }

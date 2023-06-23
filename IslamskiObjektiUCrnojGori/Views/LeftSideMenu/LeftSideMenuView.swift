@@ -12,7 +12,8 @@ import SFSafeSymbols
 struct LeftSideMenuView: View {
     typealias S = TK.LeftSideMenu
     
-    @State private var navigationDestination: NavigationDestination? = .objectsView
+    
+    @State private var navigationDestination: NavigationDestination? = .none
     @State private var objectsViewType: ObjectsViewType? = .mapView
     
     @State var longitude: Double?
@@ -20,7 +21,10 @@ struct LeftSideMenuView: View {
     
     @Binding var allObjects: [ObjectDetails]
     @Binding var sortedObjects: [ObjectDetails]
+    @Binding var filteredObjects: [ObjectDetails]
     @Binding var isObjectsListContentViewPresented: Bool
+    
+    var isFiltering = false
     
     enum NavigationDestination {
         case objectsView
@@ -135,12 +139,13 @@ struct LeftSideMenuView: View {
     // MARK: -- Navigation
     var navigationLinks: some View {
         VStack {
-            //            NavigationLink(
-            //                destination: ObjectListView(sortedObjects: sortedObjects),
-            //                tag: NavigationDestination.objectsView,
-            //                selection: $navigationDestination,
-            //                label: { }
-            //            )
+            // FIXME: lat&long hardcoded to Montenegro
+            NavigationLink(
+                destination: HomePageView(latitude: .constant(42.7087), longitude: .constant(19.3744)),
+                tag: NavigationDestination.objectsView,
+                selection: $navigationDestination,
+                label: { }
+            )
             
             NavigationLink(
                 destination: NearestMosqueView(sortedObjects: sortedObjects),
