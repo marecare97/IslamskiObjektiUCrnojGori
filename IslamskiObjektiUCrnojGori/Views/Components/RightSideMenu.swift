@@ -25,7 +25,7 @@ struct RightSideMenu: View {
     @Binding var selectedMajlises: [Location]
     @Binding var selectedObjectTypes: [ObjType]
     @Binding var isObjectsListContentViewPresented: Bool
-
+    
     var objectDetails: [ObjectDetails]
     
     @EnvironmentObject var viewModel: HomePageView.ViewModel
@@ -234,9 +234,13 @@ struct RightSideMenu: View {
         }
     }
     
+    var filteredFromYears: [Int] {
+        return fromYears.filter { $0 < selectedToYear }
+    }
+    
     var fromYearDropDownView: some View {
         LazyVStack {
-            ForEach(fromYears, id: \.self) { year in
+            ForEach(filteredFromYears, id: \.self) { year in
                 let isSelected = selectedFromYear == year
                 let scale = isSelected ? 1.2 : 1
                 let textColor = isSelected ? Color.black : Color.gray
@@ -255,9 +259,13 @@ struct RightSideMenu: View {
         }
     }
     
+    var filteredToYears: [Int] {
+        return toYears.filter { $0 > selectedFromYear }
+    }
+    
     var toYearDropDownView: some View {
         LazyVStack {
-            ForEach(toYears, id: \.self) { year in
+            ForEach(filteredToYears, id: \.self) { year in
                 let isSelected = selectedToYear == year
                 let scale = isSelected ? 1.2 : 1
                 let textColor = isSelected ? Color.black : Color.gray
