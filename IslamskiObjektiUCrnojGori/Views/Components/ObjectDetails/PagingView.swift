@@ -72,6 +72,8 @@ struct PagingView<Content: View>: View {
                 Img.baselineDirectionsWhite36.swiftUIImage
                     .resizable()
                     .frame(width: 35, height: 35)
+                    .padding(4) // Increase tap area
+                    .background(Color.clear) // Add a transparent background hit area
             }
             .padding(.top, 40)
             
@@ -81,6 +83,8 @@ struct PagingView<Content: View>: View {
                 Img.baselineShareWhite36.swiftUIImage
                     .resizable()
                     .frame(width: 35, height: 35)
+                    .padding(4)
+                    .background(Color.clear)
             }
             
             Spacer()
@@ -91,6 +95,7 @@ struct PagingView<Content: View>: View {
                 Img.baselineCollectionsWhite36.swiftUIImage
                     .resizable()
                     .frame(width: 35, height: 35)
+                    .background(Color.clear)
             }
         }
         .padding(.vertical)

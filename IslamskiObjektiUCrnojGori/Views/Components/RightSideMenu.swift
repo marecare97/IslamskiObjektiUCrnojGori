@@ -19,6 +19,7 @@ struct RightSideMenu: View {
     @State var isFromYearBuiltBottomSheetPresented = false
     @State var isToYearBuiltBottomSheetPresented = false
     
+    @Binding var searchTerm: String
     @Binding var selectedFromYear: Int
     @Binding var selectedToYear: Int
     @Binding var selectedTowns: [Location]
@@ -34,6 +35,7 @@ struct RightSideMenu: View {
     
     
     init(
+        searchTerm: Binding<String>,
         selectedFromYear: Binding<Int>,
         selectedToYear: Binding<Int>,
         selectedTowns: Binding<[Location]>,
@@ -42,6 +44,7 @@ struct RightSideMenu: View {
         objectDetails: [ObjectDetails],
         isObjectsListContentViewPresented: Binding<Bool>
     ) {
+        self._searchTerm = searchTerm
         self._selectedFromYear = selectedFromYear
         self._selectedToYear = selectedToYear
         self._selectedTowns = selectedTowns
@@ -113,19 +116,19 @@ struct RightSideMenu: View {
             .presentationDetents([.fraction(0.3)])
         })
         .onChange(of: selectedTowns) { _ in
-            viewModel.filterObjectsByTown(selectedTowns: selectedTowns)
+            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: selectedToYear)
         }
         .onChange(of: selectedMajlises) { _ in
-            viewModel.filterObjectsByMajlises(selectedMajlises: selectedMajlises)
+            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: selectedToYear)
         }
         .onChange(of: selectedObjectTypes) { _ in
-            viewModel.filterObjectsByObjectTypes(selectedObjectTypes: selectedObjectTypes)
+            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: selectedToYear)
         }
         .onChange(of: selectedFromYear) { newValue in
-            viewModel.filterObjectsByYearBuilt(fromYear: newValue, toYear: selectedToYear)
+            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: newValue, toYear: selectedToYear)
         }
         .onChange(of: selectedToYear) { newValue in
-            viewModel.filterObjectsByYearBuilt(fromYear: selectedFromYear, toYear: newValue)
+            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: newValue)
         }
     }
     
@@ -287,7 +290,7 @@ struct RightSideMenu: View {
 
 struct RightSideMenu_Previews: PreviewProvider {
     static var previews: some View {
-        RightSideMenu(selectedFromYear: .constant(0), selectedToYear: .constant(0),selectedTowns: .constant(([])), selectedMajlises: .constant(([])), selectedObjectTypes: .constant(([])), objectDetails: [], isObjectsListContentViewPresented: .constant(false))
+        RightSideMenu(searchTerm: .constant(""), selectedFromYear: .constant(0), selectedToYear: .constant(0),selectedTowns: .constant(([])), selectedMajlises: .constant(([])), selectedObjectTypes: .constant(([])), objectDetails: [], isObjectsListContentViewPresented: .constant(false))
     }
 }
 

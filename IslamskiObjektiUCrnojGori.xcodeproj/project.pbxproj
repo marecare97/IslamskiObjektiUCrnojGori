@@ -66,6 +66,8 @@
 		F696E6972A3CB600007FC928 /* LottieAnimatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F696E6962A3CB600007FC928 /* LottieAnimatingView.swift */; };
 		F696E69A2A3CB64C007FC928 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F696E6992A3CB64C007FC928 /* Lottie */; };
 		F696E6A32A424B1B007FC928 /* PhoneRotationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F696E6A22A424B1B007FC928 /* PhoneRotationManager.swift */; };
+		F69BB8902A4A109D00D05476 /* SSToastMessage in Frameworks */ = {isa = PBXBuildFile; productRef = F69BB88F2A4A109D00D05476 /* SSToastMessage */; };
+		F69BB8922A4A12A500D05476 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69BB8912A4A12A500D05476 /* Toast.swift */; };
 		F6AB691A29BD04D500DFFA97 /* View+DynamicHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */; };
 		F6B4EC0E2A0AD7F0004F9A9E /* NearestMosqueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */; };
 		F6B4EC102A0AE33B004F9A9E /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */; };
@@ -159,6 +161,7 @@
 		F696E6942A3CB5BE007FC928 /* map_loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map_loader.json; sourceTree = "<group>"; };
 		F696E6962A3CB600007FC928 /* LottieAnimatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimatingView.swift; sourceTree = "<group>"; };
 		F696E6A22A424B1B007FC928 /* PhoneRotationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRotationManager.swift; sourceTree = "<group>"; };
+		F69BB8912A4A12A500D05476 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		F6AB691929BD04D500DFFA97 /* View+DynamicHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+DynamicHide.swift"; sourceTree = "<group>"; };
 		F6B4EC0D2A0AD7F0004F9A9E /* NearestMosqueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestMosqueView.swift; sourceTree = "<group>"; };
 		F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
@@ -183,6 +186,7 @@
 				F696E69A2A3CB64C007FC928 /* Lottie in Frameworks */,
 				65D38CCA29B7E41F00072C9C /* SDWebImageSwiftUI in Frameworks */,
 				65D38CB729B7BB0800072C9C /* SFSafeSymbols in Frameworks */,
+				F69BB8902A4A109D00D05476 /* SSToastMessage in Frameworks */,
 				F660476529B371920053D136 /* MapboxMaps in Frameworks */,
 				F60A8A5F2A1FD70200C2F4D3 /* FirebaseAnalytics in Frameworks */,
 				F6B60EDF29C7BE0800EC54C0 /* ExpandableText in Frameworks */,
@@ -433,6 +437,7 @@
 				F67E920F2A19186B0091D3E0 /* CountdownTimerView.swift */,
 				F6B4EC0F2A0AE33B004F9A9E /* CustomNavBar.swift */,
 				F696E6962A3CB600007FC928 /* LottieAnimatingView.swift */,
+				F69BB8912A4A12A500D05476 /* Toast.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -477,6 +482,7 @@
 				F60A8A5E2A1FD70200C2F4D3 /* FirebaseAnalytics */,
 				F60A8A602A1FD70200C2F4D3 /* FirebaseMessaging */,
 				F696E6992A3CB64C007FC928 /* Lottie */,
+				F69BB88F2A4A109D00D05476 /* SSToastMessage */,
 			);
 			productName = IslamskiObjektiUCrnojGori;
 			productReference = F660473529B36D710053D136 /* IslamskiObjektiUCrnojGori.app */;
@@ -558,6 +564,7 @@
 				F6B60EDD29C7BE0800EC54C0 /* XCRemoteSwiftPackageReference "ExpandableText" */,
 				F60A8A5D2A1FD70200C2F4D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				F696E6982A3CB64C007FC928 /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				F69BB88E2A4A109C00D05476 /* XCRemoteSwiftPackageReference "SSToastMessage" */,
 			);
 			productRefGroup = F660473629B36D710053D136 /* Products */;
 			projectDirPath = "";
@@ -647,6 +654,7 @@
 				65A43FAF29B7B17F00D34E8B /* CompositionRoot.swift in Sources */,
 				F6B60EDC29C7948B00EC54C0 /* Fonts.swift in Sources */,
 				F6149B3329E7FC6C007D6B1F /* ObjectListView.swift in Sources */,
+				F69BB8922A4A12A500D05476 /* Toast.swift in Sources */,
 				65A43FA229B7AD6600D34E8B /* AllObjects.swift in Sources */,
 				F6865ED229C0DBBB00BFAEA7 /* LocationService.swift in Sources */,
 				65D38CC729B7E39F00072C9C /* PagingView.swift in Sources */,
@@ -820,7 +828,7 @@
 				CODE_SIGN_ENTITLEMENTS = IslamskiObjektiUCrnojGori/IslamskiObjektiUCrnojGori.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
 				DEVELOPMENT_TEAM = RDS9R53Y7B;
 				ENABLE_PREVIEWS = YES;
@@ -864,7 +872,7 @@
 				CODE_SIGN_ENTITLEMENTS = IslamskiObjektiUCrnojGori/IslamskiObjektiUCrnojGori.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
 				DEVELOPMENT_TEAM = RDS9R53Y7B;
 				ENABLE_PREVIEWS = YES;
@@ -1065,6 +1073,14 @@
 				kind = branch;
 			};
 		};
+		F69BB88E2A4A109C00D05476 /* XCRemoteSwiftPackageReference "SSToastMessage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimformSolutionsPvtLtd/SSToastMessage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		F6B60EDD29C7BE0800EC54C0 /* XCRemoteSwiftPackageReference "ExpandableText" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/NuPlay/ExpandableText.git";
@@ -1105,6 +1121,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F696E6982A3CB64C007FC928 /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
+		};
+		F69BB88F2A4A109D00D05476 /* SSToastMessage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F69BB88E2A4A109C00D05476 /* XCRemoteSwiftPackageReference "SSToastMessage" */;
+			productName = SSToastMessage;
 		};
 		F6B60EDE29C7BE0800EC54C0 /* ExpandableText */ = {
 			isa = XCSwiftPackageProductDependency;

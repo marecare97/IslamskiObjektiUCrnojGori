@@ -22,12 +22,12 @@ struct FullScreenImageView<Content: View>: View{
                 TabView(selection: $currentPage) {
                     ForEach(urls.indices) { index in
                         content(urls[index])
+                            .aspectRatio(contentMode: .fit)
                             .frame(width: geometry.size.width, height: geometry.size.height)
-                            .scaledToFit()
                             .id(urls[index])
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: 250)
+                .frame(maxWidth: .infinity, maxHeight: 300)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never)) // Hide the default TabView indicators
                 .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always)) // Display only the PageIndexView
                 

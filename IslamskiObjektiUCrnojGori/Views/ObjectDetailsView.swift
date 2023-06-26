@@ -166,7 +166,11 @@ struct ObjectDetailsView: View {
             ObjectDimensionsRowView(title: S.city, value: details.town.name)
             ObjectDimensionsRowView(title: S.medzlis, value: details.majlis.name)
             ObjectDimensionsRowView(title: S.objectType, value: details.objType.name)
-            ObjectDimensionsRowView(title: S.built, value: details.yearBuilt)
+            if let yearBuilt = details.yearBuilt {
+                ObjectDimensionsRowView(title: S.built, value: yearBuilt)
+            } else if let text = details.yearBuiltText {
+                ObjectDimensionsRowView(title: S.built, value: text)
+            }
             if let yearRenewed = details.yearRebuilt {
                 ObjectDimensionsRowView(title: S.renewed, value: yearRenewed)
             } else {

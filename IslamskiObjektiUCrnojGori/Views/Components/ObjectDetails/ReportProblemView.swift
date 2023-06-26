@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import SSToastMessage
 
 struct ReportProblemView: View {
     typealias S = TK.ReportProblem
@@ -14,11 +15,11 @@ struct ReportProblemView: View {
     @State var comment = ""
     @FocusState private var emailIsFocused: Bool
     @FocusState private var commentIsFocused: Bool
-    @ObservedObject var viewModel = ViewModel()
+    @StateObject var viewModel = ViewModel()
     let object: ObjectDetails
     
     var body: some View {
-        VStack{
+        VStack {
             CustomNavBar(navBarTitle: S.title)
             contentView
                 .onTapGesture {
@@ -27,6 +28,7 @@ struct ReportProblemView: View {
                 }
                 .padding([.vertical, .horizontal])
         }
+        .toast($viewModel.toast)
         .navigationBarBackButtonHidden()
     }
     
@@ -68,9 +70,9 @@ struct ReportProblemView: View {
                     }
                     .foregroundColor(.white)
                     .frame(width: 100, height: 30)
-                    .background(Color.green.opacity(viewModel.isSending ? 0.5 : 1))
+                    .background(Color.green.opacity(viewModel.isSending || viewModel.hasReportedSuccessfully ? 0.5 : 1))
                     .cornerRadius(12)
-                    .disabled(viewModel.isSending)
+                    .disabled(viewModel.isSending || viewModel.hasReportedSuccessfully)
                     
                     Spacer()
                 }
@@ -91,7 +93,9 @@ struct ReportProblemView: View {
 extension ReportProblemView {
     final class ViewModel: ObservableObject {
         @Published var isSending = false
+        @Published var hasReportedSuccessfully = false
         private var cancellable: AnyCancellable? = nil
+        @Published var toast: Toast.State = .hide
         
         func reportAProblem(objectID: Int, email: String, comment: String) {
             cancellable = CompositionRoot.shared.reportProblemProvider.reportProblem(
@@ -101,8 +105,9 @@ extension ReportProblemView {
             )
             .sink(receiveCompletion: { _ in
                 
-            }, receiveValue: { _ in
-                print("Success")
+            }, receiveValue: { [weak self] _ in
+                self?.toast = .show(.success("Problem uspješno prijavljen."))
+                self?.hasReportedSuccessfully = true
             })
         }
     }

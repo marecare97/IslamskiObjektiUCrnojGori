@@ -10,6 +10,7 @@ import MapboxMaps
 import Combine
 import SDWebImageSwiftUI
 import SFSafeSymbols
+import CoreLocation
 
 struct HomePageView: View {
     typealias Str = TK.HomePageView
@@ -246,8 +247,8 @@ struct HomePageView: View {
                 Button(action: {
                     self.isEditing = false
                     self.isSearchNavBarHidden = true
-                    self.searchTerm = ""
-                    viewModel.filterObjects(with: "")
+                    self.viewModel.searchTerm = ""
+                    viewModel.applyFilters(searchTerm: "", selectedTowns: viewModel.selectedTowns, selectedMajlises: viewModel.selectedMajlises, selectedObjectTypes: viewModel.selectedObjectTypes, fromYear: viewModel.selectedFromYear, toYear: viewModel.selectedToYear)
                 }) {
                     Image(systemSymbol: .arrowBackward)
                         .foregroundColor(.black)
@@ -266,7 +267,8 @@ struct HomePageView: View {
                     self.isEditing = true
                 }
                 .onChange(of: searchTerm) { value in
-                    viewModel.filterObjects(with: value)
+                    viewModel.searchTerm = value
+                    viewModel.applyFilters(searchTerm: value, selectedTowns: viewModel.selectedTowns, selectedMajlises: viewModel.selectedMajlises, selectedObjectTypes: viewModel.selectedObjectTypes, fromYear: viewModel.selectedFromYear, toYear: viewModel.selectedToYear)
                 }
         }
     }
@@ -312,7 +314,7 @@ struct HomePageView: View {
                         
                         Spacer()
                         
-                        RightSideMenu(selectedFromYear: $viewModel.selectedFromYear, selectedToYear: $viewModel.selectedToYear,selectedTowns: $viewModel.selectedTowns, selectedMajlises: $viewModel.selectedMajlises, selectedObjectTypes: $viewModel.selectedObjectTypes, objectDetails: viewModel.allObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
+                        RightSideMenu(searchTerm: $viewModel.searchTerm, selectedFromYear: $viewModel.selectedFromYear, selectedToYear: $viewModel.selectedToYear,selectedTowns: $viewModel.selectedTowns, selectedMajlises: $viewModel.selectedMajlises, selectedObjectTypes: $viewModel.selectedObjectTypes, objectDetails: viewModel.allObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
                             .environmentObject(viewModel)
                             .frame(width: geometry.size.width / 1.5)
                             .transition(.move(edge: .trailing))
@@ -364,7 +366,7 @@ struct HomePageView: View {
                         
                         Spacer()
                         
-                        RightSideMenu(selectedFromYear: $viewModel.selectedFromYear, selectedToYear: $viewModel.selectedToYear,selectedTowns: $viewModel.selectedTowns, selectedMajlises: $viewModel.selectedMajlises, selectedObjectTypes: $viewModel.selectedObjectTypes, objectDetails: viewModel.allObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
+                        RightSideMenu(searchTerm: $viewModel.searchTerm, selectedFromYear: $viewModel.selectedFromYear, selectedToYear: $viewModel.selectedToYear,selectedTowns: $viewModel.selectedTowns, selectedMajlises: $viewModel.selectedMajlises, selectedObjectTypes: $viewModel.selectedObjectTypes, objectDetails: viewModel.allObjects, isObjectsListContentViewPresented: $isObjectsListContentViewPresented)
                             .environmentObject(viewModel)
                             .frame(width: geometry.size.width / 1.5)
                             .transition(.move(edge: .trailing))
@@ -495,6 +497,7 @@ extension HomePageView {
         @Published var locationService = CompositionRoot.shared.locationService
         @Published var nextPrayerDate: Date
         
+        @Published var searchTerm: String = ""
         @Published var selectedTowns: [Location] = []
         @Published var selectedMajlises: [Location] = []
         @Published var selectedObjectTypes: [ObjType] = []
@@ -555,56 +558,40 @@ extension HomePageView {
         }
         
         // MARK: Objects filters
-        func filterObjects(with searchTerm: String) {
-            if searchTerm.isEmpty {
-                filteredObjects = []
-            } else {
-                filteredObjects = allObjects.filter { object in
-                    object.name.lowercased().contains(searchTerm.lowercased())
+        func applyFilters(searchTerm: String, selectedTowns: [Location], selectedMajlises: [Location], selectedObjectTypes: [ObjType], fromYear: Int, toYear: Int) {
+            filteredObjects = allObjects.filter { object in
+                var isMatch = true
+                
+                // Apply searchTerm filter
+                if !searchTerm.isEmpty {
+                    isMatch = isMatch && object.name.lowercased().contains(searchTerm.lowercased())
                 }
-            }
-        }
-        
-        func filterObjectsByTown(selectedTowns: [Location]) {
-            if selectedTowns.isEmpty {
-                filteredObjects = []
-            } else {
-                filteredObjects = allObjects.filter { object in
-                    selectedTowns.contains(object.town)
+                
+                // Apply selectedTowns filter
+                if !selectedTowns.isEmpty {
+                    isMatch = isMatch && selectedTowns.contains(object.town)
                 }
-            }
-        }
-        
-        func filterObjectsByMajlises(selectedMajlises: [Location]) {
-            if selectedMajlises.isEmpty {
-                filteredObjects = []
-            } else {
-                filteredObjects = allObjects.filter { object in
-                    selectedMajlises.contains(object.majlis)
+                
+                // Apply selectedMajlises filter
+                if !selectedMajlises.isEmpty {
+                    isMatch = isMatch && selectedMajlises.contains(object.majlis)
                 }
-            }
-        }
-        
-        func filterObjectsByObjectTypes(selectedObjectTypes: [ObjType]) {
-            if selectedObjectTypes.isEmpty {
-                filteredObjects = []
-            } else {
-                filteredObjects = allObjects.filter { object in
-                    selectedObjectTypes.contains(object.objType)
+                
+                // Apply selectedObjectTypes filter
+                if !selectedObjectTypes.isEmpty {
+                    isMatch = isMatch && selectedObjectTypes.contains(object.objType)
                 }
-            }
-        }
-        
-        func filterObjectsByYearBuilt(fromYear: Int, toYear: Int) {
-            if fromYear == 0 && toYear == 0 {
-                filteredObjects = []
-            } else {
-                filteredObjects = allObjects.filter { object in
+                
+                // Apply year range filter
+                if fromYear != 0 || toYear != 0 {
                     if let year = object.yearBuilt {
-                        return year >= fromYear && year <= toYear
+                        isMatch = isMatch && year >= fromYear && year <= toYear
+                    } else {
+                        isMatch = false
                     }
-                    return false
                 }
+                
+                return isMatch
             }
         }
     }

@@ -9,10 +9,27 @@ import SwiftUI
 
 struct SplashScreen: View {
     var body: some View {
-        Img.splashBgd.swiftUIImage
-            .resizable()
-            .scaledToFill()
-            .ignoresSafeArea(edges: .bottom)
+        ZStack {
+            Img.splashBgd.swiftUIImage
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea(edges: .bottom)
+            VStack {
+                
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    
+                    Img.fond2.swiftUIImage
+                        .resizable()
+                        .frame(width: 150, height: 150)
+                    
+                    Spacer()
+                }
+            }
+            .padding(.bottom)
+        }
     }
 }
 

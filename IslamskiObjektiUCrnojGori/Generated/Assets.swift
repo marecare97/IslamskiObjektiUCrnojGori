@@ -46,6 +46,7 @@ internal enum Asset {
     internal static let filter = ImageAsset(name: "filter")
     internal static let filterMajorMonotone = ImageAsset(name: "filter_major_monotone")
     internal static let fond = ImageAsset(name: "fond")
+    internal static let fond2 = ImageAsset(name: "fond2")
     internal static let icFilter = ImageAsset(name: "ic_filter")
     internal static let icLauncher = ImageAsset(name: "ic_launcher")
     internal static let icLocationGreen = ImageAsset(name: "ic_location_green")
