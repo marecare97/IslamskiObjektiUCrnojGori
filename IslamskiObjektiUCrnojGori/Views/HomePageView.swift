@@ -218,7 +218,7 @@ struct HomePageView: View {
                     .rotationEffect(Angle.degrees(showLeftSideMenu ? 360 : 0))
             })
             
-            Text((Str.objects + " (\(viewModel.filteredObjects.count == 0 ? viewModel.allObjects.count : viewModel.filteredObjects.count))"))
+            Text((Str.objects + " (\(!isFiltering ? viewModel.allObjects.count : viewModel.filteredObjects.count))"))
                 .foregroundColor(.white)
             
             Spacer()
@@ -559,40 +559,47 @@ extension HomePageView {
         
         // MARK: Objects filters
         func applyFilters(searchTerm: String, selectedTowns: [Location], selectedMajlises: [Location], selectedObjectTypes: [ObjType], fromYear: Int, toYear: Int) {
-            filteredObjects = allObjects.filter { object in
-                var isMatch = true
-                
-                // Apply searchTerm filter
-                if !searchTerm.isEmpty {
-                    isMatch = isMatch && object.name.lowercased().contains(searchTerm.lowercased())
-                }
-                
-                // Apply selectedTowns filter
-                if !selectedTowns.isEmpty {
-                    isMatch = isMatch && selectedTowns.contains(object.town)
-                }
-                
-                // Apply selectedMajlises filter
-                if !selectedMajlises.isEmpty {
-                    isMatch = isMatch && selectedMajlises.contains(object.majlis)
-                }
-                
-                // Apply selectedObjectTypes filter
-                if !selectedObjectTypes.isEmpty {
-                    isMatch = isMatch && selectedObjectTypes.contains(object.objType)
-                }
-                
-                // Apply year range filter
-                if fromYear != 0 || toYear != 0 {
-                    if let year = object.yearBuilt {
-                        isMatch = isMatch && year >= fromYear && year <= toYear
-                    } else {
-                        isMatch = false
+            var filteredArray: [ObjectDetails] = []
+            
+            // Apply filters
+            if !searchTerm.isEmpty || !selectedTowns.isEmpty || !selectedMajlises.isEmpty || !selectedObjectTypes.isEmpty || fromYear != 0 || toYear != 0 {
+                filteredArray = allObjects.filter { object in
+                    var isMatch = true
+                    
+                    // Apply searchTerm filter
+                    if !searchTerm.isEmpty {
+                        isMatch = isMatch && object.name.lowercased().contains(searchTerm.lowercased())
                     }
+                    
+                    // Apply selectedTowns filter
+                    if !selectedTowns.isEmpty {
+                        isMatch = isMatch && selectedTowns.contains(object.town)
+                    }
+                    
+                    // Apply selectedMajlises filter
+                    if !selectedMajlises.isEmpty {
+                        isMatch = isMatch && selectedMajlises.contains(object.majlis)
+                    }
+                    
+                    // Apply selectedObjectTypes filter
+                    if !selectedObjectTypes.isEmpty {
+                        isMatch = isMatch && selectedObjectTypes.contains(object.objType)
+                    }
+                    
+                    // Apply year range filter
+                    if fromYear != 0 || toYear != 0 {
+                        if let year = object.yearBuilt {
+                            isMatch = isMatch && year >= fromYear && year <= toYear
+                        } else {
+                            isMatch = false
+                        }
+                    }
+                    
+                    return isMatch
                 }
-                
-                return isMatch
             }
+            
+            filteredObjects = filteredArray
         }
     }
 }

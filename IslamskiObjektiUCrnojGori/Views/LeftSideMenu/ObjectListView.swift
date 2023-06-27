@@ -12,8 +12,8 @@ import Combine
 struct ObjectListView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    var sortedObjects: [ObjectDetails]
-    var filteredObjects: [ObjectDetails]
+    let sortedObjects: [ObjectDetails]
+    let filteredObjects: [ObjectDetails]
     
     @State var isObjectDetailsViewPresented = false
     @State var selectedObjectDetails: ObjectDetails?

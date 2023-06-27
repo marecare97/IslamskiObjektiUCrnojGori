@@ -115,20 +115,40 @@ struct RightSideMenu: View {
             }
             .presentationDetents([.fraction(0.3)])
         })
-        .onChange(of: selectedTowns) { _ in
-            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: selectedToYear)
+        .onChange(of: selectedTowns) { newValue in
+            if newValue.isEmpty && selectedMajlises.isEmpty && selectedObjectTypes.isEmpty && searchTerm.isEmpty && selectedFromYear == 0 && selectedToYear == 0 {
+                viewModel.filteredObjects = []
+            } else {
+                viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: newValue, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: selectedToYear)
+            }
         }
-        .onChange(of: selectedMajlises) { _ in
-            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: selectedToYear)
+        .onChange(of: selectedMajlises) { newValue in
+            if selectedTowns.isEmpty && newValue.isEmpty && selectedObjectTypes.isEmpty && searchTerm.isEmpty && selectedFromYear == 0 && selectedToYear == 0 {
+                viewModel.filteredObjects = []
+            } else {
+                viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: newValue, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: selectedToYear)
+            }
         }
-        .onChange(of: selectedObjectTypes) { _ in
-            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: selectedToYear)
+        .onChange(of: selectedObjectTypes) { newValue in
+            if selectedTowns.isEmpty && selectedMajlises.isEmpty && newValue.isEmpty && searchTerm.isEmpty && selectedFromYear == 0 && selectedToYear == 0 {
+                viewModel.filteredObjects = []
+            } else {
+                viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: newValue, fromYear: selectedFromYear, toYear: selectedToYear)
+            }
         }
         .onChange(of: selectedFromYear) { newValue in
-            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: newValue, toYear: selectedToYear)
+            if selectedTowns.isEmpty && selectedMajlises.isEmpty && selectedObjectTypes.isEmpty && searchTerm.isEmpty && newValue == 0 && selectedToYear == 0 {
+                viewModel.filteredObjects = []
+            } else {
+                viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: newValue, toYear: selectedToYear)
+            }
         }
         .onChange(of: selectedToYear) { newValue in
-            viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: newValue)
+            if selectedTowns.isEmpty && selectedMajlises.isEmpty && selectedObjectTypes.isEmpty && searchTerm.isEmpty && selectedFromYear == 0 && newValue == 0 {
+                viewModel.filteredObjects = []
+            } else {
+                viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: selectedTowns, selectedMajlises: selectedMajlises, selectedObjectTypes: selectedObjectTypes, fromYear: selectedFromYear, toYear: newValue)
+            }
         }
     }
     

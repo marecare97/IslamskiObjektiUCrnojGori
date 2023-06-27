@@ -20,7 +20,7 @@ struct ObjectDimensionsRowView: View {
             Spacer()
             
             if let intValue = value as? Int {
-                Text("\(intValue)")
+                Text("\(intValue.formattedString())")
                     .font(RFT.bold.swiftUIFont(size: 15))
                     .foregroundColor(.white)
             } else if let stringValue = value as? String {
