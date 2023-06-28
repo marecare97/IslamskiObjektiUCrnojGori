@@ -205,14 +205,19 @@ final class PrayersProvider {
         
         let diff = prayers.differences[pljevljaIndex].months[monthIndex].vakat
         
-        let startOfTheDay = calendar.startOfDay(for: date)
+        var startOfTheDay: Date {
+            let start = calendar.startOfDay(for: date)
+            var components = DateComponents()
+            components.setValue(1, for: .hour)
+            return calendar.date(byAdding: components , to: start)!
+        }
         
         return vaktija.vakat.map {
-            let newDate = startOfTheDay.addingTimeInterval(Double($0 + (city.adjustmentTime * 60)))
+            let newDate = startOfTheDay.addingTimeInterval(Double($0))
             let index = vaktija.vakat.firstIndex(of: $0)!
             let readjust = diff[index]
             let readjusted = newDate.addingTimeInterval(Double(readjust))
-            return readjusted
+            return readjusted.addingTimeInterval(Double(city.adjustmentTime * 3600))
         }
     }
     

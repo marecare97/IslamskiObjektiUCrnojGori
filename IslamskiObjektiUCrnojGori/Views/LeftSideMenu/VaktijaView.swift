@@ -32,6 +32,12 @@ struct VaktijaView: View {
         return formatter
     }
     
+    private var calendar: Calendar {
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "Europe/Belgrade")!
+        return calendar
+    }
+    
     private var startDate: Date {
         let calendar = Calendar.current
         let currentDate = calendar.startOfDay(for: Date())
@@ -153,7 +159,7 @@ struct VaktijaView: View {
         LazyVStack {
             ForEach(prayerTimes, id: \.self) {
                 
-                let components = Calendar.current.dateComponents([.hour, .minute], from: $0)
+                let components = calendar.dateComponents([.hour, .minute], from: $0)
                 let index = prayerTimes.firstIndex(of: $0)
                 VStack {
                     HStack(alignment: .top) {

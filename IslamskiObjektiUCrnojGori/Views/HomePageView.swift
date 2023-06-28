@@ -30,7 +30,6 @@ struct HomePageView: View {
     @State private var isEditing = false
     @State private var isSearchNavBarHidden = true
     @State var searchTerm: String = ""
-    @State var isFiltering = false
     
     @State var isChangeMapStyleButtonTapped = false
     @State var nextPrayerDate: Date? = nil
@@ -55,9 +54,6 @@ struct HomePageView: View {
                         nextPrayerDate =  CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime() ?? CompositionRoot.shared.prayerTimesProvider.getNextPrayerTime(forToday: false)
                     }
             }
-        }
-        .onChange(of: viewModel.filteredObjects) { _ in
-            isFiltering = !viewModel.filteredObjects.isEmpty
         }
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
@@ -218,7 +214,7 @@ struct HomePageView: View {
                     .rotationEffect(Angle.degrees(showLeftSideMenu ? 360 : 0))
             })
             
-            Text((Str.objects + " (\(!isFiltering ? viewModel.allObjects.count : viewModel.filteredObjects.count))"))
+            Text((Str.objects + " (\(viewModel.numberOfObjects))"))
                 .foregroundColor(.white)
             
             Spacer()
@@ -304,7 +300,7 @@ struct HomePageView: View {
                 )
                 
                 if self.showLeftSideMenu {
-                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects, filteredObjects: $viewModel.filteredObjects ,isObjectsListContentViewPresented: $isObjectsListContentViewPresented, isFiltering: isFiltering)
+                    LeftSideMenuView(longitude: longitude, latitude: latitude, allObjects: $viewModel.allObjects, sortedObjects: $viewModel.sortedObjects, filteredObjects: $viewModel.filteredObjects ,isObjectsListContentViewPresented: $isObjectsListContentViewPresented, isFiltering: viewModel.isFiltering)
                         .frame(width: geometry.size.width / 1.5)
                         .transition(.move(edge: .leading))
                 }
@@ -344,7 +340,7 @@ struct HomePageView: View {
     var objectsListContentView: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                ObjectListView(sortedObjects: viewModel.sortedObjects, filteredObjects: viewModel.filteredObjects, isFiltering: isFiltering)
+                ObjectListView(sortedObjects: viewModel.sortedObjects, filteredObjects: viewModel.filteredObjects, isFiltering: viewModel.isFiltering)
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .disabled(self.showLeftSideMenu ? true : false)
                     .disabled(self.showRightSideMenu ? true : false)
@@ -504,6 +500,9 @@ extension HomePageView {
         @Published var selectedFromYear: Int = YearOfBuild.yearFromDropdown.first ?? 0
         @Published var selectedToYear: Int = YearOfBuild.currentYear
         
+        @Published var numberOfObjects: Int = 0
+        @Published var isFiltering: Bool = false
+        
         var hasCalledFetch = false
         
         enum ViewState {
@@ -528,6 +527,7 @@ extension HomePageView {
         func fetchAndSortObjects(userLocation: CLLocationCoordinate2D?) {
             guard !hasCalledFetch else { return }
             hasCalledFetch = true
+            isFiltering = false
             
             guard let currentLocation = userLocation else {
                 // Handle the case when userLocation is nil
@@ -552,6 +552,7 @@ extension HomePageView {
                         return distance1 < distance2
                     }
                     self.sortedObjects = sorted
+                    self.numberOfObjects = sorted.count
                     self.state = .finished
                 }
                 .store(in: &locationService.cancellables)
@@ -559,47 +560,17 @@ extension HomePageView {
         
         // MARK: Objects filters
         func applyFilters(searchTerm: String, selectedTowns: [Location], selectedMajlises: [Location], selectedObjectTypes: [ObjType], fromYear: Int, toYear: Int) {
-            var filteredArray: [ObjectDetails] = []
-            
-            // Apply filters
-            if !searchTerm.isEmpty || !selectedTowns.isEmpty || !selectedMajlises.isEmpty || !selectedObjectTypes.isEmpty || fromYear != 0 || toYear != 0 {
-                filteredArray = allObjects.filter { object in
-                    var isMatch = true
-                    
-                    // Apply searchTerm filter
-                    if !searchTerm.isEmpty {
-                        isMatch = isMatch && object.name.lowercased().contains(searchTerm.lowercased())
-                    }
-                    
-                    // Apply selectedTowns filter
-                    if !selectedTowns.isEmpty {
-                        isMatch = isMatch && selectedTowns.contains(object.town)
-                    }
-                    
-                    // Apply selectedMajlises filter
-                    if !selectedMajlises.isEmpty {
-                        isMatch = isMatch && selectedMajlises.contains(object.majlis)
-                    }
-                    
-                    // Apply selectedObjectTypes filter
-                    if !selectedObjectTypes.isEmpty {
-                        isMatch = isMatch && selectedObjectTypes.contains(object.objType)
-                    }
-                    
-                    // Apply year range filter
-                    if fromYear != 0 || toYear != 0 {
-                        if let year = object.yearBuilt {
-                            isMatch = isMatch && year >= fromYear && year <= toYear
-                        } else {
-                            isMatch = false
-                        }
-                    }
-                    
-                    return isMatch
-                }
+            filteredObjects = allObjects.filter { object in
+                isFiltering = true
+                let nameMatch = searchTerm.isEmpty || object.name.localizedCaseInsensitiveContains(searchTerm)
+                let townsMatch = selectedTowns.isEmpty || selectedTowns.contains(object.town)
+                let majlisesMatch = selectedMajlises.isEmpty || selectedMajlises.contains(object.majlis)
+                let objectTypesMatch = selectedObjectTypes.isEmpty || selectedObjectTypes.contains(object.objType)
+                let yearMatch = (fromYear == 0 && toYear == 0) || (object.yearBuilt ?? 0 >= fromYear && object.yearBuilt ?? 0 <= toYear)
+                
+                return nameMatch && townsMatch && majlisesMatch && objectTypesMatch && yearMatch
             }
-            
-            filteredObjects = filteredArray
+            numberOfObjects = isFiltering ? filteredObjects.count : allObjects.count
         }
     }
 }
