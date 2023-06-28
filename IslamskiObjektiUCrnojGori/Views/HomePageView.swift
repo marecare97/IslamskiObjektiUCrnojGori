@@ -560,7 +560,7 @@ extension HomePageView {
         
         // MARK: Objects filters
         func applyFilters(searchTerm: String, selectedTowns: [Location], selectedMajlises: [Location], selectedObjectTypes: [ObjType], fromYear: Int, toYear: Int) {
-            filteredObjects = allObjects.filter { object in
+            filteredObjects = sortedObjects.filter { object in
                 isFiltering = true
                 let nameMatch = searchTerm.isEmpty || object.name.localizedCaseInsensitiveContains(searchTerm)
                 let townsMatch = selectedTowns.isEmpty || selectedTowns.contains(object.town)
