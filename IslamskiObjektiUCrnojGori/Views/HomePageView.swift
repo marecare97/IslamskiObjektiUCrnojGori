@@ -236,7 +236,6 @@ struct HomePageView: View {
     // MARK: Search NavBar
     var searchNavBar: some View {
         HStack {
-            
             Spacer()
             
             if isEditing {
@@ -254,6 +253,7 @@ struct HomePageView: View {
             }
             
             TextField(Str.objectName, text: $searchTerm)
+                .submitLabel(.search)
                 .padding(7)
                 .padding(.horizontal, 10)
                 .background(Color(.clear))
@@ -262,9 +262,14 @@ struct HomePageView: View {
                 .onTapGesture {
                     self.isEditing = true
                 }
-                .onChange(of: searchTerm) { value in
-                    viewModel.searchTerm = value
-                    viewModel.applyFilters(searchTerm: value, selectedTowns: viewModel.selectedTowns, selectedMajlises: viewModel.selectedMajlises, selectedObjectTypes: viewModel.selectedObjectTypes, fromYear: viewModel.selectedFromYear, toYear: viewModel.selectedToYear)
+                .onSubmit {
+                    // Perform search action here
+                    viewModel.applyFilters(searchTerm: searchTerm, selectedTowns: viewModel.selectedTowns, selectedMajlises: viewModel.selectedMajlises, selectedObjectTypes: viewModel.selectedObjectTypes, fromYear: viewModel.selectedFromYear, toYear: viewModel.selectedToYear)
+                    
+                    // Dismiss keyboard and reset search state
+                    self.isEditing = false
+                    self.isSearchNavBarHidden = true
+                    self.viewModel.searchTerm = ""
                 }
         }
     }
@@ -563,12 +568,16 @@ extension HomePageView {
             filteredObjects = sortedObjects.filter { object in
                 isFiltering = true
                 let nameMatch = searchTerm.isEmpty || object.name.localizedCaseInsensitiveContains(searchTerm)
+                var alternativeNamesMatch = false // Initialize as false
+                if let alternativeNames = object.alternativeNames {
+                    alternativeNamesMatch = searchTerm.isEmpty || alternativeNames.localizedCaseInsensitiveContains(searchTerm)
+                }
                 let townsMatch = selectedTowns.isEmpty || selectedTowns.contains(object.town)
                 let majlisesMatch = selectedMajlises.isEmpty || selectedMajlises.contains(object.majlis)
                 let objectTypesMatch = selectedObjectTypes.isEmpty || selectedObjectTypes.contains(object.objType)
                 let yearMatch = (fromYear == 0 && toYear == 0) || (object.yearBuilt ?? 0 >= fromYear && object.yearBuilt ?? 0 <= toYear)
                 
-                return nameMatch && townsMatch && majlisesMatch && objectTypesMatch && yearMatch
+                return (nameMatch || alternativeNamesMatch) && townsMatch && majlisesMatch && objectTypesMatch && yearMatch
             }
             numberOfObjects = isFiltering ? filteredObjects.count : allObjects.count
         }

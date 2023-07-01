@@ -76,6 +76,8 @@ internal enum TK {
     internal static let dimensions = TK.tr("sr", "objectDetails.dimensions", fallback: "Dimenzije")
     /// Geografski podaci
     internal static let geoInfo = TK.tr("sr", "objectDetails.geoInfo", fallback: "Geografski podaci")
+    /// Visina unutrašnjeg svoda:
+    internal static let innerVault = TK.tr("sr", "objectDetails.innerVault", fallback: "Visina unutrašnjeg svoda:")
     /// G. širina:
     internal static let latitude = TK.tr("sr", "objectDetails.latitude", fallback: "G. širina:")
     /// G. dužina:
@@ -96,6 +98,8 @@ internal enum TK {
     internal static let renewed = TK.tr("sr", "objectDetails.renewed", fallback: "Obnovljena")
     /// PRIJAVITE POGRESAN PODATAK
     internal static let reportAProblem = TK.tr("sr", "objectDetails.reportAProblem", fallback: "PRIJAVITE POGRESAN PODATAK")
+    /// Prosječan broj klanjača na džumi:
+    internal static let worshipersNumber = TK.tr("sr", "objectDetails.worshipersNumber", fallback: "Prosječan broj klanjača na džumi:")
   }
   internal enum ObjectDetailsPreview {
     /// Detaljnije

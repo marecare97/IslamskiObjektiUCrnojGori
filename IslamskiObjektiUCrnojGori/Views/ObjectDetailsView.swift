@@ -78,7 +78,7 @@ struct ObjectDetailsView: View {
                 .lineLimit(5)
                 .foregroundColor(.gray)
                 .expandButton(TextSet(text: "Prikaži još ↓", font: .body, color: .green))
-                .collapseButton(TextSet(text: "Prikaži manje ↑", font: .body, color: .green))
+            //                .collapseButton(TextSet(text: "Prikaži manje ↑", font: .body, color: .green))
                 .expandAnimation(.easeOut)
             
             // MARK: Osnovni podaci
@@ -174,9 +174,7 @@ struct ObjectDetailsView: View {
             
             if let yearRenewed = details.yearRebuilt {
                 ObjectDimensionsRowView(title: S.renewed, value: yearRenewed)
-            } else {
-                ObjectDimensionsRowView(title: S.renewed, value: "N/A")
-            }
+            } else { }
         }
     }
     
@@ -204,13 +202,23 @@ struct ObjectDetailsView: View {
     
     var dimensionsView: some View {
         VStack(alignment: .leading, spacing: 10) {
-            if let baseDimenstions = details.baseDimensions,
-               let minaretHeight = details.minaretHeight,
-               let closedPrayingSpace = details.closedPrayingSpace,
-               let maxWorshipersCapacity = details.maxWorshipersCapacity {
-                ObjectDimensionsRowView(title: S.basis, value: "\(baseDimenstions) [m]")
+            if let baseDimensions = details.baseDimensions {
+                ObjectDimensionsRowView(title: S.basis, value: "\(baseDimensions) [m]")
+            }
+            
+            if let innerVault = details.innerDomeHeight {
+                ObjectDimensionsRowView(title: S.innerVault, value: "\(innerVault) m")
+            }
+            
+            if let minaretHeight = details.minaretHeight {
                 ObjectDimensionsRowView(title: S.minaretHeight, value: "\(minaretHeight) m")
+            }
+            
+            if let closedPrayingSpace = details.closedPrayingSpace {
                 ObjectDimensionsRowView(title: S.closedPrayingSpace, value: "\(closedPrayingSpace) m2")
+            }
+            
+            if let maxWorshipersCapacity = details.maxWorshipersCapacity {
                 ObjectDimensionsRowView(title: S.maxCapacity, value: "\(maxWorshipersCapacity)")
             }
         }
@@ -244,26 +252,33 @@ struct ObjectDetailsView: View {
     }
     
     var religiousActivityView: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 10) {
-                ReligiousActivityRowView(title: "Sabah:", value: details.sabah)
-                ReligiousActivityRowView(title: "Podne:", value: details.podne)
-                ReligiousActivityRowView(title: "Ikindija:", value: details.ikindija)
-                ReligiousActivityRowView(title: "Akšam:", value: details.aksam)
-                ReligiousActivityRowView(title: "Jacija:", value: details.jacija)
+        VStack(spacing: 15) {
+            HStack {
+                VStack(alignment: .leading, spacing: 10) {
+                    ReligiousActivityRowView(title: "Sabah:", value: details.sabah)
+                    ReligiousActivityRowView(title: "Podne:", value: details.podne)
+                    ReligiousActivityRowView(title: "Ikindija:", value: details.ikindija)
+                    ReligiousActivityRowView(title: "Akšam:", value: details.aksam)
+                    ReligiousActivityRowView(title: "Jacija:", value: details.jacija)
+                }
+                
+                Spacer()
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    ReligiousActivityRowView(title: "Džuma:", value: details.dzuma)
+                    ReligiousActivityRowView(title: "Teravija:", value: details.teravija)
+                    ReligiousActivityRowView(title: "Bajram:", value: details.bayram)
+                        .padding(.bottom, 30)
+                    ReligiousActivityRowView(title: "Stalni imam:", value: details.permanentImam)
+                }
+                
+                Spacer()
             }
             
-            Spacer()
-            
-            VStack(alignment: .leading, spacing: 10) {
-                ReligiousActivityRowView(title: "Džuma:", value: details.dzuma)
-                ReligiousActivityRowView(title: "Teravija:", value: details.teravija)
-                ReligiousActivityRowView(title: "Bajram:", value: details.bayram)
-                    .padding(.bottom, 30)
-                ReligiousActivityRowView(title: "Stalni imam:", value: details.permanentImam)
-            }
-            
-            Spacer()
+            if details.averageNumOfWorshipersDzuma != nil {
+                ObjectDimensionsRowView(title: S.worshipersNumber, value: details.averageNumOfWorshipersDzuma)
+                    .padding(.trailing, 5)
+            } else { }
         }
     }
     

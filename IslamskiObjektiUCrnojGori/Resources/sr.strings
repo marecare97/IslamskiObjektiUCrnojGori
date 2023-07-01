@@ -37,10 +37,12 @@
 "objectDetails.altitude" = "N. visina:";
 
 "objectDetails.basis" = "Dimenzije u osnovi:";
+"objectDetails.innerVault" = "Visina unutrašnjeg svoda:";
 "objectDetails.minaretHeight" = "Visina minareta (cca):";
 "objectDetails.closedPrayingSpace" = "Zatvoreni molitveni prostor:";
 "objectDetails.maxCapacity" = "Maksimalan kapacitet klanjača:";
 "objectDetails.religiousActivity" = "VJERSKA AKTIVNOST";
+"objectDetails.worshipersNumber" = "Prosječan broj klanjača na džumi:";
 
 "homePageView.objects" = "Objekti";
 "homePageView.objectName" = "Naziv objekta...";
