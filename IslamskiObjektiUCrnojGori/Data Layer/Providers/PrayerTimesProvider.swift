@@ -217,7 +217,7 @@ final class PrayersProvider {
             let index = vaktija.vakat.firstIndex(of: $0)!
             let readjust = diff[index]
             let readjusted = newDate.addingTimeInterval(Double(readjust))
-            return readjusted.addingTimeInterval(Double(city.adjustmentTime * 3600))
+            return readjusted.addingTimeInterval(Double(city.adjustmentTime * 60))
         }
     }
     
