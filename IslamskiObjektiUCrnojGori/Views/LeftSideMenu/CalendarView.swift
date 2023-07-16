@@ -11,7 +11,7 @@ import CoreLocation
 
 struct CalendarView: View {
     @StateObject var viewModel = ViewModel()
-    
+    @State var toast: Toast.State = .hide
     var islamicCalendar: Calendar {
         var calendar = Calendar(identifier: .islamicUmmAlQura)
         calendar.firstWeekday = 2
@@ -32,6 +32,7 @@ struct CalendarView: View {
                 newCalendar
             }
         }
+        .toast($toast)
         .navigationBarBackButtonHidden()
         .onAppear {
             viewModel.fetchPrayerTimes()
@@ -42,7 +43,7 @@ struct CalendarView: View {
         VStack(alignment: .center) {
             CustomDatePicker(currentDate: $viewModel.date, prayerTimes: $viewModel.prayerTimes)
             
-            if let prayerTimes = viewModel.prayerTimes[ViewModel.CalendarTime(month: Calendar.current.component(.month, from: viewModel.date), year: Calendar.current.component(.year, from: viewModel.date))], let data = prayerTimes.data.first(where: { $0.gregorian.date == getDateToCompareToResponse(date: viewModel.date)
+            if let prayerTimes = viewModel.prayerTimes[ViewModel.CalendarTime(month: Calendar.current.component(.month, from: viewModel.date) - 1, year: Calendar.current.component(.year, from: viewModel.date))], let data = prayerTimes.data.first(where: { $0.gregorian.date == getDateToCompareToResponse(date: viewModel.date)
             }) {
                 if data.hijri.holidays != [] {
                     LazyVStack {
@@ -78,9 +79,13 @@ struct CalendarView: View {
         }
         .onChange(of: viewModel.date) { newValue in
             print(getDateToCompareToResponse(date: newValue))
-            let month = Calendar.current.component(.month, from: newValue)
-            if month != viewModel.currentMonth {
-                viewModel.currentMonth = month
+            
+            let month = Calendar.current.component(.month, from: newValue) - 1
+            let year = Calendar.current.component(.year, from: newValue)
+            
+            let calendarTime = ViewModel.CalendarTime(month: month, year: year)
+            
+            if viewModel.prayerTimes[calendarTime] == nil {
                 viewModel.fetchPrayerTimes()
             }
         }
@@ -105,8 +110,6 @@ extension CalendarView {
         @Published var prayerTimes: [CalendarTime: CalendarResponse.Response] = [:]
         @Published var date = Date()
         
-        @Published var currentMonth = Calendar.current.component(.month, from: Date())
-        
         func fetchPrayerTimes() {
             let year = Calendar.current.component(.year, from: date)
             let month = Calendar.current.component(.month, from: date)
@@ -126,6 +129,9 @@ extension CalendarView {
                         DispatchQueue.main.async {
                             let calendarTime = CalendarTime(month: month, year: year)
                             self.prayerTimes[calendarTime] = decodedResponse
+                            let holidays = decodedResponse.data.filter { !$0.hijri.holidays.isEmpty }
+                                .map { $0.gregorian.date }
+                            print("HOLIDAYS ON ===> \(holidays) ")
                         }
                     } catch let error {
                         print("Failed to decode response: \(error)")
@@ -157,7 +163,7 @@ struct CustomDatePicker: View {
             // Days...
             let days: [String] = ["pon","uto","sri","čet","pet","sub", "ned"]
             
-            HStack(spacing: 15) {
+            HStack(spacing: 15){
                 Button {
                     withAnimation{
                         currentMonth -= 1
@@ -194,7 +200,6 @@ struct CustomDatePicker: View {
                 
             }
             .padding(.horizontal)
-            .padding(.vertical)
             // Day View...
             
             LazyHStack(spacing: 37) {
@@ -217,7 +222,9 @@ struct CustomDatePicker: View {
                     
                     CardView(value: value)
                         .onTapGesture {
-                            currentDate = value.date
+                            if let date = convertIslamicToGregorian(islamicDate: value.date) {
+                                currentDate = date
+                            }
                         }
                         .isHidden(value.day == -1)
                 }
@@ -230,25 +237,59 @@ struct CustomDatePicker: View {
         }
     }
     
+    func convertIslamicToGregorian(islamicDate: Date) -> Date? {
+        // Create a Calendar instance corresponding to the Islamic calendar
+        let islamicCalendar = Calendar(identifier: .islamic)
+        
+        // Extract the date components from the Islamic date
+        guard let islamicDateComponents = islamicCalendar.dateComponents([.year, .month, .day], from: islamicDate) as DateComponents? else {
+            print("Failed to get Islamic date components")
+            return nil
+        }
+        
+        // Create a Calendar instance corresponding to the Gregorian calendar
+        let gregorianCalendar = Calendar(identifier: .gregorian)
+        
+        // Convert the Islamic date components to a Gregorian date
+        guard let gregorianDate = gregorianCalendar.date(from: islamicDateComponents) else {
+            print("Failed to convert Islamic date to Gregorian date")
+            return nil
+        }
+        
+        return gregorianDate
+    }
+    
     func getDateToCompareToResponse(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-YYYY"
         return dateFormatter.string(from: date)
     }
     
+    func hasPrayerTimes(value: DateValue) -> CalendarResponse.DataItem? {
+        let calendarTime = CalendarView.ViewModel.CalendarTime(
+            month: Calendar.current.component(.month, from: value.date) ,
+            year: Calendar.current.component(.year, from: value.date))
+        print(calendarTime)
+        if let prayerTimes = prayerTimes[calendarTime],
+           let prayer = prayerTimes.data.first(where: { $0.gregorian.date == getDateToCompareToResponse(date: value.date) }) {
+            return prayer
+        }
+        return nil
+    }
+    
     @ViewBuilder
     func CardView(value: DateValue)-> some View {
         VStack {
-            if let prayerTimes = prayerTimes[CalendarView.ViewModel.CalendarTime(month: Calendar.current.component(.month, from: value.date), year: Calendar.current.component(.year, from: value.date))], let prayer = prayerTimes.data.first(where: { $0.gregorian.date == getDateToCompareToResponse(date: value.date) }) {
+            if let prayer = hasPrayerTimes(value: value)  {
                 ZStack {
                     Circle()
-                        .fill(Color.green.opacity(isSameDay(date1: value.date, date2: currentDate) ? 1 : !prayer.hijri.holidays.isEmpty ? 0.5 : 0))
+                        .fill(Color.green.opacity(isSameDay(islamicUmmAlQuraDate: value.date, gregorianDate: currentDate) ? 1 : !prayer.hijri.holidays.isEmpty ? 0.5 : 0))
                         .frame(width: 35,height: 35)
-                    if !prayer.hijri.holidays.isEmpty || isSameDay(date1: value.date, date2: currentDate) {
+                    if !prayer.hijri.holidays.isEmpty || isSameDay(islamicUmmAlQuraDate: value.date, gregorianDate: currentDate) {
                         Text("\(value.day)")
                             .font(RFT.medium.swiftUIFont(size: 12))
                             .foregroundColor(.black)
-                            .foregroundColor(isSameDay(date1: value.date, date2: currentDate) ? .white : .black)
+                            .foregroundColor(isSameDay(islamicUmmAlQuraDate: value.date, gregorianDate: currentDate) ? .white : .black)
                             .frame(maxWidth: .infinity)
                     } else {
                         Text("\(value.day)")
@@ -262,7 +303,7 @@ struct CustomDatePicker: View {
             } else {
                 ZStack {
                     Circle()
-                        .fill(Color.clear)
+                        .fill(Color.green.opacity(isSameDay(islamicUmmAlQuraDate: value.date, gregorianDate: currentDate) ? 1 : 0))
                         .frame(width: 35,height: 35)
                     Text("\(value.day)")
                         .font(RFT.medium.swiftUIFont(size: 12))
@@ -275,6 +316,22 @@ struct CustomDatePicker: View {
         }
         .padding(.vertical,9)
         .frame(height: 60,alignment: .top)
+    }
+    
+    
+    func isSameDay(islamicUmmAlQuraDate: Date, gregorianDate: Date) -> Bool {
+        // Create a Calendar instance for each calendar system
+        let islamicCalendar = Calendar(identifier: .islamicUmmAlQura)
+        let gregorianCalendar = Calendar(identifier: .gregorian)
+        
+        // Convert the Gregorian date to an Islamic date
+        let gregorianDateConvertedToIslamic = islamicCalendar.dateComponents([.year, .month, .day], from: gregorianDate)
+        
+        // Get the year, month, and day components of the Islamic date
+        let islamicDateComponents = islamicCalendar.dateComponents([.year, .month, .day], from: islamicUmmAlQuraDate)
+        
+        // Compare the dates
+        return islamicDateComponents == gregorianDateConvertedToIslamic
     }
     
     // checking dates...
@@ -314,7 +371,7 @@ struct CustomDatePicker: View {
         // Getting Current month date
         let currentMonth = getCurrentMonth()
         
-        var days = currentMonth.getAllDates().compactMap { date -> DateValue in
+        var days = currentDate.getAllDates().compactMap { date -> DateValue in
             let day = calendar.component(.day, from: date)
             let dateValue =  DateValue(day: day, date: date)
             return dateValue

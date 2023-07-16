@@ -828,7 +828,7 @@
 				CODE_SIGN_ENTITLEMENTS = IslamskiObjektiUCrnojGori/IslamskiObjektiUCrnojGori.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
 				DEVELOPMENT_TEAM = RDS9R53Y7B;
 				ENABLE_PREVIEWS = YES;
@@ -872,7 +872,7 @@
 				CODE_SIGN_ENTITLEMENTS = IslamskiObjektiUCrnojGori/IslamskiObjektiUCrnojGori.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"IslamskiObjektiUCrnojGori/Preview Content\"";
 				DEVELOPMENT_TEAM = RDS9R53Y7B;
 				ENABLE_PREVIEWS = YES;
