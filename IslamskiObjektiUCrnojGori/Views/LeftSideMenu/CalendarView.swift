@@ -218,13 +218,11 @@ struct CustomDatePicker: View {
             
             LazyVGrid(columns: columns,spacing: 15) {
                 
-                ForEach(extractDate()){value in
+                ForEach(extractDate()){ value in
                     
                     CardView(value: value)
                         .onTapGesture {
-                            if let date = convertIslamicToGregorian(islamicDate: value.date) {
-                                currentDate = date
-                            }
+                            currentDate = value.date
                         }
                         .isHidden(value.day == -1)
                 }
