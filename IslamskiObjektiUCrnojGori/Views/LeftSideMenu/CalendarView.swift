@@ -43,20 +43,11 @@ struct CalendarView: View {
         VStack(alignment: .center) {
             CustomDatePicker(currentDate: $viewModel.date, prayerTimes: $viewModel.prayerTimes)
             
-            if let prayerTimes = viewModel.prayerTimes[ViewModel.CalendarTime(month: Calendar.current.component(.month, from: viewModel.date) - 1, year: Calendar.current.component(.year, from: viewModel.date))], let data = prayerTimes.data.first(where: { $0.gregorian.date == getDateToCompareToResponse(date: viewModel.date)
-            }) {
-                if data.hijri.holidays != [] {
-                    LazyVStack {
-                        ForEach(data.hijri.holidays, id: \.self) {
-                            Text($0)
-                                .foregroundColor(.green)
-                                .font(.system(.headline, weight: .bold))
-                        }
-                    }
-                    Spacer()
-                }
+            if let prayerTime = viewModel.prayerTimes.first(where: { $0.start.date == getDateToCompareToResponse(date: viewModel.date) }) {
+                Text(prayerTime.translatedSummary)
+                    .foregroundColor(.green)
+                    .font(.system(.headline, weight: .bold))
             }
-            
             
             HStack {
                 Text("Gregorijanski kalendar")
@@ -77,23 +68,11 @@ struct CalendarView: View {
             
             //            Spacer()
         }
-        .onChange(of: viewModel.date) { newValue in
-            print(getDateToCompareToResponse(date: newValue))
-            
-            let month = Calendar.current.component(.month, from: newValue) - 1
-            let year = Calendar.current.component(.year, from: newValue)
-            
-            let calendarTime = ViewModel.CalendarTime(month: month, year: year)
-            
-            if viewModel.prayerTimes[calendarTime] == nil {
-                viewModel.fetchPrayerTimes()
-            }
-        }
     }
     
     func getDateToCompareToResponse(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-YYYY"
+        dateFormatter.dateFormat = "YYYY-MM-dd"
         return dateFormatter.string(from: date)
     }
 }
@@ -101,37 +80,19 @@ struct CalendarView: View {
 // MARK: ViewModel
 extension CalendarView {
     final class ViewModel: ObservableObject {
-        struct CalendarTime: Identifiable, Equatable, Hashable {
-            var id: String { "\(month), \(year)"}
-            let month: Int
-            let year: Int
-        }
-        
-        @Published var prayerTimes: [CalendarTime: CalendarResponse.Response] = [:]
+        @Published var prayerTimes: [GoogleResponseDTO.ItemDTO] = []
         @Published var date = Date()
         
         func fetchPrayerTimes() {
-            let year = Calendar.current.component(.year, from: date)
-            let month = Calendar.current.component(.month, from: date)
+            guard let url = URL(string: "https://www.googleapis.com/calendar/v3/calendars/islamic%40holiday.calendar.google.com/events?key=AIzaSyCsGdB6h7VkZEv3H835AGYTjCjSmiV69Ws") else { return }
             
-            let calendarTime = CalendarTime(month: month, year: year)
             
-            guard prayerTimes[calendarTime] == nil else { return }
-            
-            guard let url = URL(string: "http://api.aladhan.com/v1/gToHCalendar/\(month)/\(year)")
-            else {
-                return
-            }
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
                     do {
-                        let decodedResponse = try JSONDecoder().decode(CalendarResponse.Response.self, from: data)
+                        let decodedResponse = try JSONDecoder().decode(GoogleResponseDTO.self, from: data)
                         DispatchQueue.main.async {
-                            let calendarTime = CalendarTime(month: month, year: year)
-                            self.prayerTimes[calendarTime] = decodedResponse
-                            let holidays = decodedResponse.data.filter { !$0.hijri.holidays.isEmpty }
-                                .map { $0.gregorian.date }
-                            print("HOLIDAYS ON ===> \(holidays) ")
+                            self.prayerTimes = decodedResponse.items
                         }
                     } catch let error {
                         print("Failed to decode response: \(error)")
@@ -152,7 +113,7 @@ struct CalendarView_Previews: PreviewProvider {
 
 struct CustomDatePicker: View {
     @Binding var currentDate: Date
-    @Binding var prayerTimes: [CalendarView.ViewModel.CalendarTime: CalendarResponse.Response]
+    @Binding var prayerTimes: [GoogleResponseDTO.ItemDTO]
     // Month update on arrow button clicks...
     @State var currentMonth: Int = 0
     
@@ -166,7 +127,7 @@ struct CustomDatePicker: View {
             HStack(spacing: 15){
                 Button {
                     withAnimation{
-                        currentMonth -= 1
+                        currentDate = currentDate.addMonth(-1)
                     }
                 } label: {
                     Image(systemName: "arrowtriangle.left.fill")
@@ -189,7 +150,7 @@ struct CustomDatePicker: View {
                 Button {
                     
                     withAnimation{
-                        currentMonth += 1
+                        currentDate = currentDate.addMonth(1)
                     }
                     
                 } label: {
@@ -259,49 +220,21 @@ struct CustomDatePicker: View {
     
     func getDateToCompareToResponse(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-YYYY"
+        dateFormatter.dateFormat = "YYYY-MM-dd"
         return dateFormatter.string(from: date)
     }
     
-    func hasPrayerTimes(value: DateValue) -> CalendarResponse.DataItem? {
-        let calendarTime = CalendarView.ViewModel.CalendarTime(
-            month: Calendar.current.component(.month, from: value.date) ,
-            year: Calendar.current.component(.year, from: value.date))
-        print(calendarTime)
-        if let prayerTimes = prayerTimes[calendarTime],
-           let prayer = prayerTimes.data.first(where: { $0.gregorian.date == getDateToCompareToResponse(date: value.date) }) {
-            return prayer
-        }
-        return nil
+    func hasPrayerTimes(value: DateValue) -> GoogleResponseDTO.ItemDTO? {
+        prayerTimes.first { $0.start.date == getDateToCompareToResponse(date: value.date) }
     }
     
     @ViewBuilder
     func CardView(value: DateValue)-> some View {
         VStack {
-            if let prayer = hasPrayerTimes(value: value)  {
+            if isSameDay(date1: value.date, date2: currentDate) {
                 ZStack {
                     Circle()
-                        .fill(Color.green.opacity(isSameDay(islamicUmmAlQuraDate: value.date, gregorianDate: currentDate) ? 1 : !prayer.hijri.holidays.isEmpty ? 0.5 : 0))
-                        .frame(width: 35,height: 35)
-                    if !prayer.hijri.holidays.isEmpty || isSameDay(islamicUmmAlQuraDate: value.date, gregorianDate: currentDate) {
-                        Text("\(value.day)")
-                            .font(RFT.medium.swiftUIFont(size: 12))
-                            .foregroundColor(.black)
-                            .foregroundColor(isSameDay(islamicUmmAlQuraDate: value.date, gregorianDate: currentDate) ? .white : .black)
-                            .frame(maxWidth: .infinity)
-                    } else {
-                        Text("\(value.day)")
-                            .font(RFT.medium.swiftUIFont(size: 12))
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity)
-                        
-                        Spacer()
-                    }
-                }
-            } else {
-                ZStack {
-                    Circle()
-                        .fill(Color.green.opacity(isSameDay(islamicUmmAlQuraDate: value.date, gregorianDate: currentDate) ? 1 : 0))
+                        .fill(Color.green)
                         .frame(width: 35,height: 35)
                     Text("\(value.day)")
                         .font(RFT.medium.swiftUIFont(size: 12))
@@ -310,6 +243,32 @@ struct CustomDatePicker: View {
                 }
                 
                 Spacer()
+            } else {
+                if let _ = hasPrayerTimes(value: value) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.green.opacity(0.5))
+                            .frame(width: 35,height: 35)
+                        Text("\(value.day)")
+                            .font(RFT.medium.swiftUIFont(size: 12))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                    }
+                    Spacer()
+                    
+                } else {
+                    ZStack {
+                        Circle()
+                            .fill(Color.green.opacity(0))
+                            .frame(width: 35,height: 35)
+                        Text("\(value.day)")
+                            .font(RFT.medium.swiftUIFont(size: 12))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                    }
+                    
+                    Spacer()
+                }
             }
         }
         .padding(.vertical,9)
@@ -346,7 +305,13 @@ struct CustomDatePicker: View {
         let month = calendar.component(.month, from: currentDate) - 1
         let year = calendar.component(.year, from: currentDate)
         
-        return ["\(year)",calendar.monthSymbols[month]]
+        let serbianMonthNames = [
+            "Muharrem", "Safer", "Rebiul-Evvel", "Rebiul-Ahir", "Džumadel-Ula",
+            "Džumadel-Uhra", "Dedžeb", "Ša'ban", "Ramazan", "Ševval", "Zul-Ka'de",
+            "Zul-Hidždže"
+        ]
+        
+        return ["\(year)", serbianMonthNames[month]]
     }
     
     func getCurrentMonth()->Date{
@@ -439,60 +404,44 @@ extension Date {
     }
 }
 
-
-struct CalendarResponse: Codable {
-    struct Response: Codable {
-        let code: Int
-        let status: String
-        let data: [DataItem]
-    }
-    
-    struct DataItem: Codable {
-        let gregorian: Gregorian
-        let hijri: Hijri
-    }
-    
-    struct Gregorian: Codable {
-        let date: String
-        let format: String
-        let day: String
-        let weekday: Weekday
-        let month: Month
-        let year: String
-        let designation: Designation
-    }
-    
-    struct Hijri: Codable {
-        let date: String
-        let format: String
-        let day: String
-        let weekday: Weekday
-        let month: Month
-        let year: String
-        let designation: Designation
-        let holidays: [String]
-    }
-    
-    struct Weekday: Codable {
-        let en: String
-        let ar: String?
-    }
-    
-    struct Month: Codable {
-        let number: Int
-        let en: String
-        let ar: String?
-    }
-    
-    struct Designation: Codable {
-        let abbreviated: String
-        let expanded: String
-    }
-}
-
 // Date Value Model...
 struct DateValue: Identifiable{
     var id = UUID().uuidString
     var day: Int
     var date: Date
+}
+
+extension Date {
+    public  func addMonth(_ n: Int) -> Date {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .month, value: n, to: self)!
+    }
+}
+
+
+struct GoogleResponseDTO: Codable {
+    let items: [ItemDTO]
+    
+    struct ItemDTO: Codable {
+        let start: GoogleDateDTO
+        let summary: String
+        
+        var translatedSummary: String {
+            switch summary {
+            case "Muharram": return "Muharrem"
+            case "The Prophet's Birthday": return "Rođendan poslanika Muhameda - Mevlud"
+            case "Isra and Mi'raj": return "Isra i Mi'radž"
+            case "Ramadan Starts": return "Početak Ramazana"
+            case "Lailat al-Qadr": return "Lejletul-kadr"
+            case  "Eid al-Fitr": return "Ramazanski bajram"
+            case "Eid al-Adha": return "Kurban bajram"
+            case "Ashura": return "Ašura"
+            default: return summary
+            }
+        }
+    }
+    
+    struct GoogleDateDTO: Codable {
+        let date: String
+    }
 }
